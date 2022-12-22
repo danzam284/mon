@@ -1,0 +1,1074 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+@keyframes dead {
+    from {opacity: 0;}
+    to { transform: translateY(200px); opacity: 1;}
+}
+
+
+@keyframes bounce-ease-in {
+    0%   {top: 200px}
+    100% {top: 250px}
+}
+@keyframes move-right {
+    0%   {left: 0px}
+    100% {left: 120px}
+}
+
+@keyframes move-left {
+    0% {right: 0px}
+    100% {right: 120px}
+}
+@keyframes spin {
+    from { transform:rotate(0deg); }
+    to { transform:rotate(360deg); }
+}
+@keyframes pause {
+}
+
+@keyframes flashStart {
+    0% {border-color: transparent transparent transparent red;}
+    50% {border-color: transparent transparent transparent #007f08;}
+    100% {border-color: transparent transparent transparent red;}
+}
+@keyframes rock {
+    from {top: 0;}
+    to {top: 300px;}
+}
+
+@keyframes n1 {
+    from {left: 100px;}
+    to {left: 600px;}
+}
+@keyframes n2 {
+    from {left: 100px; top: 225px;}
+    to {left: 600px; top: 270px;}
+}
+@keyframes n3 {
+    from {left: 100px; top: 225px;}
+    to {left: 600px; top: 175px;}
+}
+@keyframes en1 {
+    from {right: 100px;}
+    to {right: 600px;}
+}
+@keyframes en2 {
+    from {right: 100px; top: 225px;}
+    to {right: 600px; top: 270px;}
+}
+@keyframes en3 {
+    from {right: 100px; top: 225px;}
+    to {right: 600px; top: 175px;}
+}
+@keyframes fighting {
+    0% {left: 50px;}
+    20% {left: 500px;}
+    40% {top: 180px; left: 50px;}
+    60% {top: 147px; left: 500px;}
+    80% {top: 180px; left: 50px;}
+    100% {top: 200px; left: 500px;}
+}
+@keyframes efighting {
+    0% {right: 50px;}
+    20% {right: 500px;}
+    40% {top: 180px; right: 50px;}
+    60% {top: 147px; right: 500px;}
+    80% {top: 180px; right: 50px;}
+    100% {top: 200px; right: 500px;}
+}
+@keyframes dragon1 {
+    from {width: 50px; height: 50px; top: 0; left: 0}
+    to {width: 200px; height: 200px; top: 320px; left: 550px;}
+}
+@keyframes dragon2 {
+    from {width: 50px; height: 50px; top: 0; left: 0}
+    to {width: 120px; height: 120px; top: 420px; left: 550px;}
+}
+@keyframes dragon3 {
+    from {width: 50px; height: 50px; top: 0; left: 0}
+    to {width: 300px; height: 300px; top: 200px; left: 550px;}
+}
+@keyframes edragon1 {
+    from {width: 50px; height: 50px; top: 0; right: 0}
+    to {width: 200px; height: 200px; top: 320px; right: 550px;}
+}
+@keyframes edragon2 {
+    from {width: 50px; height: 50px; top: 0; right: 0}
+    to {width: 120px; height: 120px; top: 420px; right: 550px;}
+}
+@keyframes edragon3 {
+    from {width: 50px; height: 50px; top: 0; right: 0}
+    to {width: 300px; height: 300px; top: 200px; right: 550px;}
+}
+@keyframes upDown {
+    0% {top: 200px;}
+    33% { top: 250px;}
+    67% {top: 200px;}
+    100% {top: 150px;}
+}
+@keyframes dark {
+    to { transform: translateX(500px);}
+}
+@keyframes edark {
+    to { transform: translateX(-500px);}
+}
+@keyframes shrink {
+    from {width: 300px; height: 120px; left: 400px; top: 200px;}
+    to {width: 240px; height: 100px; left: 430px; top: 210px;}
+}
+@keyframes ground {
+    0% {background-image: linear-gradient(rgb(86, 56, 0), rgb(53, 40, 0));}
+    50% {background-image: linear-gradient(rgb(136, 102, 0), rgb(86, 56, 0));}
+    100% {background-image: linear-gradient(rgb(177, 88, 0), rgb(136, 102, 0));}
+}
+@keyframes eshrink {
+    from {width: 300px; height: 120px; right: 400px; top: 200px;}
+    to {width: 240px; height: 100px; right: 430px; top: 210px;}
+}
+@keyframes grow {
+    to {width: 150px; height: 150px;}
+}
+@keyframes water {
+    0% {width: 150px; height: 150px; left: 150px; top: 200px;}
+    50% {width: 150px; height: 150px; left: 200px; top: 0px;}
+    100% {width: 150px; height: 150px; left: 500px; top: 200px;}
+}
+@keyframes ewater {
+    0% {width: 150px; height: 150px; right: 150px; top: 200px;}
+    50% {width: 150px; height: 150px; right: 200px; top: 0px;}
+    100% {width: 150px; height: 150px; right: 500px; top: 200px;}
+}
+@keyframes electric {
+    0% {top: 50px; left: 250px;}
+    25% {top: 20px; left: 140px;}
+    50% {top: 0; left: 300px;}
+    75% {top: 100px; left: 320px;}
+    100% {top: 50px; left: 250px;}
+}
+@keyframes eelectric {
+    0% {top: 50px; right: 250px;}
+    25% {top: 20px; right: 140px;}
+    50% {top: 0; right: 300px;}
+    75% {top: 100px; right: 320px;}
+    100% {top: 50px; right: 250px;}
+}
+@keyframes flash {
+    0% {background: radial-gradient(ellipse at center,#0a0025 30%,#000000 100%);}
+    33% {background: white}
+    67% {background: radial-gradient(ellipse at center,#0a0025 30%,#000000 100%);}
+    100% {background: white;}
+}
+@keyframes poison {
+    0%   {top: 200px}
+    50% {top: 100px}
+    100% {top: 200px}
+}
+@keyframes poison1 {
+    from {left: 600px;}
+    to {left: 550px;}
+}
+@keyframes poison2 {
+    from {left: 600px;}
+    to {left: 650px;}
+}
+@keyframes epoison1 {
+    from {right: 600px;}
+    to {right: 550px;}
+}
+@keyframes epoison2 {
+    from {right: 600px;}
+    to {right: 650px;}
+}
+@keyframes ice {
+    from {border-top: 200px solid rgb(0, 98, 255);}
+    to {border-top: 300px solid rgb(0, 98, 255);}
+}
+@keyframes bug {
+    from {left: 0;}
+    to {left: 500px;}
+}
+@keyframes ebug {
+    from {right: 0;}
+    to {right: 500px;}
+}
+@keyframes ghost {
+    from {top: 100px; left: 0;}
+    to {top: 80px; left: 400px;}
+}
+@keyframes eghost {
+    from {top: 100px; right: 0;}
+    to {top: 80px; right: 400px;}
+}
+#enemyBall {
+    z-index: 1000;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    top: 200px;
+    animation:
+    bounce-ease-in 1s ease-in 1 alternate,
+    move-left 1s linear 1;
+}
+#enemyExplosion {
+    animation: 0.5s pause linear;
+    right: 30px;
+    z-index: 1000;
+    top: 100px;
+    position: absolute;
+}
+#playerBall {
+    z-index: 1000;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 0;
+    top: 200px;
+    animation:
+    bounce-ease-in 1s ease-in 1 alternate,
+    move-right 1s linear 1;
+}
+#playerExplosion {
+    animation: 0.5s pause linear;
+    left: 30px;
+    z-index: 1000;
+    top: 100px;
+    position: absolute;
+}
+
+html {
+    font-family: 'Bebas Neue';
+    Cursor:pointer;
+    background: radial-gradient(ellipse at center,#0a0025 30%,#000000 100%);
+}
+
+#battleStage {
+    background-image: url(images/battleScene.jpeg);
+    border: 1px solid black;
+    width: 700px;
+    height: 500px;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    box-shadow: 0 0 5px green, 0 0 25px green, 0 0 50px white, 0 0 100px white;
+}
+
+#mute {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 50px;
+}
+#mute:hover {
+    width: 60px;
+    top: 5px;
+    left: 5px;
+}
+#start {
+    position: absolute;
+    top: 175px;
+    left: 325px;
+    height: 0;
+    border-style: solid;
+    border-width: 25px 0 25px 50px;
+    border-color: transparent transparent transparent red;
+    animation: 1s flashStart linear infinite;
+}
+#start:hover {
+    top: 172.5px;
+    left: 322.5px;
+    border-width: 30px 0 30px 60px;
+}
+
+#menu {
+    width: 100%;
+    height: 30%;
+    position: fixed;
+    bottom: 0;
+    border: 2px solid black;
+    box-sizing: border-box;
+    background-color: rgb(31, 29, 29);
+}
+#sound {
+    display: none;
+}
+
+#moves {
+    float: left;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    width: 75%;
+    height: 100%;
+    align-items: center;
+}
+
+.move {
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke: 1px;
+    color: black;
+    border-radius: 10px;
+    border-image-slice: 1;
+    margin: 10px;
+    width: 240px;
+    height: 60px;
+    background-repeat: no-repeat;
+    border: 3px solid black;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#switch {
+    border-radius: 10px;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 25px;
+    left: 520px;
+    width: 170px;
+    height: 120px;
+}
+
+#switchText {
+    right: 49px;
+    position: absolute;
+    font-size: 27px;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    background-color: white;
+}
+#pokemonRow1 {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#pokemonRow2 {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mpokemon {
+    min-height: 35px;
+    min-width: 35px;
+    margin: 3px;
+    height: 35px;
+    border: 1px solid black;
+    border-radius: 50%;
+    padding: 5px;
+    background-image: linear-gradient(45deg, white, black);
+}
+
+.pokeball {
+    width: 20px;
+    height: 20px;
+    float: left;
+}
+.pokeball2 {
+    width: 20px;
+    height: 20px;
+    float: right;
+}
+
+#playerPokemon {
+    width: 150px;
+    height: 150px;
+    position: fixed;
+    top: 150px;
+    left: 50px;
+}
+
+#playerPokemonInfo {
+    background-color: rgb(47, 32, 32);
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 250px;
+    height: 100px;
+    position: fixed;
+    top: 40px;
+    left: 10px;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+#playerPokemonName {
+    color: white;
+    -webkit-text-stroke: 1px;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+#playerPokemonImage {
+    width: 100%;
+    height: 100%;
+    transform: scaleX(-1);
+}
+
+#playerPokemonHP {
+    position: absolute;
+    bottom: 10px;
+    background-color: aquamarine;
+    width: 65%;
+    height: 45%;
+}
+
+#playerBarParent {
+    box-sizing: border-box;
+    position: absolute;
+    background-color: rgb(0, 0, 0);
+    width: 100%;
+    height: 50%;
+}
+
+#playerHP {
+    color:rgb(223, 255, 93);
+    position: absolute;
+    width: 10%;
+    height: 100%;
+    font-size: 20px;
+    left: 5px;
+}
+
+#playerBar {
+    background-color:rgb(17, 221, 7);
+    position: absolute;
+    left: 15%;
+    top: 25%;
+    width: 80%;
+    height: 50%;
+}
+
+#playerRatio {
+    position: absolute;
+    background-color: rgb(234, 255, 237);
+    width: 100%;
+    height: 50%;
+    top: 50%;
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+}
+
+#enemyPokemon {
+    width: 150px;
+    height: 150px;
+    position: fixed;
+    top: 150px;
+    right: 50px;
+}
+
+#enemyPokemonInfo {
+    background-color: rgb(47, 32, 32);
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 250px;
+    height: 100px;
+    position: fixed;
+    top: 40px;
+    right: 10px;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+#enemyPokemonName {
+    color: white;
+    -webkit-text-stroke: 1px;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+#enemyPokemonImage {
+    width: 100%;
+    height: 100%;
+}
+
+#enemyPokemonHP {
+    position: absolute;
+    bottom: 10px;
+    background-color: aquamarine;
+    width: 65%;
+    height: 45%;
+}
+
+#enemyBarParent {
+    box-sizing: border-box;
+    position: absolute;
+    background-color: rgb(0, 0, 0);
+    width: 100%;
+    height: 50%;
+}
+
+#enemyHP {
+    color:rgb(223, 255, 93);
+    position: absolute;
+    width: 10%;
+    height: 100%;
+    font-size: 20px;
+    left: 5px;
+}
+
+#enemyBar {
+    background-color:rgb(17, 221, 7);
+    position: absolute;
+    left: 15%;
+    top: 25%;
+    width: 80%;
+    height: 50%;
+}
+
+#enemyRatio {
+    position: absolute;
+    background-color: rgb(234, 255, 237);
+    width: 100%;
+    height: 50%;
+    top: 50%;
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+}
+
+#textPortion {
+    z-index: 100;
+    border: 1px solid white;
+    background-color: black;
+    width: 700px;
+    height: 130px;
+    position: fixed;
+    top: 85vh;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 60px;
+    color: aliceblue;
+    box-shadow: 0 0 5px rgb(153, 0, 255), 0 0 25px rgb(153, 0, 255);
+}
+
+#rock {
+    top: 0;
+    width: 300px;
+    left: 400px;
+    position: absolute;
+    animation: spin 0.5s ease-in 1, 0.5s rock 0.5s ease-in 1;
+}
+
+#n1 {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: grey;
+    top: 225px;
+    left: 100px;
+    animation: n1 1s ease-in 1;
+}
+#n2 {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: grey;
+    top: 225px;
+    left: 100px;
+    animation: n2 1s ease-in 1;
+}
+#n3 {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: grey;
+    top: 225px;
+    left: 100px;
+    animation: n3 1s ease-in 1;
+}
+#en1 {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: grey;
+    top: 225px;
+    right: 100px;
+    animation: en1 1s ease-in 1;
+}
+#en2 {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: grey;
+    top: 225px;
+    right: 100px;
+    animation: en2 1s ease-in 1;
+}
+#en3 {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: grey;
+    top: 225px;
+    right: 100px;
+    animation: en3 1s ease-in 1;
+}
+#steel {
+    position: absolute;
+    width: 20px;
+    height: 200px;
+    background-image: linear-gradient(rgb(84, 84, 84), white);
+    top: 150px;
+    left: 100px;
+    border: 1px solid black;
+    animation: spin 0.3s linear 3, n1 1s ease-in;
+}
+#esteel {
+    position: absolute;
+    width: 20px;
+    height: 200px;
+    background-image: linear-gradient(rgb(84, 84, 84), white);
+    top: 150px;
+    right: 100px;
+    border: 1px solid black;
+    animation: spin 0.3s linear 3, en1 1s ease-in;
+}
+#fighting {
+    position: absolute;
+    width: 200px;
+    left: 50px;
+    top: 180px;
+    transform: rotate(90deg);
+    animation: fighting 0.5s ease-in 2;
+}
+#efighting {
+    position: absolute;
+    width: 200px;
+    right: 50px;
+    top: 180px;
+    transform: scaleY(-1) rotate(-90deg);
+    animation: efighting 0.5s ease-in 2;
+}
+#grass {
+    position: absolute;
+    width: 200px;
+    left: 50px;
+    top: 180px;
+    transform: scaleX(-1);
+    animation: fighting 2s ease-in 1;
+}
+#egrass {
+    position: absolute;
+    width: 200px;
+    right: 50px;
+    top: 180px;
+    animation: efighting 2s ease-in 1;
+}
+#dragon1 {
+    border: 1px solid black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-image: linear-gradient(45deg, red, blue);
+    animation: dragon1 1s ease-in 1;
+}
+#dragon2 {
+    border: 1px solid black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-image: linear-gradient(45deg, red, blue);
+    animation: dragon2 1.5s ease-in 1;
+}
+#dragon3 {
+    border: 1px solid black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-image: linear-gradient(45deg, red, blue);
+    animation: dragon3 0.8s ease-in 1;
+}
+#edragon1 {
+    border: 1px solid black;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-image: linear-gradient(45deg, red, blue);
+    animation: edragon1 1s ease-in 1;
+}
+#edragon2 {
+    border: 1px solid black;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-image: linear-gradient(45deg, red, blue);
+    animation: edragon2 1.5s ease-in 1;
+}
+#edragon3 {
+    border: 1px solid black;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-image: linear-gradient(45deg, red, blue);
+    animation: edragon3 0.8s ease-in 1;
+}
+#dark {
+    position: absolute;
+    top: 200px;
+    left: 75px;
+    width:100px;
+    animation: upDown 0.3s ease-in-out 5, dark 1.5s linear 1;
+}
+#edark {
+    position: absolute;
+    top: 200px;
+    right: 75px;
+    width:100px;
+    animation: upDown 0.3s ease-in-out 5, edark 1.5s linear 1;
+}
+#psychic {
+    position: absolute;
+    top: 200px;
+    left: 75px;
+    width:150px;
+    animation: upDown 1s ease-in-out 1, dark 1s linear 1;
+}
+#epsychic {
+    position: absolute;
+    top: 200px;
+    right: 75px;
+    width:150px;
+    animation: upDown 1s ease-in-out 1, edark 1s linear 1;
+}
+#ground {
+    position: absolute;
+    left: 400px;
+    top: 200px;
+    width: 300px;
+    height: 120px;
+    border-radius: 50%;
+    background-image: linear-gradient(rgb(86, 56, 0), rgb(53, 40, 0));
+    animation: shrink 0.5s linear 3, ground 1.5s linear 1;
+}
+#eground {
+    position: absolute;
+    right: 400px;
+    top: 200px;
+    width: 300px;
+    height: 120px;
+    border-radius: 50%;
+    background-image: linear-gradient(rgb(86, 56, 0), rgb(53, 40, 0));
+    animation: eshrink 0.5s linear 3, ground 1.5s linear 1;
+}
+
+.fire {
+    width: 50px;
+    position: absolute;
+    animation: spin 1.5s linear 1, dark 1.5s ease-in 1;
+}
+
+#fire1 {
+    transform: rotate(-90deg);
+    top: 200px;
+    left: 0;
+}
+#fire2 {
+    top: 150px;
+    left: 50px;
+}
+#fire3 {
+    transform: rotate(90deg);
+    top: 200px;
+    left: 100px;
+}
+#fire4 {
+    transform: rotate(180deg);
+    top: 250px;
+    left: 50px;
+}
+.efire {
+    width: 50px;
+    position: absolute;
+    animation: spin 1.5s linear 1, edark 1.5s ease-in 1;
+}
+
+#efire1 {
+    transform: rotate(-90deg);
+    top: 200px;
+    right: 0;
+}
+#efire2 {
+    top: 150px;
+    right: 50px;
+}
+#efire3 {
+    transform: rotate(90deg);
+    top: 200px;
+    right: 100px;
+}
+#efire4 {
+    transform: rotate(180deg);
+    top: 250px;
+    right: 50px;
+}
+#flying {
+    position: absolute;
+    width: 200px;
+    top: 160px;
+    left: 50px;
+    animation: dark 1s ease-in 1;
+}
+#eflying {
+    position: absolute;
+    width: 200px;
+    top: 160px;
+    right: 50px;
+    animation: edark 1s ease-in 1;
+}
+#water {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    top: 200px;
+    left: 150px;
+    border: 1px solid blue;
+    background-color: aqua;
+    animation: grow 0.7s ease-out 1, 0.7s water 0.7s linear 1;
+}
+#ewater {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    top: 200px;
+    right: 150px;
+    border: 1px solid blue;
+    background-color: aqua;
+    animation: grow 0.7s ease-out 1, 0.7s ewater 0.7s linear 1;
+}
+#electric {
+    position: absolute;
+    width: 500px;
+    top: 50px;
+    left: 250px;
+    animation: electric 0.25s linear 4, flash 1s linear 1;
+}
+#eelectric {
+    position: absolute;
+    width: 500px;
+    top: 50px;
+    right: 250px;
+    animation: eelectric 0.25s linear 4, flash 1s linear 1;
+}
+#flash {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    animation: flash 1s linear 1;
+}
+#poison1 {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-image: linear-gradient(45deg, rgb(146, 0, 97), rgb(57, 0, 57));
+    border-radius: 50%;
+    top: 200px;
+    left: 100px;
+    animation: poison 0.7s ease-in-out 1, n1 0.7s linear 1, 0.7s poison1 0.3s linear 1;
+}
+#poison2 {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-image: linear-gradient(45deg, rgb(146, 0, 97), rgb(57, 0, 57));
+    border-radius: 50%;
+    top: 200px;
+    left: 100px;
+    animation: poison 0.7s ease-in-out 1, n1 0.7s linear 1, 0.7s poison2 0.3s linear 1;
+}
+#epoison1 {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-image: linear-gradient(45deg, rgb(146, 0, 97), rgb(57, 0, 57));
+    border-radius: 50%;
+    top: 200px;
+    right: 100px;
+    animation: poison 0.7s ease-in-out 1, en1 0.7s linear 1, 0.7s epoison1 0.3s linear 1;
+}
+#epoison2 {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-image: linear-gradient(45deg, rgb(146, 0, 97), rgb(57, 0, 57));
+    border-radius: 50%;
+    top: 200px;
+    right: 100px;
+    animation: poison 0.7s ease-in-out 1, en1 0.7s linear 1, 0.7s epoison2 0.3s linear 1;
+}
+#info {
+    right: 100px;
+    top: 200px;
+    position: fixed;
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    box-shadow: 0 0 15px rgb(255, 255, 255);
+    background-image: linear-gradient(45deg, rgb(197, 161, 161), rgb(149, 187, 149));
+    display: none;
+    justify-content: center;
+}
+#infoName {
+    position: absolute;
+    font-size: 30px;
+    text-align: center;
+}
+#infoHP {
+    top: 65px;
+    position: absolute;
+    text-align: center;
+}
+#infoBar {
+    border-radius: 10px;
+    position: absolute;
+    top: 45px;
+    height: 20px;
+    width: 70%;
+    background-color: black;
+}
+
+#infoMove1 {
+    text-align: center;
+    left: 0;
+    top: 85px;
+    position: absolute;
+    width: 100%;
+    height: 30px;
+}
+#infoMove2 {
+    text-align: center;
+    left: 0;
+    top: 115px;
+    position: absolute;
+    width: 100%;
+    height: 30px;
+}
+#infoMove3 {
+    text-align: center;
+    left: 0;
+    top: 145px;
+    position: absolute;
+    width: 100%;
+    height: 30px;
+}
+#infoMove4 {
+    text-align: center;
+    left: 0;
+    top: 175px;
+    position: absolute;
+    width: 100%;
+    height: 30px;
+}
+.infoMove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    float: top;
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke: 1px;
+    color: black;
+    font-size: 30px;
+}
+#ice {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 150px solid transparent;
+    border-bottom: 0;
+    border-top: 200px solid rgb(90, 233, 255);
+    right: 0;
+    animation: ice 0.2s linear 4;
+}
+#eice {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 150px solid transparent;
+    border-bottom: 0;
+    border-top: 200px solid rgb(90, 233, 255);
+    left: 0;
+    animation: ice 0.2s linear 4;
+}
+#bug {
+    position: absolute;
+    transform: scaleX(-1);
+    width: 200px;
+    top: 150px;
+    animation: bug 0.7s ease-in 1;
+}
+#ebug {
+    position: absolute;
+    right: 0;
+    width: 200px;
+    top: 150px;
+    animation: ebug 0.7s ease-in 1;
+}
+#ghost {
+    position: absolute;
+    top: 100px;
+    left: 0;
+    width: 250px;
+    transform: scaleX(-1);
+    animation: ghost 0.4s linear 3;
+}
+#eghost {
+    position: absolute;
+    top: 100px;
+    right: 0;
+    width: 250px;
+    animation: eghost 0.4s linear 3;
+}
+#infoName {
+    color: white;
+    -webkit-text-stroke: 1px;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+}
