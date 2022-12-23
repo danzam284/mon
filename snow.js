@@ -1,6 +1,8 @@
 let snowflakesCount = 200; // Snowflake count, can be overwritten by attrs
 let baseCss = ``;
-
+let colorsSchemes = [["white", "lime", "turquoise"], ["#759311", "#FECA15", "#D73C1F"], ["#D72631", "#077b8a", "#5c3c92"], ["#E9002d", "#ffaa00", "#00B000"],
+    ["#9a7787", "#e4afb0", "#fed78f"], ["red", "blue", "green"], ["yellow", "pink", "turquoise"], ["green", "purple", "orange"], ["#a0fefb", "#494fc1", "#fd084a"]];
+let colors = colorsSchemes[Math.floor(Math.random() * colorsSchemes.length)];
 
 // set global attributes
 if (typeof SNOWFLAKES_COUNT !== 'undefined') {
@@ -84,16 +86,17 @@ function spawnSnowCSS(snowDensity = 200) {
     let randomXEndYoyo = randomX + (randomOffset / 2);
     let randomYoyoTime = getRandomArbitrary(0.3, 0.8);
     let randomYoyoY = randomYoyoTime * pageHeightVh; // vh
-    let randomScale = Math.random();
+    let randomScale = Math.random() * 5;
     let fallDuration = randomIntRange(10, pageHeightVh / 10 * 3); // s
     let fallDelay = randomInt(pageHeightVh / 10 * 3) * -1; // s
     let opacity = Math.random();
-
+    let col = colors[Math.floor(Math.random() * colors.length)];
     rule += `
       .${snowflakeName}:nth-child(${i}) {
         opacity: ${opacity};
         transform: translate(${randomX}vw, -10px) scale(${randomScale});
         animation: fall-${i} ${fallDuration}s ${fallDelay}s linear infinite;
+        background: linear-gradient(` + col + `, ` + col + `);
       }
       @keyframes fall-${i} {
         ${randomYoyoTime * 100}% {
