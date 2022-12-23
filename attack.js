@@ -90,7 +90,7 @@ async function attack(m) {
     p = playerPokemon[0];
     e = enemyPokemon[0];
 
-    bestOption = getBestEnemyOption();
+    bestOption = await getBestEnemyOption();
     if (bestOption != 0) {
         document.getElementById("enemyBall").hidden = false;
         document.getElementById("enemyPokemonImage").hidden = true;
@@ -133,6 +133,7 @@ async function attack(m) {
         }
     }
     typing = false;
+    checkHovered();
 }
 
 async function enemyDead() {
@@ -152,7 +153,7 @@ async function enemyDead() {
         }
     }
     await sleep(500);
-    newPokemon = getBestEnemyOption();
+    newPokemon = await getBestEnemyOption();
     temp = enemyPokemon[0];
     enemyPokemon[0] = enemyPokemon[newPokemon];
     enemyPokemon[newPokemon] = temp;
@@ -330,7 +331,7 @@ async function playerSwitch(i) {
     } else {
         p = playerPokemon[0];
         e = enemyPokemon[0];
-        bestOption = getBestEnemyOption();
+        bestOption = await getBestEnemyOption();
         if (bestOption != 0) {
             both = true;
             if (p.speed > e.speed) {
@@ -388,13 +389,14 @@ async function playerSwitch(i) {
             await sleep(2500);
 
             await enemyAttack(maxMove);
-            if (p.hp <= 0) {
+            if (playerPokemon[0].hp <= 0) {
                 await playerDead();
             } else {
                 await sleep(400);
                 await slowType("Pick a move...", 1);
             }
             typing = false;
+            checkHovered();
         }
     }
 }
