@@ -5,7 +5,7 @@ document.getElementById("move1").onmouseover = function() {
     }
 }
 document.getElementById("move1").onmouseleave = function() {
-    if (!pick) {
+    if (!pick && this.style.background != "") {
         this.style.background = getColor(playerPokemon[0].moves[0].type);
     }
 }
@@ -15,7 +15,7 @@ document.getElementById("move2").onmouseover = function() {
     }
 }
 document.getElementById("move2").onmouseleave = function() {
-    if (!pick) {
+    if (!pick && this.style.background != "") {
         this.style.background = getColor(playerPokemon[0].moves[1].type);
     }
 }
@@ -25,7 +25,7 @@ document.getElementById("move3").onmouseover = function() {
     }
 }
 document.getElementById("move3").onmouseleave = function() {
-    if (!pick) {
+    if (!pick && this.style.background != "") {
         this.style.background = getColor(playerPokemon[0].moves[2].type);
     }
 }
@@ -35,7 +35,7 @@ document.getElementById("move4").onmouseover = function() {
     }
 }
 document.getElementById("move4").onmouseleave = function() {
-    if (!pick) {
+    if (!pick && this.style.background != "") {
         this.style.background = getColor(playerPokemon[0].moves[3].type);
     }
 }
@@ -77,6 +77,8 @@ async function slowType(s, i) {
         });
     }
 }
+
+
 
 function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
@@ -446,6 +448,7 @@ document.getElementById("playerExplosion").addEventListener("animationend", asyn
         await slowType("Pick a move...", 1);
         pick = false;
         typing = false;
+        checkHovered();
     }
     else if (both) {
         both = false;
@@ -463,6 +466,7 @@ document.getElementById("playerExplosion").addEventListener("animationend", asyn
         await sleep(500);
         await slowType("Pick a move...", 1);
         typing = false;
+        checkHovered();
     } else {
         document.getElementById("playerPokemonImage").hidden = false;
         await slowType("You switched to " + playerPokemon[0].name + "!", 1);
@@ -478,6 +482,7 @@ document.getElementById("enemyExplosion").addEventListener("animationend", async
         await slowType("Pick a move...", 1);
         typing = false;
         intro = false;
+        checkHovered();
     }
     else if (both) {
         both = false;
@@ -496,6 +501,7 @@ document.getElementById("enemyExplosion").addEventListener("animationend", async
         await sleep(500);
         await slowType("Pick a move...", 1);
         typing = false;
+        checkHovered();
     } else {
         document.getElementById("enemyPokemonImage").hidden = false;
         await slowType("The enemy switched to " + enemyPokemon[0].name + "!", 1);
@@ -641,3 +647,24 @@ document.getElementById("ghost").addEventListener("animationend", async function
 document.getElementById("eghost").addEventListener("animationend", async function() {
     document.getElementById("eghost").hidden = true;
 });
+
+function checkHovered() {
+    for (let i = 0; i < 4; i++) {
+        if (document.querySelector("#move" + (i + 1) + ":hover") != null && document.getElementById("move" + (i + 1)).style.background != "" && !pick) {
+            document.getElementById("move" + (i + 1)).style.background = rainbowGradient;
+            break;
+        }
+    }
+
+    for (let i = 0; i < 6; i++) {
+        if (document.querySelector("#mp" + (i + 1) + ":hover") != null) {
+            plookup = ogpp[i];
+            for (let i = 1; i < 6; i++) {
+                if (playerPokemon[i].name == plookup && playerPokemon[i].hp > 0) {
+                    document.getElementById("mp" + (i + 1)).style.background = rainbowGradient;
+                    break;
+                }
+            }
+        }
+    }
+}
