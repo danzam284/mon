@@ -366,6 +366,8 @@ html {
 .mpokemon {
     min-height: 35px;
     min-width: 35px;
+    max-height: 35px;
+    max-width: 35px;
     margin: 3px;
     height: 35px;
     border: 1px solid black;
