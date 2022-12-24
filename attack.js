@@ -64,7 +64,7 @@ async function playerAttack(p, m) {
             document.getElementById("enemyBar").style.background = "linear-gradient(to right, red " + per + "%, black " + per + "%)";
         }
         document.getElementById("enemyRatio").innerHTML = e.hp + "/" + e.maxhp;
-        await sleep();
+        await sleep(10);
     }
 
     if (t1 * t2 == 0) {
@@ -82,6 +82,12 @@ async function playerAttack(p, m) {
         await sleep(400);
         await slowType("A critical hit!", 1);
     }
+
+    if (e.hp == 0) {
+        await enemyDead();
+        return true;
+    }
+    return false;
 }
 
 var p;
@@ -96,35 +102,20 @@ async function attack(m) {
         document.getElementById("enemyPokemonImage").hidden = true;
         await enemySwitch(bestOption);
         await sleep(3000);
-        await playerAttack(p, m);
-        if (e.hp <= 0) {
-            await enemyDead();
-        } else {
+        if (!await playerAttack(p, m)) {
             await sleep(400);
             await slowType("Pick a move...", 1);
         }
     } else {
         if (p.speed >= e.speed) {
-            await playerAttack(p, m);
-            if (enemyPokemon[0].hp > 0) {
+            if (!await playerAttack(p, m)) {
                 await sleep(500);
                 await enemyAttack();
-                if (playerPokemon[0].hp <= 0) {
-                    await playerDead();
-                }
-            } else {
-                await enemyDead();
             }
         } else {
-            await enemyAttack();
-            if (playerPokemon[0].hp > 0) {
+            if (!await enemyAttack()) {
                 await sleep(400);
                 await playerAttack(p, m);
-                if (enemyPokemon[0].hp <= 0) {
-                    await enemyDead();
-                }
-            } else {
-                await playerDead();
             }
         }
         if (e.hp > 0 && p.hp > 0) {
@@ -258,7 +249,7 @@ async function enemyAttack(preMove) {
             document.getElementById("playerBar").style.background = "linear-gradient(to right, red " + per + "%, black " + per + "%)";
         }
         document.getElementById("playerRatio").innerHTML = pl.hp + "/" + pl.maxhp;
-        await sleep();
+        await sleep(10);
     }
 
     if (t1 * t2 == 0) {
@@ -276,6 +267,12 @@ async function enemyAttack(preMove) {
         await sleep(400);
         await slowType("A critical hit!", 1);
     }
+
+    if (pl.hp == 0) {
+        await playerDead();
+        return true;
+    }
+    return false;
 }
 
 function getBestEnemyOption() {
@@ -387,10 +384,7 @@ async function playerSwitch(i) {
             loadImage();
             await sleep(2500);
 
-            await enemyAttack(maxMove);
-            if (playerPokemon[0].hp <= 0) {
-                await playerDead();
-            } else {
+            if (!await enemyAttack(maxMove)) {
                 await sleep(400);
                 await slowType("Pick a move...", 1);
             }
