@@ -421,9 +421,7 @@ body {
 }
 
 #playerPokemonImage {
-    width: 100%;
     height: 100%;
-    transform: scaleX(-1);
 }
 
 #playerPokemonHP {
@@ -502,7 +500,6 @@ body {
 }
 
 #enemyPokemonImage {
-    width: 100%;
     height: 100%;
 }
 
