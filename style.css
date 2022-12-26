@@ -423,8 +423,6 @@ body {
 #playerPokemonImage {
     position: absolute;
     bottom: 0;
-    width: 75%;
-    height: 75%;
 }
 
 #playerPokemonHP {
@@ -505,8 +503,6 @@ body {
 #enemyPokemonImage {
     position: absolute;
     bottom: 0;
-    width: 75%;
-    height: 75%;
 }
 
 #enemyPokemonHP {
