@@ -224,7 +224,21 @@ function getColorDepth(type) {
 
 function loadImage() {
     document.getElementById("playerPokemonImage").src = "images/Back/" + playerPokemon[0].name.toLowerCase() + ".gif";
+    w = document.getElementById("playerPokemonImage").clientWidth;
+    h = document.getElementById("playerPokemonImage").clientHeight;
+    if (w > h) {
+        document.getElementById("playerPokemonImage").style.width ="75%";
+    } else {
+        document.getElementById("playerPokemonImage").style.height ="75%";
+    }
     document.getElementById("enemyPokemonImage").src = "images/Front/" + enemyPokemon[0].name + ".gif";
+    w = document.getElementById("enemyPokemonImage").clientWidth;
+    h = document.getElementById("enemyPokemonImage").clientHeight;
+    if (w > h) {
+        document.getElementById("enemyPokemonImage").style.width ="75%";
+    } else {
+        document.getElementById("enemyPokemonImage").style.height ="75%";
+    }
     document.getElementById("playerPokemonName").innerHTML = playerPokemon[0].name;
     document.getElementById("enemyPokemonName").innerHTML = enemyPokemon[0].name;
     if (playerPokemon[0].t2 == "none") {
@@ -301,133 +315,18 @@ function nullify() {
     document.getElementById("move4").style.background = "rgb(31, 29, 29)";
 }
 
-function moveAnimations(player, type) {
-    if (player) {
-        if (type == "rock") {
-            document.getElementById("rock").style.left = "400px";
-            document.getElementById("rock").hidden = false;
-        }
-        else if (type == "normal") {
-            document.getElementById("n1").hidden = false;
-            document.getElementById("n2").hidden = false;
-            document.getElementById("n3").hidden = false;
-        }
-        else if (type == "steel") {
-            document.getElementById("steel").hidden = false;
-        }
-        else if (type == "fighting") {
-            document.getElementById("fighting").hidden = false;
-        }
-        else if (type == "grass") {
-            document.getElementById("grass").hidden = false;
-        }
-        else if (type == "dragon") {
-            document.getElementById("dragon1").hidden = false;
-            document.getElementById("dragon2").hidden = false;
-            document.getElementById("dragon3").hidden = false;
-        }
-        else if (type == "dark") {
-            document.getElementById("dark").hidden = false;
-        }
-        else if (type == "psychic") {
-            document.getElementById("psychic").hidden = false;
-        }
-        else if (type == "ground") {
-            document.getElementById("ground").hidden = false;
-        }
-        else if (type == "fire") {
-            document.getElementById("fire1").hidden = false;
-            document.getElementById("fire2").hidden = false;
-            document.getElementById("fire3").hidden = false;
-            document.getElementById("fire4").hidden = false;
-        }
-        else if (type == "flying") {
-            document.getElementById("flying").hidden = false;
-        }
-        else if (type == "water") {
-            document.getElementById("water").hidden = false;
-        }
-        else if (type == "electric") {
-            document.getElementById("electric").hidden = false;
-            document.getElementById("flash").hidden = false;
-        }
-        else if (type == "poison") {
-            document.getElementById("poison1").hidden = false;
-            document.getElementById("poison2").hidden = false;
-        }
-        else if (type == "ice") {
-            document.getElementById("ice").hidden = false;
-        }
-        else if (type == "bug") {
-            document.getElementById("bug").hidden = false;
-        }
-        else if (type == "ghost") {
-            document.getElementById("ghost").hidden = false;
+async function moveAnimations(player, type) {
+    if (type == "bug" || type == "dragon" || type == "fighting" || type == "steel" || type == "poison") {
+        if (player) {
+            document.getElementById("battleStage").style.backgroundImage = "url(images/Moves/" + type + "1.png)";
+        } else {
+            document.getElementById("battleStage").style.backgroundImage = "url(images/Moves/" + type + "2.png)";
         }
     } else {
-        if (type == "rock") {
-            document.getElementById("rock").style.left = "0";
-            document.getElementById("rock").hidden = false;
-        }
-        else if (type == "normal") {
-            document.getElementById
-            document.getElementById("en1").hidden = false;
-            document.getElementById("en2").hidden = false;
-            document.getElementById("en3").hidden = false;
-        }
-        else if (type == "steel") {
-            document.getElementById("esteel").hidden = false;
-        }
-        else if (type == "fighting") {
-            document.getElementById("efighting").hidden = false;
-        }
-        else if (type == "grass") {
-            document.getElementById("egrass").hidden = false;
-        }
-        else if (type == "dragon") {
-            document.getElementById("edragon1").hidden = false;
-            document.getElementById("edragon2").hidden = false;
-            document.getElementById("edragon3").hidden = false;
-        }
-        else if (type == "dark") {
-            document.getElementById("edark").hidden = false;
-        }
-        else if (type == "psychic") {
-            document.getElementById("epsychic").hidden = false;
-        }
-        else if (type == "ground") {
-            document.getElementById("eground").hidden = false;
-        }
-        else if (type == "fire") {
-            document.getElementById("efire1").hidden = false;
-            document.getElementById("efire2").hidden = false;
-            document.getElementById("efire3").hidden = false;
-            document.getElementById("efire4").hidden = false;
-        }
-        else if (type == "flying") {
-            document.getElementById("eflying").hidden = false;
-        }
-        else if (type == "water") {
-            document.getElementById("ewater").hidden = false;
-        }
-        else if (type == "electric") {
-            document.getElementById("eelectric").hidden = false;
-            document.getElementById("flash").hidden = false;
-        }
-        else if (type == "poison") {
-            document.getElementById("epoison1").hidden = false;
-            document.getElementById("epoison2").hidden = false;
-        }
-        else if (type == "ice") {
-            document.getElementById("eice").hidden = false;
-        }
-        else if (type == "bug") {
-            document.getElementById("ebug").hidden = false;
-        }
-        else if (type == "eghost") {
-            document.getElementById("eghost").hidden = false;
-        }
+        document.getElementById("battleStage").style.backgroundImage = "url(images/Moves/" + type + ".png)";
     }
+    await sleep(1000);
+    document.getElementById("battleStage").style.backgroundImage = "url(images/battleScene.jpeg)";
 }
 
 async function start() {
