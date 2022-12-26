@@ -50,7 +50,7 @@ async function playerAttack(p, m) {
         await slowType("The attack missed!", 1);
         return;
     }
-    moveAnimations(true, m.type);
+    await moveAnimations(true, m.type);
     dmg = Math.floor(calculateDamage(m, m.damage, m.mode, crit, p.attack, p.specialattack, e.defense, e.specialdefense, stab, t1, t2, ran));
     temp = e.hp;
     while (e.hp != temp - dmg && e.hp != 0) {
@@ -237,7 +237,7 @@ async function enemyAttack(preMove) {
         await slowType("The attack missed!", 1);
         return;
     }
-    moveAnimations(false, m.type);
+    await moveAnimations(false, m.type);
     while (pl.hp != temp - dmg && pl.hp != 0) {
         pl.hp--;
         per = pl.hp / pl.maxhp * 100;
