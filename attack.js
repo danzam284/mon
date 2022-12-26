@@ -151,7 +151,7 @@ async function enemyDead() {
     document.getElementById("enemyPokemonImage").hidden = true;
     document.getElementById("enemyBall").hidden = false;
     document.getElementById("enemyPokemonImage").style.animation = "";
-    loadImage();
+    loadImage(2);
     intro = true;
 }
 
@@ -310,7 +310,7 @@ async function enemySwitch(n) {
     temp = enemyPokemon[0];
     enemyPokemon[0] = enemyPokemon[n];
     enemyPokemon[n] = temp;
-    loadImage();
+    loadImage(2);
     document.getElementById("enemyPokemonImage").style.animation = "";
 
 }
@@ -322,7 +322,7 @@ async function playerSwitch(i) {
         temp = playerPokemon[i];
         playerPokemon[i] = playerPokemon[0];
         playerPokemon[0] = temp;
-        loadImage();
+        loadImage(1);
         document.getElementById("playerPokemonImage").hidden = true;
     } else {
         let p = playerPokemon[0];
@@ -337,7 +337,7 @@ async function playerSwitch(i) {
                 playerPokemon[i] = playerPokemon[0];
                 playerPokemon[0] = temp;
                 populateMoves();
-                loadImage();
+                loadImage(1);
             } else {
                 document.getElementById("enemyBall").hidden = false;
                 document.getElementById("enemyPokemonImage").hidden = true;
@@ -381,7 +381,7 @@ async function playerSwitch(i) {
             playerPokemon[i] = playerPokemon[0];
             playerPokemon[0] = temp;
             populateMoves();
-            loadImage();
+            loadImage(1);
             await sleep(2500);
 
             if (!await enemyAttack(maxMove)) {
