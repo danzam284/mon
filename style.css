@@ -421,7 +421,8 @@ body {
 }
 
 #playerPokemonImage {
-    height: 100%;
+    position: absolute;
+    bottom: 0;
 }
 
 #playerPokemonHP {
@@ -500,7 +501,8 @@ body {
 }
 
 #enemyPokemonImage {
-    height: 100%;
+    position: absolute;
+    bottom: 0;
 }
 
 #enemyPokemonHP {
