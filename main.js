@@ -224,10 +224,12 @@ function getColorDepth(type) {
 
 function loadImage(ch) {
     if (document.getElementById("playerPokemonName").innerHTML != playerPokemon[0].name) {
+        document.getElementById("playerPokemonImage").style.opacity = 1;
         document.getElementById("playerPokemonImage").src = "images/Back/" + playerPokemon[0].name.toLowerCase() + ".gif";
         document.getElementById("playerPokemonName").innerHTML = playerPokemon[0].name;
     }
     if (document.getElementById("enemyPokemonName").innerHTML != enemyPokemon[0].name) {
+        document.getElementById("enemyPokemonImage").style.opacity = 1;
         document.getElementById("enemyPokemonImage").src = "images/Front/" + enemyPokemon[0].name + ".gif";
         document.getElementById("enemyPokemonName").innerHTML = enemyPokemon[0].name;
     }
