@@ -476,6 +476,7 @@ document.getElementById("mp6").onclick = function() {
 
 document.getElementById("playerBall").addEventListener("animationend", function() {
     document.getElementById("playerBall").hidden = true;
+    document.getElementById("playerExplosion").src = "images/pokeballs/pokeballOpen" + playerPokemon[0].t1 + ".gif";
     document.getElementById("playerExplosion").hidden = false;
     document.getElementById("playerPokemonImage").hidden = false;
     populateMoves();
@@ -483,6 +484,7 @@ document.getElementById("playerBall").addEventListener("animationend", function(
 
 document.getElementById("enemyBall").addEventListener("animationend", function() {
     document.getElementById("enemyBall").hidden = true;
+    document.getElementById("enemyExplosion").src = "images/pokeballs/pokeballOpen" + enemyPokemon[0].t1 + ".gif";
     document.getElementById("enemyExplosion").hidden = false;
     document.getElementById("enemyPokemonImage").hidden = false;
 });
