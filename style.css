@@ -396,6 +396,8 @@ body {
     position: fixed;
     top: 150px;
     left: 50px;
+    display: flex;
+    justify-content: center;
 }
 
 #playerPokemonInfo {
@@ -947,6 +949,30 @@ body {
     right: 100px;
     animation: poison 0.7s ease-in-out 1, en1 0.7s linear 1, 0.7s epoison2 0.3s linear 1;
 }
+#hover {
+    left: 100px;
+    top: 200px;
+    position: fixed;
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    box-shadow: 0 0 15px rgb(255, 255, 255);
+    background-image: linear-gradient(45deg, rgb(197, 161, 161), rgb(149, 187, 149));
+    text-align: center;
+}
+#hoverName {
+    font-size: 30px;
+    text-align: center;
+    color: white;
+    -webkit-text-stroke: 1px;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+.hover {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
 #info {
     right: 100px;
     top: 200px;
@@ -963,6 +989,11 @@ body {
     position: absolute;
     font-size: 30px;
     text-align: center;
+    color: white;
+    -webkit-text-stroke: 1px;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
 }
 #infoHP {
     top: 65px;
@@ -1069,13 +1100,7 @@ body {
     width: 250px;
     animation: eghost 0.4s linear 3;
 }
-#infoName {
-    color: white;
-    -webkit-text-stroke: 1px;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    -webkit-background-clip: text;
-}
+
 .snowflake {
     position: absolute;
     width: 10px;
@@ -1084,4 +1109,4 @@ body {
     /* Workaround for Chromium's selective color inversion */
     border-radius: 50%;
     filter: drop-shadow(0 0 10px white);
-  }
+}
