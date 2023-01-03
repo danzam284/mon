@@ -1,109 +1,151 @@
 var playerPokemon = [];
 var enemyPokemon = [];
-var ogpp = [];
-var ogep = [];
+var custom = [];
+var customTeam = [[-1, -1, -1, -1, -1], [-1, -1, -1, -1, -1], [-1, -1, -1, -1, -1], [-1, -1, -1, -1, -1], [-1, -1, -1, -1, -1], [-1, -1, -1, -1, -1]];
 var pick = false;
 var intro = true;
 var typing = true;
 var both = false;
 var both2 = false;
-//Picks pokemon
-function choosePokemon() {
-    //Pokeon for player
-    for (let i = 0; i < 6; i++) {
-        option = pokemon[Math.floor(Math.random() * pokemon.length)];
-        hp = Math.floor(option[3] + Math.random() * 30 - 15);
-        pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], defense: option[5], specialattack: option[6], specialdefense: option[7], speed: option[8], availablemoves: option[9], moves: []};
-        if (ogpp.includes(pk.name)) {
-            i--;
-        } else {
-            playerPokemon.push(pk);
-            ogpp.push(pk.name);
-            document.getElementById("mp" + (i + 1)).src = "images/pokemon/" + pk.name + ".png"
-        }
-    }
+var playerLives = 6;
+var enemyLives = 6;
+var background = "url(images/battleScene" + Math.floor(Math.random() * 9) + ".jpeg)";
+document.getElementById("battleStage").style.backgroundImage = background;
 
-    //pokemon for enemy
-    for (let i = 0; i < 6; i++) {
-        option = pokemon[Math.floor(Math.random() * pokemon.length)];
-        hp = Math.floor(option[3] + Math.random() * 30 - 15);
-        pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], defense: option[5], specialattack: option[6], specialdefense: option[7], speed: option[8], availablemoves: option[9], moves: []};
-        if (ogep.includes(pk.name)) {
-            i--;
-        } else {
-            enemyPokemon.push(pk);
-            ogep.push(pk.name);
-        }
-    }
+if (!localStorage.mute) {
+    localStorage.mute = "unmuted";
+} else if (localStorage.mute == "muted") {
+    document.getElementById("mute").src = "images/mute.png";
 }
 
-function generateMoves() {
-    for (let i = 0; i < 6; i++) {
-        cnt = 1;
-        mtemp = [];
-        option = moveMap[playerPokemon[i].availablemoves[Math.floor(Math.random() * playerPokemon[i].availablemoves.length)]];
-        while (option.type != playerPokemon[i].t1) {
+function customBattle(team1, team2) {
+    if (team1 == "random") {
+        for (let i = 0; i < 6; i++) {
+            option = pokemon[Math.floor(Math.random() * (pokemon.length - 35))];
+            hp = Math.floor(option[3] + Math.random() * 30 - 15);
+            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], defense: option[5], specialattack: option[6], specialdefense: option[7], speed: option[8], availablemoves: option[9], moves: []};
+            if (playerPokemon.includes(pk)) {
+                i--;
+            } else {
+                playerPokemon.push(pk);
+            }
+            cnt = 1;
+            mtemp = [];
             option = moveMap[playerPokemon[i].availablemoves[Math.floor(Math.random() * playerPokemon[i].availablemoves.length)]];
-        }
-        playerPokemon[i].moves.push(option);
-        mtemp.push(option.move);
-        if (playerPokemon[i].t2 != "none") {
-            cnt++;
-            option = moveMap[playerPokemon[i].availablemoves[Math.floor(Math.random() * playerPokemon[i].availablemoves.length)]];
-            while (option.type != playerPokemon[i].t2) {
+            while (option.type != playerPokemon[i].t1) {
                 option = moveMap[playerPokemon[i].availablemoves[Math.floor(Math.random() * playerPokemon[i].availablemoves.length)]];
             }
             playerPokemon[i].moves.push(option);
             mtemp.push(option.move);
-        }
-        for (let j = cnt; j < 4; j++) {
-            option = moveMap[playerPokemon[i].availablemoves[Math.floor(Math.random() * playerPokemon[i].availablemoves.length)]];
-            if (mtemp.includes(option.move)) {
-                j--;
-            } else {
+            if (playerPokemon[i].t2 != "none") {
+                cnt++;
+                option = moveMap[playerPokemon[i].availablemoves[Math.floor(Math.random() * playerPokemon[i].availablemoves.length)]];
+                while (option.type != playerPokemon[i].t2) {
+                    option = moveMap[playerPokemon[i].availablemoves[Math.floor(Math.random() * playerPokemon[i].availablemoves.length)]];
+                }
                 playerPokemon[i].moves.push(option);
                 mtemp.push(option.move);
             }
+            for (let j = cnt; j < 4; j++) {
+                option = moveMap[playerPokemon[i].availablemoves[Math.floor(Math.random() * playerPokemon[i].availablemoves.length)]];
+                if (mtemp.includes(option.move)) {
+                    j--;
+                } else {
+                    playerPokemon[i].moves.push(option);
+                    mtemp.push(option.move);
+                }
+            }
+            playerPokemon[i].moves = playerPokemon[i].moves
+                .map(value => ({ value, sort: Math.random() }))
+                .sort((a, b) => a.sort - b.sort)
+                .map(({ value }) => value);
         }
-        playerPokemon[i].moves = playerPokemon[i].moves
-            .map(value => ({ value, sort: Math.random() }))
-            .sort((a, b) => a.sort - b.sort)
-            .map(({ value }) => value);
-
-
-        cnt = 1;
-        mtemp = [];
-        option = moveMap[enemyPokemon[i].availablemoves[Math.floor(Math.random() * enemyPokemon[i].availablemoves.length)]];
-        while (option.type != enemyPokemon[i].t1) {
-            option = moveMap[enemyPokemon[i].availablemoves[Math.floor(Math.random() * enemyPokemon[i].availablemoves.length)]];
+            
+    } else {
+        if (team1 == "custom") {
+            team1 = custom;
         }
-        enemyPokemon[i].moves.push(option);
-        mtemp.push(option.move);
-        if (enemyPokemon[i].t2 != "none") {
-            cnt++;
+        for (let i = 0; i < 6; i++) {
+            option = pokemon[team1[i * 5]];
+            hp = Math.floor(option[3] + Math.random() * 30 - 15);
+            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], defense: option[5], specialattack: option[6], specialdefense: option[7], speed: option[8], availablemoves: option[9], moves: []};
+            playerPokemon.push(pk);
+            document.getElementById("mp" + (i + 1)).src = "images/pokemon/" + pk.name + ".png"
+            for (let j = 0; j < 4; j++) {
+                playerPokemon[i].moves.push(moveMap[team1[i * 5 + (j + 1)]]);
+            }
+        }
+    }
+
+    if (team2 == "random") {
+        for (let i = 0; i < 6; i++) {
+            option = pokemon[Math.floor(Math.random() * (pokemon.length - 35))];
+            hp = Math.floor(option[3] + Math.random() * 30 - 15);
+            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], defense: option[5], specialattack: option[6], specialdefense: option[7], speed: option[8], availablemoves: option[9], moves: []};
+            if (enemyPokemon.includes(pk)) {
+                i--;
+            } else {
+                enemyPokemon.push(pk);
+            }
+            cnt = 1;
+            mtemp = [];
             option = moveMap[enemyPokemon[i].availablemoves[Math.floor(Math.random() * enemyPokemon[i].availablemoves.length)]];
-            while (option.type != enemyPokemon[i].t2) {
+            while (option.type != enemyPokemon[i].t1) {
                 option = moveMap[enemyPokemon[i].availablemoves[Math.floor(Math.random() * enemyPokemon[i].availablemoves.length)]];
             }
             enemyPokemon[i].moves.push(option);
             mtemp.push(option.move);
-        }
-        for (let j = cnt; j < 4; j++) {
-            option = moveMap[enemyPokemon[i].availablemoves[Math.floor(Math.random() * enemyPokemon[i].availablemoves.length)]];
-            if (mtemp.includes(option.move)) {
-                j--;
-            } else {
+            if (enemyPokemon[i].t2 != "none") {
+                cnt++;
+                option = moveMap[enemyPokemon[i].availablemoves[Math.floor(Math.random() * enemyPokemon[i].availablemoves.length)]];
+                while (option.type != enemyPokemon[i].t2) {
+                    option = moveMap[enemyPokemon[i].availablemoves[Math.floor(Math.random() * enemyPokemon[i].availablemoves.length)]];
+                }
                 enemyPokemon[i].moves.push(option);
                 mtemp.push(option.move);
             }
+            for (let j = cnt; j < 4; j++) {
+                option = moveMap[enemyPokemon[i].availablemoves[Math.floor(Math.random() * enemyPokemon[i].availablemoves.length)]];
+                if (mtemp.includes(option.move)) {
+                    j--;
+                } else {
+                    enemyPokemon[i].moves.push(option);
+                    mtemp.push(option.move);
+                }
+            }
+            enemyPokemon[i].moves = enemyPokemon[i].moves
+                .map(value => ({ value, sort: Math.random() }))
+                .sort((a, b) => a.sort - b.sort)
+                .map(({ value }) => value);
+            }
+    } else {
+        if (team2 == "custom") {
+            team2 = custom;
         }
-        enemyPokemon[i].moves = enemyPokemon[i].moves
-            .map(value => ({ value, sort: Math.random() }))
-            .sort((a, b) => a.sort - b.sort)
-            .map(({ value }) => value);
+        for (let i = 0; i < 6; i++) {
+            option = pokemon[team2[i * 5]];
+            hp = Math.floor(option[3] + Math.random() * 30 - 15);
+            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], defense: option[5], specialattack: option[6], specialdefense: option[7], speed: option[8], availablemoves: option[9], moves: []};
+            enemyPokemon.push(pk);
+            for (let j = 0; j < 4; j++) {
+                enemyPokemon[i].moves.push(moveMap[team2[i * 5 + (j + 1)]]);
+            }
+        }
     }
 }
 
+function updateMP() {
+    for (let i = 0; i < 6; i++) {
+        document.getElementById("mp" + (i + 1)).src = "images/pokemon/" + playerPokemon[i].name + ".png";
+        if (playerPokemon[i].hp == 0) {
+            document.getElementById("mp" + (i + 1)).style.filter = "grayscale(1)";
+            document.getElementById("mp" + (i + 1)).style.webkitFilter = "greyscale(1)";
+        } else {
+            document.getElementById("mp" + (i + 1)).style.filter = "";
+            document.getElementById("mp" + (i + 1)).style.webkitFilter = "";
+        }
+    }
+}
 function populateMoves() {
     document.getElementById("move1").innerHTML = playerPokemon[0].moves[0].move;
     document.getElementById("move1").style.background = getColor(playerPokemon[0].moves[0].type);
@@ -265,6 +307,7 @@ function loadImage(ch) {
     } else {
         document.getElementById("playerBar").style.background = "linear-gradient(to right, red " + per + "%, black " + per + "%)";
     }
+    updateMP();
 }
 
 var sound = new Audio("battle.mp3"); 
@@ -274,24 +317,77 @@ sound.addEventListener('ended', function() {
     this.play();
 }, false);
 
-document.getElementById("start").onclick = function() {
+document.getElementById("start").onclick = async function() {
+    document.getElementById("flame").hidden = false;
+    document.getElementById("vs").style.animation = "start 1s linear 1";
     document.getElementById("start").hidden = true;
+    document.getElementById("build").hidden = true;
+    if (localStorage.mute == "unmuted") {
+        sound.play();
+    }
+    if (document.getElementById("playerCur").childNodes.length == 3) {
+        pimg = document.getElementById("playerCur").childNodes[1].src;
+    } else {
+        pimg = document.getElementById("playerCur").childNodes[3].src;
+    }
+    if (document.getElementById("enemyCur").childNodes.length == 3) {
+        eimg = document.getElementById("enemyCur").childNodes[1].src;
+    } else {
+        eimg = document.getElementById("enemyCur").childNodes[3].src;
+    }
+    document.getElementById("playerText").hidden = true;
+    document.getElementById("enemyText").hidden = true;
+    document.getElementById("textPortion").hidden = true;
+    document.getElementById("playerCur").style.display = "none";
+    document.getElementById("enemyCur").style.display = "none";
+    if (pimg.endsWith("random.png")) {
+        document.getElementById("pimg").style.filter = "invert(1)";
+    }
+    if (eimg.endsWith("random.png")) {
+        document.getElementById("eimg").style.filter = "invert(1)";
+    }
+    document.getElementById("pimg").src = pimg;
+    document.getElementById("pimg").style.animation = "imgFall 1s linear 1";
+    document.getElementById("eimg").src = eimg;
+    document.getElementById("eimg").style.animation = "eimgFall 1s linear 1";
+}
+
+document.getElementById("vs").onanimationend = async function() {
+    document.getElementById("flame").hidden = true;
+    document.getElementById("pimg").hidden = true;
+    document.getElementById("eimg").hidden = true;
+    document.getElementById("vs").hidden = true;
     document.getElementById("playerBall").hidden = false;
-    choosePokemon();
-    generateMoves();
-    loadImage();
-    sound.play();
+    document.getElementById("battleStage").hidden = false;
+    document.getElementById("textPortion").hidden = false;
+    if (document.getElementById("playerCur").childNodes.length == 3) {
+        playerTeam = teamMap[document.getElementById("playerCur").childNodes[0].innerHTML.toLowerCase()];
+    } else {
+        playerTeam = teamMap[document.getElementById("playerCur").childNodes[1].innerHTML.toLowerCase()];
+    }
+    if (document.getElementById("enemyCur").childNodes.length == 3) {
+        enemyTeam = teamMap[document.getElementById("enemyCur").childNodes[0].innerHTML.toLowerCase()];
+    } else {
+        enemyTeam = teamMap[document.getElementById("enemyCur").childNodes[1].innerHTML.toLowerCase()];
+    }
+    await customBattle(playerTeam, enemyTeam);
+    await loadImage();
 }
 
 
 async function win() {
-    await slowType("You win!!!     refresh to play again", 1);
+    document.getElementById("pyro").hidden = false;
+    await slowType("You win!!!     Press Menu to play again", 1);
     document.getElementById("battleStage").style.backgroundImage = "url(images/win.gif)";
+    document.getElementById("menuImg").hidden = false;
+    sound.pause();
 }
 
 async function lose() {
-    await slowType("You lose...      refresh to play again", 1);
+    await slowType("You lose...      Press menu to play again", 1);
     document.getElementById("battleStage").style.backgroundImage = "url(images/lose.gif)";
+    document.getElementById("menuImg").hidden = false;
+    sound.pause();
 }
 
 function nullify() {
@@ -318,11 +414,47 @@ async function moveAnimations(player, type) {
         document.getElementById("battleStage").style.backgroundImage = "url(images/Moves/" + type + ".png)";
     }
     await sleep(1000);
-    document.getElementById("battleStage").style.backgroundImage = "url(images/battleScene.jpeg)";
+    document.getElementById("battleStage").style.backgroundImage = background;
 }
 
 async function start() {
-    await slowType("Welcome to Dan's Pokemon. Press the triangle to start!", 1);
+    await slowType("Welcome to Dan's Pokemon. Pick your team and press battle!", 1);
 }
 
 start();
+
+$(document).ready(function () {
+    var $select = $('#name1').selectize({ sortField: 'text' });
+    var selectize = $select[0].selectize;
+    for (let i = 0; i < pokemon.length - 35; i++) {
+        selectize.addOption({value: pokemon[i][0], text: pokemon[i][0]});
+    }
+});
+
+for (let j = 0; j < 6; j++) {
+    for (let i = 0; i < 4; i++) {
+        document.getElementById("build" + (j + 1) + "Move" + (i + 1)).onchange = function() {
+            customTeam[j][i + 1] = this.value;
+            let t = moveMap[this.value].type;
+
+            if (formulateSquadrine()) {
+                document.getElementById("check").hidden = false;
+            }
+
+            document.getElementById("build" + (j + 1) + "m" + (i + 1)).src = "images/types/" + t + ".png";
+            document.getElementById("build" + (j + 1) + "m" + (i + 1)).hidden = false;
+            if (i < 3) {
+                document.getElementById("build" + (j + 1) + "Move" + (i + 2)).innerHTML = this.innerHTML;
+                document.getElementById("build" + (j + 1) + "Move" + (i + 2)).hidden = false;
+            } else if (j < 5) {
+                var $select = $('#name' + (j + 2)).selectize({ sortField: 'text' });
+                var selectize = $select[0].selectize;
+                for (let j = 0; j < pokemon.length - 35; j++) {
+                    selectize.addOption({value: pokemon[j][0], text: pokemon[j][0]});
+                }
+                document.getElementById("name" + (j + 2)).hidden = false;
+                document.getElementById("pokeImage" + (j + 2)).hidden = false;
+            }
+        }
+    }
+}
