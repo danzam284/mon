@@ -18,13 +18,22 @@ if (!localStorage.mute) {
     document.getElementById("mute").src = "images/mute.png";
 }
 
+function check(pk, pokemon) {
+    for (let i = 0; i < pokemon.length; i++) {
+        if (pokemon[i].name == pk.name) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function customBattle(team1, team2) {
     if (team1 == "random") {
         for (let i = 0; i < 6; i++) {
             option = pokemon[Math.floor(Math.random() * (pokemon.length - 35))];
             hp = Math.floor(option[3] + Math.random() * 30 - 15);
             pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], defense: option[5], specialattack: option[6], specialdefense: option[7], speed: option[8], availablemoves: option[9], moves: []};
-            if (playerPokemon.includes(pk)) {
+            if (check(pk, playerPokemon)) {
                 i--;
             } else {
                 playerPokemon.push(pk);
@@ -82,7 +91,7 @@ function customBattle(team1, team2) {
             option = pokemon[Math.floor(Math.random() * (pokemon.length - 35))];
             hp = Math.floor(option[3] + Math.random() * 30 - 15);
             pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], defense: option[5], specialattack: option[6], specialdefense: option[7], speed: option[8], availablemoves: option[9], moves: []};
-            if (enemyPokemon.includes(pk)) {
+            if (check(pk, enemyPokemon)) {
                 i--;
             } else {
                 enemyPokemon.push(pk);
