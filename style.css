@@ -497,6 +497,8 @@ body {
     position: fixed;
     top: 150px;
     right: 50px;
+    display: flex;
+    justify-content: center;
 }
 
 #enemyPokemonInfo {
