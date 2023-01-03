@@ -1,8 +1,16 @@
 <html>
     <head>
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="fireworks.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
     </head>
     <body>
+        <div hidden id="pyro" class="pyro">
+            <div class="before"></div>
+            <div class="after"></div>
+        </div>
         <div id="snow" count="200"></div>
         <div hidden id="info">
             <div id="infoName">Luxray</div>
@@ -23,8 +31,341 @@
             <div class="hover" id="hoverSpeed">Speed: 100</div>
         </div>
         <div hidden id="flash"></div>
-        <img src="images/volume.png" id="mute" src="mute">
-        <div id="battleStage">
+        <img hidden id="check" src="images/check.png">
+        <img id="playerText" src="images/playerText.png">
+        <img id="vs" src="images/vs.png">
+        <img id="enemyText" src="images/enemyText.png">
+        <img id="start" src="images/battle.png">
+        <img id="build" src="images/build.png">
+        <img id="done" hidden src="images/done.png">
+        <img id="menuImg" hidden src="images/menu.png">
+        <img hidden id="flame" src="images/flame.gif">
+        <img id="pimg">
+        <img id="eimg">
+        <img src="images/volume.png" id="mute">
+        <div id="playerCur">
+            <span>Random</span>
+            <img class="optionImage" style="margin-left: 10px;" src="images/select/random.png">
+            <div style="position: absolute; right: 0;">▾</div>
+        </div>
+        <div id="enemyCur">
+            <span>Random</span>
+            <img class="optionImage" style="margin-left: 10px;" src="images/select/random.png">
+            <div style="position: absolute; right: 0;">▾</div>
+        </div>
+        <div id="playerSelect">
+            <div id="playerOptions">
+                <div id="custom">
+                    <span>Custom Team</span>
+                    <img class="optionImage" style="margin-left: 10px;" src="images/pokemon/Charizard.png">
+                </div>
+                <div id="random">
+                    <span>Random</span>
+                    <img class="optionImage" style="margin-left: 10px;" src="images/select/random.png">
+                </div>
+                <div id="cynthia">
+                    <span>Cynthia</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/cynthia.png">
+                </div>
+                <div id="steven">
+                    <span>Steven</span>
+                    <img class="optionImage" src="images/select/steven.png">
+                </div>
+                <div id="lance2">
+                    <span>Lance (gen 2)</span>
+                    <img style="margin-top: -3px;" class="optionImage" src="images/select/lance2.png">
+                </div>
+                <div id="blue">
+                    <span>Blue</span>
+                    <img class="optionImage" src="images/select/blue.png">
+                </div>
+                <div id="red">
+                    <span>Red</span>
+                    <img class="optionImage" src="images/select/red.png">
+                </div>
+                <div id="wallace">
+                    <span>Wallace</span>
+                    <img class="optionImage" src="images/select/wallace.png">
+                </div>
+                <div id="cyrus">
+                    <span>Cyrus</span>
+                    <img class="optionImage" src="images/select/cyrus.png">
+                </div>
+                <div id="giovanni1">
+                    <span>Giovanni (gen 1)</span>
+                    <img class="optionImage" src="images/select/giovanni1.png">
+                </div>
+                <div id="giovanni2">
+                    <span>Giovanni (gen 2)</span>
+                    <img class="optionImage" src="images/select/giovanni2.png">
+                </div>
+                <div id="maxie">
+                    <span>Maxie</span>
+                    <img style="width: 15px; margin-left: 8px; margin-right: 8px; margin-top: 5px;" class="optionImage" src="images/select/maxie.png">
+                </div>
+                <div id="archie">
+                    <span>Archie</span>
+                    <img style="width: 15px; margin-left: 8px; margin-right: 8px; margin-top: 5px;" class="optionImage" src="images/select/archie.png">
+                </div>
+                <div id="barry">
+                    <span>Barry</span>
+                    <img class="optionImage" src="images/select/barry.png">
+                </div>
+                <div id="may">
+                    <span>May</span>
+                    <img class="optionImage" src="images/select/may.png">
+                </div>
+                <div id="silver">
+                    <span>Silver</span>
+                    <img class="optionImage" src="images/select/silver.png">
+                </div>
+                <div id="aaron">
+                    <span>Aaron</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/aaron.png">
+                </div>
+                <div id="bertha">
+                    <span>Bertha</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/bertha.png">
+                </div>
+                <div id="flint">
+                    <span>Flint</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/flint.png">
+                </div>
+                <div id="lucian">
+                    <span>Lucian</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/lucian.png">
+                </div>
+                <div id="sidney">
+                    <span>Sidney</span>
+                    <img class="optionImage" src="images/select/sidney.png">
+                </div>
+                <div id="phoebe">
+                    <span>Phoebe</span>
+                    <img class="optionImage" src="images/select/phoebe.png">
+                </div>
+                <div id="glacia">
+                    <span>Glacia</span>
+                    <img class="optionImage" src="images/select/glacia.png">
+                </div>
+                <div id="drake">
+                    <span>Drake</span>
+                    <img class="optionImage" src="images/select/drake.png">
+                </div>
+                <div id="will">
+                    <span>Will</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/will.png">
+                </div>
+                <div id="koga">
+                    <span>Koga</span>
+                    <img class="optionImage" src="images/select/koga.png">
+                </div>
+                <div id="bruno2">
+                    <span>Bruno (gen 2)</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/bruno2.png">
+                </div>
+                <div id="karen">
+                    <span>Karen</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/karen.png">
+                </div>
+                <div id="lorelei">
+                    <span>Lorelei</span>
+                    <img class="optionImage" src="images/select/lorelei.png">
+                </div>
+                <div id="bruno1">
+                    <span>Bruno (gen 1)</span>
+                    <img class="optionImage" src="images/select/bruno1.png">
+                </div>
+                <div id="agatha">
+                    <span>Agatha</span>
+                    <img class="optionImage" src="images/select/agatha.png">
+                </div>
+                <div id="lance1">
+                    <span>Lance (gen 1)</span>
+                    <img class="optionImage" src="images/select/lance1.png">
+                </div>
+                <div id="cheryl">
+                    <span>Cheryl</span>
+                    <img class="optionImage" src="images/select/cheryl.png">
+                </div>
+                <div id="riley">
+                    <span>Riley</span>
+                    <img class="optionImage" src="images/select/riley.png">
+                </div>
+                <div id="mira">
+                    <span>Mira</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/mira.png">
+                </div>
+                <div id="marley">
+                    <span>Marley</span>
+                    <img class="optionImage" src="images/select/marley.png">
+                </div>
+                <div id="buck">
+                    <span>Buck</span>
+                    <img class="optionImage" src="images/select/buck.png">
+                </div>
+                <div id="sabrina">
+                    <span>Sabrina</span>
+                    <img class="optionImage" src="images/select/sabrina.png">
+                </div>
+            </div>
+        </div>
+        <div id="enemySelect">
+            <div id="enemyOptions">
+                <div id="custom2">
+                    <span>Custom Team</span>
+                    <img class="optionImage" style="margin-left: 10px;" src="images/pokemon/Charizard.png">
+                </div>
+                <div id="random">
+                    <span>Random</span>
+                    <img class="optionImage" style="margin-left: 10px;" src="images/select/random.png">
+                </div>
+                <div id="cynthia">
+                    <span>Cynthia</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/cynthia.png">
+                </div>
+                <div id="steven">
+                    <span>Steven</span>
+                    <img class="optionImage" src="images/select/steven.png">
+                </div>
+                <div id="lance2">
+                    <span>Lance (gen 2)</span>
+                    <img style="margin-top: -3px;" class="optionImage" src="images/select/lance2.png">
+                </div>
+                <div id="blue">
+                    <span>Blue</span>
+                    <img class="optionImage" src="images/select/blue.png">
+                </div>
+                <div id="red">
+                    <span>Red</span>
+                    <img class="optionImage" src="images/select/red.png">
+                </div>
+                <div id="wallace">
+                    <span>Wallace</span>
+                    <img class="optionImage" src="images/select/wallace.png">
+                </div>
+                <div id="cyrus">
+                    <span>Cyrus</span>
+                    <img class="optionImage" src="images/select/cyrus.png">
+                </div>
+                <div id="giovanni1">
+                    <span>Giovanni (gen 1)</span>
+                    <img class="optionImage" src="images/select/giovanni1.png">
+                </div>
+                <div id="giovanni2">
+                    <span>Giovanni (gen 2)</span>
+                    <img class="optionImage" src="images/select/giovanni2.png">
+                </div>
+                <div id="maxie">
+                    <span>Maxie</span>
+                    <img style="width: 15px; margin-left: 8px; margin-right: 8px; margin-top: 5px;" class="optionImage" src="images/select/maxie.png">
+                </div>
+                <div id="archie">
+                    <span>Archie</span>
+                    <img style="width: 15px; margin-left: 8px; margin-right: 8px; margin-top: 5px;" class="optionImage" src="images/select/archie.png">
+                </div>
+                <div id="barry">
+                    <span>Barry</span>
+                    <img class="optionImage" src="images/select/barry.png">
+                </div>
+                <div id="may">
+                    <span>May</span>
+                    <img class="optionImage" src="images/select/may.png">
+                </div>
+                <div id="silver">
+                    <span>Silver</span>
+                    <img class="optionImage" src="images/select/silver.png">
+                </div>
+                <div id="aaron">
+                    <span>Aaron</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/aaron.png">
+                </div>
+                <div id="bertha">
+                    <span>Bertha</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/bertha.png">
+                </div>
+                <div id="flint">
+                    <span>Flint</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/flint.png">
+                </div>
+                <div id="lucian">
+                    <span>Lucian</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/lucian.png">
+                </div>
+                <div id="sidney">
+                    <span>Sidney</span>
+                    <img class="optionImage" src="images/select/sidney.png">
+                </div>
+                <div id="phoebe">
+                    <span>Phoebe</span>
+                    <img class="optionImage" src="images/select/phoebe.png">
+                </div>
+                <div id="glacia">
+                    <span>Glacia</span>
+                    <img class="optionImage" src="images/select/glacia.png">
+                </div>
+                <div id="drake">
+                    <span>Drake</span>
+                    <img class="optionImage" src="images/select/drake.png">
+                </div>
+                <div id="will">
+                    <span>Will</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/will.png">
+                </div>
+                <div id="koga">
+                    <span>Koga</span>
+                    <img class="optionImage" src="images/select/koga.png">
+                </div>
+                <div id="bruno2">
+                    <span>Bruno (gen 2)</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/bruno2.png">
+                </div>
+                <div id="karen">
+                    <span>Karen</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/karen.png">
+                </div>
+                <div id="lorelei">
+                    <span>Lorelei</span>
+                    <img class="optionImage" src="images/select/lorelei.png">
+                </div>
+                <div id="bruno1">
+                    <span>Bruno (gen 1)</span>
+                    <img class="optionImage" src="images/select/bruno1.png">
+                </div>
+                <div id="agatha">
+                    <span>Agatha</span>
+                    <img class="optionImage" src="images/select/agatha.png">
+                </div>
+                <div id="lance1">
+                    <span>Lance (gen 1)</span>
+                    <img class="optionImage" src="images/select/lance1.png">
+                </div>
+                <div id="cheryl">
+                    <span>Cheryl</span>
+                    <img class="optionImage" src="images/select/cheryl.png">
+                </div>
+                <div id="riley">
+                    <span>Riley</span>
+                    <img class="optionImage" src="images/select/riley.png">
+                </div>
+                <div id="mira">
+                    <span>Mira</span>
+                    <img style="margin-top: -5px;" class="optionImage" src="images/select/mira.png">
+                </div>
+                <div id="marley">
+                    <span>Marley</span>
+                    <img class="optionImage" src="images/select/marley.png">
+                </div>
+                <div id="buck">
+                    <span>Buck</span>
+                    <img class="optionImage" src="images/select/buck.png">
+                </div>
+                <div id="sabrina">
+                    <span>Sabrina</span>
+                    <img class="optionImage" src="images/select/sabrina.png">
+                </div>
+            </div>
+        </div>
+        <div hidden id="battleStage">
             <img hidden id="rock" src="images/rock.png">
             <div hidden id="n1"></div>
             <div hidden id="n2"></div>
@@ -75,7 +416,6 @@
             <img hidden id="ghost" src="images/ghost.png">
             <img hidden id="eghost" src="images/ghost.png">
 
-            <div id="start"></div>
             <div id="pokeballs">
                 <img class="pokeball" src="images/pokeball.png">
                 <img class="pokeball" src="images/pokeball.png">
@@ -152,6 +492,171 @@
 
         <div id="textPortion">
         </div>
+
+        <div id="teamParent">
+            <div class="row">
+                <div class="buildPok" id="buildPok1">
+                    <select class="buildName" id="name1" placeholder="Select a Pokemon...">
+                        <option id="change1" value="">Select a Pokemon...</option>
+                    </select>
+                    <div class="buildTypes">
+                        <img hidden class="buildT" id="build1t1">
+                        <img hidden class="buildT" id="build1t2">
+                    </div>
+                    <img class="pokImg" id="pokeImage1" src="images/default.jpeg">
+                    <select hidden class="buildMove1" id="build1Move1">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm1 moveT" id="build1m1" src="images/types/psychic.png">
+                    <select hidden class="buildMove2" id="build1Move2">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm2 moveT" id="build1m2" src="images/types/psychic.png">
+                    <select hidden class="buildMove3" id="build1Move3">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm3 moveT" id="build1m3" src="images/types/psychic.png">
+                    <select hidden class="buildMove4" id="build1Move4">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm4 moveT" id="build1m4" src="images/types/psychic.png">
+                </div>
+
+                <div class="buildPok" id="buildPok2">
+                    <select hidden class="buildName" id="name2" placeholder="Select a Pokemon...">
+                        <option id="change2" value="">Select a Pokemon...</option>
+                    </select>
+                    <div class="buildTypes">
+                        <img hidden class="buildT" id="build2t1">
+                        <img hidden class="buildT" id="build2t2">
+                    </div>
+                    <img hidden class="pokImg" id="pokeImage2" src="images/default.jpeg">
+                    <select hidden class="buildMove1" id="build2Move1">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm1 moveT" id="build2m1" src="images/types/psychic.png">
+                    <select hidden class="buildMove2" id="build2Move2">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm2 moveT" id="build2m2" src="images/types/psychic.png">
+                    <select hidden class="buildMove3" id="build2Move3">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm3 moveT" id="build2m3" src="images/types/psychic.png">
+                    <select hidden class="buildMove4" id="build2Move4">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm4 moveT" id="build2m4" src="images/types/psychic.png">
+                </div>
+
+                <div class="buildPok" id="buildPok3">
+                    <select hidden class="buildName" id="name3" placeholder="Select a Pokemon...">
+                        <option id="change3" value="">Select a Pokemon...</option>
+                    </select>
+                    <div class="buildTypes">
+                        <img hidden class="buildT" id="build3t1">
+                        <img hidden class="buildT" id="build3t2">
+                    </div>
+                    <img hidden class="pokImg" id="pokeImage3" src="images/default.jpeg">
+                    <select hidden class="buildMove1" id="build3Move1">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm1 moveT" id="build3m1" src="images/types/psychic.png">
+                    <select hidden class="buildMove2" id="build3Move2">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm2 moveT" id="build3m2" src="images/types/psychic.png">
+                    <select hidden class="buildMove3" id="build3Move3">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm3 moveT" id="build3m3" src="images/types/psychic.png">
+                    <select hidden class="buildMove4" id="build3Move4">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm4 moveT" id="build3m4" src="images/types/psychic.png">
+                </div>
+            </div>
+            <div class="row">
+                <div class="buildPok" id="buildPok4">
+                    <select hidden class="buildName" id="name4" placeholder="Select a Pokemon...">
+                        <option id="change4" value="">Select a Pokemon...</option>
+                    </select>
+                    <div class="buildTypes">
+                        <img hidden class="buildT" id="build4t1">
+                        <img hidden class="buildT" id="build4t2">
+                    </div>
+                    <img hidden class="pokImg" id="pokeImage4" src="images/default.jpeg">
+                    <select hidden class="buildMove1" id="build4Move1">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm1 moveT" id="build4m1" src="images/types/psychic.png">
+                    <select hidden class="buildMove2" id="build4Move2">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm2 moveT" id="build4m2" src="images/types/psychic.png">
+                    <select hidden class="buildMove3" id="build4Move3">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm3 moveT" id="build4m3" src="images/types/psychic.png">
+                    <select hidden class="buildMove4" id="build4Move4">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm4 moveT" id="build4m4" src="images/types/psychic.png">
+                </div>
+                <div class="buildPok" id="buildPok5">
+                    <select hidden class="buildName" id="name5" placeholder="Select a Pokemon...">
+                        <option id="change5" value="">Select a Pokemon...</option>
+                    </select>
+                    <div class="buildTypes">
+                        <img hidden class="buildT" id="build5t1">
+                        <img hidden class="buildT" id="build5t2">
+                    </div>
+                    <img hidden class="pokImg" id="pokeImage5" src="images/default.jpeg">
+                    <select hidden class="buildMove1" id="build5Move1">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm1 moveT" id="build5m1" src="images/types/psychic.png">
+                    <select hidden class="buildMove2" id="build5Move2">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm2 moveT" id="build5m2" src="images/types/psychic.png">
+                    <select hidden class="buildMove3" id="build5Move3">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm3 moveT" id="build5m3" src="images/types/psychic.png">
+                    <select hidden class="buildMove4" id="build5Move4">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm4 moveT" id="build5m4" src="images/types/psychic.png">
+                </div>
+                <div class="buildPok" id="buildPok6">
+                    <select hidden class="buildName" id="name6" placeholder="Select a Pokemon...">
+                        <option id="change6" value="">Select a Pokemon...</option>
+                    </select>
+                    <div class="buildTypes">
+                        <img hidden class="buildT" id="build6t1">
+                        <img hidden class="buildT" id="build6t2">
+                    </div>
+                    <img hidden class="pokImg" id="pokeImage6" src="images/default.jpeg">
+                    <select hidden class="buildMove1" id="build6Move1">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm1 moveT" id="build6m1" src="images/types/psychic.png">
+                    <select hidden class="buildMove2" id="build6Move2">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm2 moveT" id="build6m2" src="images/types/psychic.png">
+                    <select hidden class="buildMove3" id="build6Move3">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm3 moveT" id="build6m3" src="images/types/psychic.png">
+                    <select hidden class="buildMove4" id="build6Move4">
+                        <option disabled selected hidden value="">Select a Move...</option>
+                    </select>
+                    <img hidden class="bm4 moveT" id="build6m4" src="images/types/psychic.png">
+                </div>
+            </div>
+        </div>
     </body>
 
     <scripts>
@@ -160,6 +665,7 @@
         <script src="events.js"></script>
         <script src="attack.js"></script>
         <script src="snow.js"></script>
+        <script src="teams.js"></script>
         <script src="main.js"></script>
     </scripts>
 </html>
