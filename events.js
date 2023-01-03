@@ -72,7 +72,7 @@ async function slowType(s, i) {
         typing = true;
         var dest = document.getElementById("textPortion");
         dest.innerHTML = s.substring(0, i);
-        await sleep(20).then(async () => {
+        await sleep().then(async () => {
             await slowType(s, i + 1);
         });
     }
@@ -85,7 +85,7 @@ function sleep(time) {
 }
 
 document.getElementById("playerPokemon").onmouseenter = function() {
-    if (playerPokemon.length == 0) {
+    if (playerPokemon.length == 0 || playerLives == 0 || enemyLives == 0) {
         return;
     }
     document.getElementById("hover").hidden = false;
@@ -111,7 +111,7 @@ document.getElementById("playerPokemon").onmouseleave = function() {
 }
 
 document.getElementById("enemyPokemon").onmouseenter = function() {
-    if (enemyPokemon.length == 0) {
+    if (enemyPokemon.length == 0 || playerLives == 0 || enemyLives == 0) {
         return;
     }
     document.getElementById("hover").hidden = false;
@@ -136,340 +136,66 @@ document.getElementById("enemyPokemon").onmouseleave = function() {
     document.getElementById("hover").hidden = true;
 }
 
-document.getElementById("mp1").onmouseenter = function() {
-    plookup = ogpp[0];
-    if (document.getElementById("mp1").src != "") {
-        document.getElementById("info").style.display = "flex";
-        document.getElementById("info").hidden = false;
-        for (let i = 0; i < 6; i++) {
-            if (playerPokemon[i].name == plookup) {
-                p = playerPokemon[i];
-                document.getElementById("infoName").innerHTML = p.name;
-                document.getElementById("infoHP").innerHTML = p.hp + "/" + p.maxhp;
-                if (p.t2 == "none") {
-                    document.getElementById("infoName").style.backgroundImage = getColor(p.t1);
-                } else {
-                    cd1 = getColorDepth(p.t1);
-                    cd2 = getColorDepth(p.t2);
-                    document.getElementById("infoName").style.backgroundImage = "linear-gradient(to left, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
-                }
-                per = p.hp / p.maxhp * 100;
-                if (per > 50) {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, rgb(17, 221, 7) " + per + "%, black " + per + "%)";
-                } else if (per > 15) {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, orange " + per + "%, black " + per + "%)";
-                } else {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, red " + per + "%, black " + per + "%)";
-                }
-                for (let j = 0; j < 4; j++) {
-                    document.getElementById("infoMove" + (j + 1)).innerHTML = p.moves[j].move;
-                    document.getElementById("infoMove" + (j + 1)).style.background = getColor(p.moves[j].type);
-                }
-                break;
+for (let i = 0; i < 6; i++) {
+    document.getElementById("mp" + (i + 1)).onmouseenter = function() {
+        if (document.getElementById("mp" + (i + 1)).src != "") {
+            document.getElementById("info").style.display = "flex";
+            document.getElementById("info").hidden = false;
+            pFound = playerPokemon[i];
+            document.getElementById("infoName").innerHTML = pFound.name;
+            document.getElementById("infoHP").innerHTML = pFound.hp + "/" + pFound.maxhp;
+            if (pFound.t2 == "none") {
+                document.getElementById("infoName").style.backgroundImage = getColor(pFound.t1);
+            } else {
+                cd1 = getColorDepth(pFound.t1);
+                cd2 = getColorDepth(pFound.t2);
+                document.getElementById("infoName").style.backgroundImage = "linear-gradient(to left, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
+            }
+            per = pFound.hp / pFound.maxhp * 100;
+            if (per > 50) {
+                document.getElementById("infoBar").style.background = "linear-gradient(to right, rgb(17, 221, 7) " + per + "%, black " + per + "%)";
+            } else if (per > 15) {
+                document.getElementById("infoBar").style.background = "linear-gradient(to right, orange " + per + "%, black " + per + "%)";
+            } else {
+                document.getElementById("infoBar").style.background = "linear-gradient(to right, red " + per + "%, black " + per + "%)";
+            }
+            for (let j = 0; j < 4; j++) {
+                document.getElementById("infoMove" + (j + 1)).innerHTML = pFound.moves[j].move;
+                document.getElementById("infoMove" + (j + 1)).style.background = getColor(pFound.moves[j].type);
             }
         }
-    }
-    for (let i = 1; i < 6; i++) {
-        if (playerPokemon[i].name == plookup && playerPokemon[i].hp > 0 && !typing) {
+        if (i != 0 && playerPokemon[i].hp > 0 && !typing) {
             this.style.background = rainbowGradient;
-            break;
+        }
+        document.getElementById("hover").hidden = false;
+        document.getElementById("hoverName").innerHTML = playerPokemon[i].name + "'s stats";
+        document.getElementById("hoverHP").innerHTML = "HP: " + playerPokemon[i].hp;
+        document.getElementById("hoverAttack").innerHTML = "Attack: " + playerPokemon[i].attack;
+        document.getElementById("hoverDefense").innerHTML = "Defense: " + playerPokemon[i].defense;
+        document.getElementById("hoverSpecialAttack").innerHTML = "Special Attack: " + playerPokemon[i].specialattack;
+        document.getElementById("hoverSpecialDefense").innerHTML = "Special Defense: " + playerPokemon[i].specialdefense;
+        document.getElementById("hoverSpeed").innerHTML = "Speed: " + playerPokemon[i].speed;
+        pFound = playerPokemon[i];
+        if (pFound.t2 == "none") {
+            document.getElementById("hoverName").style.backgroundImage = getColor(pFound.t1);
+        } else {
+            cd1 = getColorDepth(pFound.t1);
+            cd2 = getColorDepth(pFound.t2);
+            document.getElementById("hoverName").style.backgroundImage = "linear-gradient(to left, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
         }
     }
-}
-document.getElementById("mp1").onmouseleave = function() {
-    this.style.background = "linear-gradient(45deg, white, black)";
-    document.getElementById("info").style.display = "none";
-    document.getElementById("info").hidden = true;
-}
-document.getElementById("mp2").onmouseenter = function() {
-    plookup = ogpp[1];
-    if (document.getElementById("mp1").src != "") {
-        document.getElementById("info").style.display = "flex";
-        document.getElementById("info").hidden = false;
-        for (let i = 0; i < 6; i++) {
-            if (playerPokemon[i].name == plookup) {
-                p = playerPokemon[i];
-                document.getElementById("infoName").innerHTML = p.name;
-                document.getElementById("infoHP").innerHTML = p.hp + "/" + p.maxhp;
-                if (p.t2 == "none") {
-                    document.getElementById("infoName").style.backgroundImage = getColor(p.t1);
-                } else {
-                    cd1 = getColorDepth(p.t1);
-                    cd2 = getColorDepth(p.t2);
-                    document.getElementById("infoName").style.backgroundImage = "linear-gradient(to left, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
-                }
-                per = p.hp / p.maxhp * 100;
-                if (per > 50) {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, rgb(17, 221, 7) " + per + "%, black " + per + "%)";
-                } else if (per > 15) {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, orange " + per + "%, black " + per + "%)";
-                } else {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, red " + per + "%, black " + per + "%)";
-                }
-                for (let j = 0; j < 4; j++) {
-                    document.getElementById("infoMove" + (j + 1)).innerHTML = p.moves[j].move;
-                    document.getElementById("infoMove" + (j + 1)).style.background = getColor(p.moves[j].type);
-                }
-                break;
-            }
-        }
-    }
-    for (let i = 1; i < 6; i++) {
-        if (playerPokemon[i].name == plookup && playerPokemon[i].hp > 0 && !typing) {
-            this.style.background = rainbowGradient;
-            break;
-        }
-    }
-}
-document.getElementById("mp2").onmouseleave = function() {
-    this.style.background = "linear-gradient(45deg, white, black)";
-    document.getElementById("info").style.display = "none";
-    document.getElementById("info").hidden = true;
-}
-document.getElementById("mp3").onmouseenter = function() {
-    plookup = ogpp[2];
-    if (document.getElementById("mp1").src != "") {
-        document.getElementById("info").style.display = "flex";
-        document.getElementById("info").hidden = false;
-        for (let i = 0; i < 6; i++) {
-            if (playerPokemon[i].name == plookup) {
-                p = playerPokemon[i];
-                document.getElementById("infoName").innerHTML = p.name;
-                document.getElementById("infoHP").innerHTML = p.hp + "/" + p.maxhp;
-                if (p.t2 == "none") {
-                    document.getElementById("infoName").style.backgroundImage = getColor(p.t1);
-                } else {
-                    cd1 = getColorDepth(p.t1);
-                    cd2 = getColorDepth(p.t2);
-                    document.getElementById("infoName").style.backgroundImage = "linear-gradient(to left, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
-                }
-                per = p.hp / p.maxhp * 100;
-                if (per > 50) {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, rgb(17, 221, 7) " + per + "%, black " + per + "%)";
-                } else if (per > 15) {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, orange " + per + "%, black " + per + "%)";
-                } else {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, red " + per + "%, black " + per + "%)";
-                }
-                for (let j = 0; j < 4; j++) {
-                    document.getElementById("infoMove" + (j + 1)).innerHTML = p.moves[j].move;
-                    document.getElementById("infoMove" + (j + 1)).style.background = getColor(p.moves[j].type);
-                }
-                break;
-            }
-        }
-    }
-    for (let i = 1; i < 6; i++) {
-        if (playerPokemon[i].name == plookup && playerPokemon[i].hp > 0 && !typing) {
-            this.style.background = rainbowGradient;
-            break;
-        }
-    }
-}
-document.getElementById("mp3").onmouseleave = function() {
-    this.style.background = "linear-gradient(45deg, white, black)";
-    document.getElementById("info").style.display = "none";
-    document.getElementById("info").hidden = true;
-}
-document.getElementById("mp4").onmouseenter = function() {
-    plookup = ogpp[3];
-    if (document.getElementById("mp1").src != "") {
-        document.getElementById("info").style.display = "flex";
-        document.getElementById("info").hidden = false;
-        for (let i = 0; i < 6; i++) {
-            if (playerPokemon[i].name == plookup) {
-                p = playerPokemon[i];
-                document.getElementById("infoName").innerHTML = p.name;
-                document.getElementById("infoHP").innerHTML = p.hp + "/" + p.maxhp;
-                if (p.t2 == "none") {
-                    document.getElementById("infoName").style.backgroundImage = getColor(p.t1);
-                } else {
-                    cd1 = getColorDepth(p.t1);
-                    cd2 = getColorDepth(p.t2);
-                    document.getElementById("infoName").style.backgroundImage = "linear-gradient(to left, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
-                }
-                per = p.hp / p.maxhp * 100;
-                if (per > 50) {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, rgb(17, 221, 7) " + per + "%, black " + per + "%)";
-                } else if (per > 15) {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, orange " + per + "%, black " + per + "%)";
-                } else {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, red " + per + "%, black " + per + "%)";
-                }
-                for (let j = 0; j < 4; j++) {
-                    document.getElementById("infoMove" + (j + 1)).innerHTML = p.moves[j].move;
-                    document.getElementById("infoMove" + (j + 1)).style.background = getColor(p.moves[j].type);
-                }
-                break;
-            }
-        }
-    }
-    for (let i = 1; i < 6; i++) {
-        if (playerPokemon[i].name == plookup && playerPokemon[i].hp > 0 && !typing) {
-            this.style.background = rainbowGradient;
-            break;
-        }
-    }
-}
-document.getElementById("mp4").onmouseleave = function() {
-    this.style.background = "linear-gradient(45deg, white, black)";
-    document.getElementById("info").style.display = "none";
-    document.getElementById("info").hidden = true;
-}
-document.getElementById("mp5").onmouseenter = function() {
-    plookup = ogpp[4];
-    if (document.getElementById("mp1").src != "") {
-        document.getElementById("info").style.display = "flex";
-        document.getElementById("info").hidden = false;
-        for (let i = 0; i < 6; i++) {
-            if (playerPokemon[i].name == plookup) {
-                p = playerPokemon[i];
-                document.getElementById("infoName").innerHTML = p.name;
-                document.getElementById("infoHP").innerHTML = p.hp + "/" + p.maxhp;
-                if (p.t2 == "none") {
-                    document.getElementById("infoName").style.backgroundImage = getColor(p.t1);
-                } else {
-                    cd1 = getColorDepth(p.t1);
-                    cd2 = getColorDepth(p.t2);
-                    document.getElementById("infoName").style.backgroundImage = "linear-gradient(to left, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
-                }
-                per = p.hp / p.maxhp * 100;
-                if (per > 50) {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, rgb(17, 221, 7) " + per + "%, black " + per + "%)";
-                } else if (per > 15) {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, orange " + per + "%, black " + per + "%)";
-                } else {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, red " + per + "%, black " + per + "%)";
-                }
-                for (let j = 0; j < 4; j++) {
-                    document.getElementById("infoMove" + (j + 1)).innerHTML = p.moves[j].move;
-                    document.getElementById("infoMove" + (j + 1)).style.background = getColor(p.moves[j].type);
-                }
-                break;
-            }
-        }
-    }
-    for (let i = 1; i < 6; i++) {
-        if (playerPokemon[i].name == plookup && playerPokemon[i].hp > 0 && !typing) {
-            this.style.background = rainbowGradient;
-            break;
-        }
-    }
-}
-document.getElementById("mp5").onmouseleave = function() {
-    this.style.background = "linear-gradient(45deg, white, black)";
-    document.getElementById("info").style.display = "none";
-    document.getElementById("info").hidden = true;
-}
-document.getElementById("mp6").onmouseenter = function() {
-    plookup = ogpp[5];
-    if (document.getElementById("mp1").src != "") {
-        document.getElementById("info").style.display = "flex";
-        document.getElementById("info").hidden = false;
-        for (let i = 0; i < 6; i++) {
-            if (playerPokemon[i].name == plookup) {
-                p = playerPokemon[i];
-                document.getElementById("infoName").innerHTML = p.name;
-                document.getElementById("infoHP").innerHTML = p.hp + "/" + p.maxhp;
-                if (p.t2 == "none") {
-                    document.getElementById("infoName").style.backgroundImage = getColor(p.t1);
-                } else {
-                    cd1 = getColorDepth(p.t1);
-                    cd2 = getColorDepth(p.t2);
-                    document.getElementById("infoName").style.backgroundImage = "linear-gradient(to left, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
-                }
-                per = p.hp / p.maxhp * 100;
-                if (per > 50) {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, rgb(17, 221, 7) " + per + "%, black " + per + "%)";
-                } else if (per > 15) {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, orange " + per + "%, black " + per + "%)";
-                } else {
-                    document.getElementById("infoBar").style.background = "linear-gradient(to right, red " + per + "%, black " + per + "%)";
-                }
-                for (let j = 0; j < 4; j++) {
-                    document.getElementById("infoMove" + (j + 1)).innerHTML = p.moves[j].move;
-                    document.getElementById("infoMove" + (j + 1)).style.background = getColor(p.moves[j].type);
-                }
-                break;
-            }
-        }
-    }
-    for (let i = 1; i < 6; i++) {
-        if (playerPokemon[i].name == plookup && playerPokemon[i].hp > 0 && !typing) {
-            this.style.background = rainbowGradient;
-            break;
-        }
-    }
-}
-document.getElementById("mp6").onmouseleave = function() {
-    this.style.background = "linear-gradient(45deg, white, black)";
-    document.getElementById("info").style.display = "none";
-    document.getElementById("info").hidden = true;
-}
 
-document.getElementById("mp1").onclick = function() {
-    if (!typing) {
-        plookup = ogpp[0];
-        for (let i = 1; i < 6; i++) {
-            if (playerPokemon[i].name == plookup && playerPokemon[i].hp > 0) {
-                this.style.background = "linear-gradient(45deg, white, black)";
-                playerSwitch(i);
-            }
-        }
+    document.getElementById("mp" + (i + 1)).onmouseleave = function() {
+        this.style.background = "linear-gradient(45deg, white, black)";
+        document.getElementById("info").style.display = "none";
+        document.getElementById("info").hidden = true;
+        document.getElementById("playerPokemon").onmouseleave();
     }
-}
-document.getElementById("mp2").onclick = function() {
-    if (!typing) {
-        plookup = ogpp[1];
-        for (let i = 1; i < 6; i++) {
-            if (playerPokemon[i].name == plookup && playerPokemon[i].hp > 0) {
-                this.style.background = "linear-gradient(45deg, white, black)";
-                playerSwitch(i);
-            }
-        }
-    }
-}
-document.getElementById("mp3").onclick = function() {
-    if (!typing) {
-        plookup = ogpp[2];
-        for (let i = 1; i < 6; i++) {
-            if (playerPokemon[i].name == plookup && playerPokemon[i].hp > 0) {
-                this.style.background = "linear-gradient(45deg, white, black)";
-                playerSwitch(i);
-            }
-        }
-    }
-}
-document.getElementById("mp4").onclick = function() {
-    if (!typing) {
-        plookup = ogpp[3];
-        for (let i = 1; i < 6; i++) {
-            if (playerPokemon[i].name == plookup && playerPokemon[i].hp > 0) {
-                this.style.background = "linear-gradient(45deg, white, black)";
-                playerSwitch(i);
-            }
-        }
-    }
-}
-document.getElementById("mp5").onclick = function() {
-    if (!typing) {
-        plookup = ogpp[4];
-        for (let i = 1; i < 6; i++) {
-            if (playerPokemon[i].name == plookup && playerPokemon[i].hp > 0) {
-                this.style.background = "linear-gradient(45deg, white, black)";
-                playerSwitch(i);
-            }
-        }
-    }
-}
-document.getElementById("mp6").onclick = function() {
-    if (!typing) {
-        plookup = ogpp[5];
-        for (let i = 1; i < 6; i++) {
-            if (playerPokemon[i].name == plookup && playerPokemon[i].hp > 0) {
-                this.style.background = "linear-gradient(45deg, white, black)";
-                playerSwitch(i);
-            }
+
+    document.getElementById("mp" + (i + 1)).onclick = function() {
+        if (!typing && playerPokemon[i].hp > 0) {
+            this.style.background = "linear-gradient(45deg, white, black)";
+            playerSwitch(i);
         }
     }
 }
@@ -567,9 +293,12 @@ document.getElementById("mute").onclick = function() {
     if (this.src.endsWith("images/mute.png")) {
         sound.muted = false;
         this.src = "images/volume.png";
+        localStorage.setItem("mute", "unmuted");
+        sound.play();
     } else {
         sound.muted = true;
         this.src = "images/mute.png";
+        localStorage.setItem("mute", "muted");
     }
 }
 
@@ -721,4 +450,98 @@ function checkHovered() {
             }
         }
     }
+}
+
+for (let i = 0; i < 6; i++) {
+    document.getElementById("name" + (i + 1)).onchange = async function() {
+        document.getElementById("pokeImage" + (i + 1)).src = "images/pokemon/" + this.value + ".png";
+        let types = await getInfo(this.value);
+        customTeam[i][0] = types[3];
+        if (formulateSquadrine()) {
+            document.getElementById("check").hidden = false;
+        }
+        document.getElementById("build" + (i + 1) + "t1").src = "images/types/" + types[0] + ".png";
+        document.getElementById("build" + (i + 1) + "t1").hidden = false;
+        if (types[1] != "none") {
+            document.getElementById("build" + (i + 1) + "t2").src = "images/types/" + types[1] + ".png";
+            document.getElementById("build" + (i + 1) + "t2").hidden = false;
+        } else {
+            document.getElementById("build" + (i + 1) + "t2").hidden = true;
+        }
+        document.getElementById("build" + (i + 1) + "Move1").hidden = false;
+        let am = types[2];
+        for (let j = 0; j < am.length; j++) {
+            document.getElementById("build" + (i + 1) + "Move1").innerHTML += "<option>" + am[j] + "</option>";
+        }
+        $("#build" + (i + 1) + "Move1").html($("#build" + (i + 1) + "Move1 option").sort(function (a, b) {
+            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
+        }))
+    }
+}
+
+function getInfo(pok) {
+    for (let i = 0; i < pokemon.length; i++) {
+        if (pokemon[i][0] == pok) {
+            return [pokemon[i][1], pokemon[i][2], pokemon[i][9], i];
+        }
+    }
+}
+
+function formulateSquadrine() {
+    custom = [];
+    for (let i = 0; i < 6; i++) {
+        for (let j = 0; j < 5; j++) {
+            custom.push(customTeam[i][j]);
+        }
+    }
+    return !custom.includes(-1);
+}
+
+document.getElementById("menuImg").onclick = async function() {
+    this.hidden = true;
+    document.getElementById("pyro").hidden = true;
+    document.getElementById("battleStage").hidden = true;
+    document.getElementById("playerCur").style.display = "flex";
+    document.getElementById("enemyCur").style.display = "flex";
+    document.getElementById("start").hidden = false;
+    document.getElementById("build").hidden = false;
+    document.getElementById("playerText").hidden = false;
+    document.getElementById("enemyText").hidden = false;
+    document.getElementById("vs").style.animation = "";
+    document.getElementById("vs").hidden = false;
+    document.getElementById("battleStage").style.backgroundImage = background;
+    pick = false
+    intro = true;
+    typing = true;
+    both = false;
+    both2 = false;
+    document.getElementById("pokeballs").innerHTML = "<img class='pokeball' src='images/pokeball.png'><img class='pokeball' src='images/pokeball.png'><img class='pokeball' src='images/pokeball.png'><img class='pokeball' src='images/pokeball.png'><img class='pokeball' src='images/pokeball.png'><img class='pokeball' src='images/pokeball.png'>";
+    document.getElementById("pokeballs2").innerHTML = "<img class='pokeball2' src='images/pokeball.png'><img class='pokeball2' src='images/pokeball.png'><img class='pokeball2' src='images/pokeball.png'><img class='pokeball2' src='images/pokeball.png'><img class='pokeball2' src='images/pokeball.png'><img class='pokeball2' src='images/pokeball.png'>";
+    playerPokemon = [];
+    enemyPokemon = [];
+    sound.currentTime = 0;
+    document.getElementById("playerPokemonImage").style.animation = "";
+    document.getElementById("enemyPokemonImage").style.animation = "";
+    ogpp = [];
+    ogep = [];
+    document.getElementById("vs").style.animation = "";
+    document.getElementById("pimg").style.animation = "";
+    document.getElementById("eimg").style.animation = "";
+    document.getElementById("pimg").src = "";
+    document.getElementById("eimg").src = "";
+    document.getElementById("pimg").style.filter = "";
+    document.getElementById("eimg").style.filter = "";
+    document.getElementById("pimg").hidden = false;
+    document.getElementById("eimg").hidden = false;
+    document.getElementById("playerPokemonImage").hidden = true;
+    document.getElementById("enemyPokemonImage").hidden = true;
+    playerLives = 6;
+    enemyLives = 6;
+    document.getElementById("mp1").style.filter = "";
+    document.getElementById("mp2").style.filter = "";
+    document.getElementById("mp3").style.filter = "";
+    document.getElementById("mp4").style.filter = "";
+    document.getElementById("mp5").style.filter = "";
+    document.getElementById("mp6").style.filter = "";
+    start();
 }
