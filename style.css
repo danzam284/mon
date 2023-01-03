@@ -4,6 +4,21 @@
     from {opacity: 1;}
     to { transform: translateY(200px); opacity: 0;}
 }
+@keyframes start {
+    0% { width: 236px; top: 105px; left: calc(50% - 118px); transform:rotate(0deg); }
+    50% { top: 150px; width: 400px; left: 522px; transform:rotate(360deg); }
+    100% { top: 150px; width: 400px; left: 522px; transform:rotate(360deg); }
+}
+@keyframes imgFall {
+    0% { left: 445px; top: 200px; width: 30px; transform:rotate(0deg); }
+    50% { left: 350px; top: 265px; width: 200px; transform:rotate(360deg); }
+    100% { left: 350px; top: 265px; width: 200px; transform:rotate(360deg); }
+}
+@keyframes eimgFall {
+    0% { left: 970px; top: 200px; width: 30px; transform:rotate(0deg); }
+    50% { left: 900px; top: 265px; width: 200px; transform:rotate(360deg); }
+    100% { left: 900px; top: 265px; width: 200px; transform:rotate(360deg); }
+}
 @keyframes bounce-ease-in {
     0%   {top: 200px}
     100% {top: 250px}
@@ -24,11 +39,6 @@
 @keyframes pause {
 }
 
-@keyframes flashStart {
-    0% {border-color: transparent transparent transparent red;}
-    50% {border-color: transparent transparent transparent #007f08;}
-    100% {border-color: transparent transparent transparent red;}
-}
 @keyframes rock {
     from {top: 0;}
     to {top: 300px;}
@@ -197,6 +207,26 @@
     from {top: 100px; right: 0;}
     to {top: 80px; right: 400px;}
 }
+@keyframes check {
+    0% { 
+        width: 50px;
+        left: calc(50% - 25px);
+        top: calc(50% - 25px);
+        transform: rotate(0);
+    }
+    50% {
+        width: 200px;
+        left: calc(50% - 100px);
+        top: calc(50% - 100px);
+        transform: rotate(360deg);
+    }
+    100% {
+        width: 200px;
+        left: calc(50% - 100px);
+        top: calc(50% - 100px);
+        transform: rotate(360deg);
+    }
+}
 #enemyBall {
     z-index: 1000;
     width: 20px;
@@ -248,7 +278,9 @@ body {
     overflow-y: hidden;
 }
 #battleStage {
-    background-image: url(images/battleScene.jpeg);
+    background-image: url(images/battleScene0.jpeg);
+    background-repeat: no-repeat;
+    background-size: 100% 70%;
     border: 1px solid black;
     width: 700px;
     height: 500px;
@@ -270,21 +302,6 @@ body {
     width: 60px;
     top: 5px;
     left: 5px;
-}
-#start {
-    position: absolute;
-    top: 175px;
-    left: 325px;
-    height: 0;
-    border-style: solid;
-    border-width: 25px 0 25px 50px;
-    border-color: transparent transparent transparent red;
-    animation: 1s flashStart linear infinite;
-}
-#start:hover {
-    top: 172.5px;
-    left: 322.5px;
-    border-width: 30px 0 30px 60px;
 }
 
 #menu {
@@ -1111,4 +1128,326 @@ body {
     /* Workaround for Chromium's selective color inversion */
     border-radius: 50%;
     filter: drop-shadow(0 0 10px white);
+}
+
+#playerSelect {
+    z-index: 99999;
+    font-size: 25px;
+    position: absolute;
+    width: 200px;
+    height: 300px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    right: calc(50% + 200px);
+    top: calc(25% + 32px);
+    background-color: white;
+    border: 1px solid black;
+}
+
+#playerOptions {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+#enemySelect {
+    z-index: 99999;
+    font-size: 25px;
+    position: absolute;
+    width: 200px;
+    height: 300px;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    left: calc(50% + 200px);
+    top: calc(25% + 32px);
+    background-color: white;
+    border: 1px solid black;
+}
+
+#enemyOptions {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.optionImage {
+    float: right;
+    width: 30px;
+}
+
+#playerOptions > div {
+    border: 1px solid black;
+}
+#playerOptions > div:hover {
+    background-color: aquamarine;
+}
+
+#enemyOptions > div {
+    border: 1px solid black;
+}
+#enemyOptions > div:hover {
+    background-color: rgb(255, 197, 127);
+}
+
+#playerCur {
+    z-index: 99999;
+    font-size: 25px;
+    position: fixed;
+    width: 200px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 318px;
+    top: 200px;
+    background-color: white;
+    border: 1px solid black;
+}
+#playerCur:hover {
+    background-color: aquamarine;
+}
+
+#enemyCur {
+    z-index: 99999;
+    font-size: 25px;
+    position: fixed;
+    width: 200px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 920px;
+    top: 200px;
+    background-color: white;
+    border: 1px solid black;
+}
+#enemyCur:hover {
+    background-color: rgb(255, 208, 127);
+}
+
+#vs {
+    position: fixed;
+    top: 105px;
+    left: calc(50% - 118px);
+}
+
+#playerText {
+    width: 300px;
+    position: fixed;
+    left: 265px;
+    top: 100px;
+}
+
+#enemyText {
+    width: 300px;
+    position: fixed;
+    left: 870px;
+    top: 100px;
+}
+
+#start {
+    width: 150px;
+    position: fixed;
+    top: 400px;
+    left: calc(50% - 95px);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid black;
+    background-color: gold;
+}
+
+#start:hover {
+    width: 160px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 16px;
+}
+
+#menuImg {
+    width: 150px;
+    position: fixed;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid black;
+    background-color: gold;
+    top: 270px;
+    left: 50px;
+}
+
+#menuImg:hover {
+    width: 160px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 16px;
+}
+
+#pimg {
+    position: fixed;
+    left: 445px;
+    top: 200px;
+    width: 30px;
+}
+
+#eimg {
+    position: fixed;
+    left: 970px;
+    top: 200px;
+    width: 30px;
+}
+
+#build {
+    width: 150px;
+    position: fixed;
+    top: 400px;
+    left: 20px;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid black;
+    background-color: gold;
+}
+
+#build:hover {
+    width: 160px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 18px;
+}
+
+#done {
+    width: 100px;
+    position: fixed;
+    top: 365px;
+    left: 20px;
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid black;
+    background-color: gold;
+}
+
+#done:hover {
+    width: 110px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+}
+
+#teamParent {
+    display: none;
+    left: 12.5%;
+    top: 12.5%;
+    position: absolute;
+    width: 75%;
+    height: 75%;
+    background-color: rgba(0, 98, 255, 0.5);
+}
+
+.row {
+    height: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buildPok {
+    position: relative;
+    width: 33.33%;
+    height: 100%;
+    border: 1px solid rgba(222, 69, 69, 0.55);
+}
+
+.pokImg {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 80px;
+}
+
+.buildName {
+    margin-top: 5px;
+    font-size: 20px;
+    width: 200px;
+    margin-left: 120px;
+}
+
+.buildTypes {
+    position: absolute;
+    top: 40px;
+    left: 140px;
+    width: 150px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buildT {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 50px;
+}
+
+.buildMove1 {
+    position: relative;
+    left: 5px;
+    top: 100px;
+    width: 40%;
+}
+.buildMove2 {
+    position: relative;
+    left: calc(5% + 5px);
+    top: 100px;
+    width: 40%;
+}
+.buildMove3 {
+    position: relative;
+    left: 5px;
+    top: 165px;
+    width: 40%;
+}
+.buildMove4 {
+    position: relative;
+    left: calc(5% + 5px);
+    top: 165px;
+    width: 40%;
+}
+.moveT {
+    position: absolute;
+    width: 30px;
+}
+.bm1 {
+    top: 170px;
+    left: 60px;
+}
+.bm2 {
+    top: 170px;
+    left: 225px;
+}
+.bm3 {
+    top: 255px;
+    left: 60px;
+}
+.bm4 {
+    top: 255px;
+    left: 225px;
+}
+
+#check {
+    position: absolute;
+    z-index: 99999999;
+    width: 200px;
+    left: calc(50% - 100px);
+    top: calc(50% - 100px);
+    animation: check 0.6s linear 1;
+}
+
+#flame {
+    width: 1200px;
+    height: 500px;
+    position: absolute;
+    top: calc(50% - 300px);
+    left: calc(50% - 600px);
 }
