@@ -289,14 +289,14 @@ function loadImage(ch) {
     } else {
         cd1 = getColorDepth(playerPokemon[0].t1);
         cd2 = getColorDepth(playerPokemon[0].t2);
-        document.getElementById("playerPokemonName").style.backgroundImage = "linear-gradient(to left, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
+        document.getElementById("playerPokemonName").style.backgroundImage = "linear-gradient(to right, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
     }
     if (enemyPokemon[0].t2 == "none") {
         document.getElementById("enemyPokemonName").style.backgroundImage = getColor(enemyPokemon[0].t1);
     } else {
         cd1 = getColorDepth(enemyPokemon[0].t1);
         cd2 = getColorDepth(enemyPokemon[0].t2);
-        document.getElementById("enemyPokemonName").style.backgroundImage = "linear-gradient(to left, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
+        document.getElementById("enemyPokemonName").style.backgroundImage = "linear-gradient(to right, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
     }
     document.getElementById("playerRatio").innerHTML = playerPokemon[0].hp + "/" + playerPokemon[0].maxhp;
     document.getElementById("enemyRatio").innerHTML = enemyPokemon[0].hp + "/" + enemyPokemon[0].maxhp;
