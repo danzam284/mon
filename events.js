@@ -291,12 +291,19 @@ document.getElementById("enemyExplosion").addEventListener("animationend", async
 
 document.getElementById("mute").onclick = function() {
     if (this.src.endsWith("images/mute.png")) {
-        sound.muted = false;
         this.src = "images/volume.png";
         localStorage.setItem("mute", "unmuted");
-        sound.play();
+        if (!document.getElementById("battleStage").hidden) {
+            sound.muted = false;
+            sound.play();
+        }
+        if (!document.getElementById("battleStage").hidden && enemyLives == 0) {
+            sound2.muted = false;
+            sound2.play();
+        }
     } else {
         sound.muted = true;
+        sound2.muted = true;
         this.src = "images/mute.png";
         localStorage.setItem("mute", "muted");
     }
@@ -520,6 +527,9 @@ document.getElementById("menuImg").onclick = async function() {
     playerPokemon = [];
     enemyPokemon = [];
     sound.currentTime = 0;
+    sound.pause();
+    sound2.currentTime = 0;
+    sound2.pause();
     document.getElementById("playerPokemonImage").style.animation = "";
     document.getElementById("enemyPokemonImage").style.animation = "";
     ogpp = [];
