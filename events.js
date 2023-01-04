@@ -1,67 +1,20 @@
 var rainbowGradient = "linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(255,154,0,1) 10%, rgba(208,222,33,1) 20%, rgba(79,220,74,1) 30%, rgba(63,218,216,1) 40%, rgba(47,201,226,1) 50%, rgba(28,127,238,1) 60%, rgba(95,21,242,1) 70%, rgba(186,12,248,1) 80%, rgba(251,7,217,1) 90%, rgba(255,0,0,1) 100%)";
-document.getElementById("move1").onmouseover = function() {
-    if (!typing && !pick) {
-        this.style.background = rainbowGradient;
+for (let i = 0; i < 4; i++) {
+    document.getElementById("move" + (i + 1)).onmouseover = function() {
+        if (!typing && !pick) {
+            this.style.background = rainbowGradient;
+        }
     }
-}
-document.getElementById("move1").onmouseleave = function() {
-    if (!pick && this.style.background != "") {
-        this.style.background = getColor(playerPokemon[0].moves[0].type);
+    document.getElementById("move" + (i + 1)).onmouseleave = function() {
+        if (!pick && this.style.background != "rgb(31, 29, 29)") {
+            this.style.background = getColor(playerPokemon[0].moves[i].type);
+        }
     }
-}
-document.getElementById("move2").onmouseover = function() {
-    if (!typing && !pick) {
-        this.style.background = rainbowGradient;
-    }
-}
-document.getElementById("move2").onmouseleave = function() {
-    if (!pick && this.style.background != "") {
-        this.style.background = getColor(playerPokemon[0].moves[1].type);
-    }
-}
-document.getElementById("move3").onmouseover = function() {
-    if (!typing && !pick) {
-        this.style.background = rainbowGradient;
-    }
-}
-document.getElementById("move3").onmouseleave = function() {
-    if (!pick && this.style.background != "") {
-        this.style.background = getColor(playerPokemon[0].moves[2].type);
-    }
-}
-document.getElementById("move4").onmouseover = function() {
-    if (!typing && !pick) {
-        this.style.background = rainbowGradient;
-    }
-}
-document.getElementById("move4").onmouseleave = function() {
-    if (!pick && this.style.background != "") {
-        this.style.background = getColor(playerPokemon[0].moves[3].type);
-    }
-}
-
-document.getElementById("move1").onclick = function() {
-    if (!typing && !pick) {
-        this.style.background = getColor(playerPokemon[0].moves[0].type);
-        attack(playerPokemon[0].moves[0]);
-    }
-}
-document.getElementById("move2").onclick = function() {
-    if (!typing && !pick) {
-        this.style.background = getColor(playerPokemon[0].moves[1].type);
-        attack(playerPokemon[0].moves[1]);
-    }
-}
-document.getElementById("move3").onclick = function() {
-    if (!typing && !pick) {
-        this.style.background = getColor(playerPokemon[0].moves[2].type);
-        attack(playerPokemon[0].moves[2]);
-    }
-}
-document.getElementById("move4").onclick = function() {
-    if (!typing && !pick) {
-        this.style.background = getColor(playerPokemon[0].moves[3].type);
-        attack(playerPokemon[0].moves[3]);
+    document.getElementById("move" + (i + 1)).onclick = function() {
+        if (!typing && !pick) {
+            this.style.background = getColor(playerPokemon[0].moves[i].type);
+            attack(playerPokemon[0].moves[i]);
+        }
     }
 }
 
@@ -77,8 +30,6 @@ async function slowType(s, i) {
         });
     }
 }
-
-
 
 function sleep(time) {
     return new Promise((resolve) => setTimeout(resolve, time));
@@ -128,7 +79,7 @@ document.getElementById("enemyPokemon").onmouseenter = function() {
     } else {
         cd1 = getColorDepth(pFound.t1);
         cd2 = getColorDepth(pFound.t2);
-        document.getElementById("hoverName").style.backgroundImage = "linear-gradient(to left, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
+        document.getElementById("hoverName").style.backgroundImage = "linear-gradient(to right, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
     }
 }
 
@@ -149,7 +100,7 @@ for (let i = 0; i < 6; i++) {
             } else {
                 cd1 = getColorDepth(pFound.t1);
                 cd2 = getColorDepth(pFound.t2);
-                document.getElementById("infoName").style.backgroundImage = "linear-gradient(to left, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
+                document.getElementById("infoName").style.backgroundImage = "linear-gradient(to right, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
             }
             per = pFound.hp / pFound.maxhp * 100;
             if (per > 50) {
@@ -181,7 +132,7 @@ for (let i = 0; i < 6; i++) {
         } else {
             cd1 = getColorDepth(pFound.t1);
             cd2 = getColorDepth(pFound.t2);
-            document.getElementById("hoverName").style.backgroundImage = "linear-gradient(to left, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
+            document.getElementById("hoverName").style.backgroundImage = "linear-gradient(to right, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
         }
     }
 
