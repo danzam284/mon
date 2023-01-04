@@ -320,8 +320,14 @@ function loadImage(ch) {
 }
 
 var sound = new Audio("battle.mp3"); 
+var sound2 = new Audio("win.mp3");
 
 sound.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
+
+sound2.addEventListener('ended', function() {
     this.currentTime = 0;
     this.play();
 }, false);
@@ -331,7 +337,9 @@ document.getElementById("start").onclick = async function() {
     document.getElementById("vs").style.animation = "start 1s linear 1";
     document.getElementById("start").hidden = true;
     document.getElementById("build").hidden = true;
+    sound2.currentTime = 0;
     if (localStorage.mute == "unmuted") {
+        sound.muted = false;
         sound.play();
     }
     if (document.getElementById("playerCur").childNodes.length == 3) {
@@ -390,6 +398,7 @@ async function win() {
     document.getElementById("battleStage").style.backgroundImage = "url(images/win.gif)";
     document.getElementById("menuImg").hidden = false;
     sound.pause();
+    sound2.play();
 }
 
 async function lose() {
