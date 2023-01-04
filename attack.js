@@ -181,6 +181,7 @@ async function playerDead() {
 
     document.getElementById("mp1").style.filter = "grayscale(1)";
     document.getElementById("mp1").style.webkitFilter = "greyscale(1)";
+    document.getElementById("mp1").style.backgroundImage = "linear-gradient(45deg, rgb(59, 59, 59), black)";
     await sleep(500);
     await slowType("Pick a pokemon to switch into...", 1);
     pick = true;
@@ -342,6 +343,7 @@ function getBestEnemyOption() {
 }
 
 async function enemySwitch(n) {
+    switching = true;
     temp = enemyPokemon[0];
     enemyPokemon[0] = enemyPokemon[n];
     enemyPokemon[n] = temp;
@@ -351,6 +353,7 @@ async function enemySwitch(n) {
 }
 
 async function playerSwitch(i) {
+    switching = true;
     document.getElementById("playerPokemonImage").style.animation = "";
     if (pick) {
         document.getElementById("playerBall").hidden = false;
