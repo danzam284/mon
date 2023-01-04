@@ -1,17 +1,17 @@
-var rainbowGradient = "linear-gradient(45deg, rgba(255,0,0,1) 0%, rgba(255,154,0,1) 10%, rgba(208,222,33,1) 20%, rgba(79,220,74,1) 30%, rgba(63,218,216,1) 40%, rgba(47,201,226,1) 50%, rgba(28,127,238,1) 60%, rgba(95,21,242,1) 70%, rgba(186,12,248,1) 80%, rgba(251,7,217,1) 90%, rgba(255,0,0,1) 100%)";
+var rainbowGradient = "linear-gradient(45deg, rgb(255, 0, 0) 0%, rgb(255, 154, 0) 10%, rgb(208, 222, 33) 20%, rgb(79, 220, 74) 30%, rgb(63, 218, 216) 40%, rgb(47, 201, 226) 50%, rgb(28, 127, 238) 60%, rgb(95, 21, 242) 70%, rgb(186, 12, 248) 80%, rgb(251, 7, 217) 90%, rgb(255, 0, 0) 100%)";
 for (let i = 0; i < 4; i++) {
     document.getElementById("move" + (i + 1)).onmouseover = function() {
-        if (!typing && !pick) {
+        if (!typing && !pick && !switching) {
             this.style.background = rainbowGradient;
         }
     }
     document.getElementById("move" + (i + 1)).onmouseleave = function() {
-        if (!pick && this.style.background != "rgb(31, 29, 29)") {
+        if (!pick && this.style.background == rainbowGradient) {
             this.style.background = getColor(playerPokemon[0].moves[i].type);
         }
     }
     document.getElementById("move" + (i + 1)).onclick = function() {
-        if (!typing && !pick) {
+        if (!typing && !pick && !switching) {
             this.style.background = getColor(playerPokemon[0].moves[i].type);
             attack(playerPokemon[0].moves[i]);
         }
@@ -115,7 +115,7 @@ for (let i = 0; i < 6; i++) {
                 document.getElementById("infoMove" + (j + 1)).style.background = getColor(pFound.moves[j].type);
             }
         }
-        if (i != 0 && playerPokemon[i].hp > 0 && !typing) {
+        if (i != 0 && playerPokemon[i].hp > 0 && !typing && !switching) {
             this.style.background = rainbowGradient;
         }
         document.getElementById("hover").hidden = false;
@@ -137,14 +137,18 @@ for (let i = 0; i < 6; i++) {
     }
 
     document.getElementById("mp" + (i + 1)).onmouseleave = function() {
-        this.style.background = "linear-gradient(45deg, white, black)";
+        if (playerPokemon[i].hp > 0) {
+            this.style.background = "linear-gradient(45deg, white, black)";
+        } else {
+            this.style.backgroundImage = "linear-gradient(45deg, rgb(59, 59, 59), black)";
+        }
         document.getElementById("info").style.display = "none";
         document.getElementById("info").hidden = true;
         document.getElementById("playerPokemon").onmouseleave();
     }
 
     document.getElementById("mp" + (i + 1)).onclick = function() {
-        if (!typing && playerPokemon[i].hp > 0) {
+        if (!typing && playerPokemon[i].hp > 0 && !switching) {
             this.style.background = "linear-gradient(45deg, white, black)";
             playerSwitch(i);
         }
@@ -179,6 +183,7 @@ document.getElementById("playerExplosion").addEventListener("animationend", asyn
         await slowType("Pick a move...", 1);
         pick = false;
         typing = false;
+        switching = false;
         checkHovered();
     }
     else if (both) {
@@ -197,11 +202,13 @@ document.getElementById("playerExplosion").addEventListener("animationend", asyn
         await sleep(500);
         await slowType("Pick a move...", 1);
         typing = false;
+        switching = false;
         checkHovered();
     } else {
         document.getElementById("playerPokemonImage").hidden = false;
         await slowType("You switched to " + playerPokemon[0].name + "!", 1);
         await sleep(500);
+        switching = false;
     }
 });
 
@@ -212,6 +219,7 @@ document.getElementById("enemyExplosion").addEventListener("animationend", async
         await sleep(500);
         await slowType("Pick a move...", 1);
         typing = false;
+        switching = false;
         intro = false;
         checkHovered();
     }
@@ -232,11 +240,13 @@ document.getElementById("enemyExplosion").addEventListener("animationend", async
         await sleep(500);
         await slowType("Pick a move...", 1);
         typing = false;
+        switching = false;
         checkHovered();
     } else {
         document.getElementById("enemyPokemonImage").hidden = false;
         await slowType("The enemy switched to " + enemyPokemon[0].name + "!", 1);
         await sleep(500);
+        switching = false;
     }
 });
 
@@ -399,7 +409,7 @@ function checkHovered() {
 
     for (let i = 0; i < 6; i++) {
         if (document.querySelector("#mp" + (i + 1) + ":hover") != null) {
-            plookup = ogpp[i];
+            plookup = playerPokemon[i];
             for (let i = 1; i < 6; i++) {
                 if (playerPokemon[i].name == plookup && playerPokemon[i].hp > 0) {
                     document.getElementById("mp" + (i + 1)).style.background = rainbowGradient;
