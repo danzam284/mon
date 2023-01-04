@@ -7,6 +7,7 @@ var intro = true;
 var typing = true;
 var both = false;
 var both2 = false;
+var switching = false;
 var playerLives = 6;
 var enemyLives = 6;
 var background = "url(images/battleScene" + Math.floor(Math.random() * 9) + ".jpeg)";
@@ -149,9 +150,11 @@ function updateMP() {
         if (playerPokemon[i].hp == 0) {
             document.getElementById("mp" + (i + 1)).style.filter = "grayscale(1)";
             document.getElementById("mp" + (i + 1)).style.webkitFilter = "greyscale(1)";
+            document.getElementById("mp" + (i + 1)).style.backgroundImage = "linear-gradient(45deg, rgb(59, 59, 59), black)";
         } else {
             document.getElementById("mp" + (i + 1)).style.filter = "";
             document.getElementById("mp" + (i + 1)).style.webkitFilter = "";
+            document.getElementById("mp" + (i + 1)).style.backgroundImage = "linear-gradient(45deg, white, black)";
         }
     }
 }
