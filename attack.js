@@ -1,7 +1,7 @@
 var strong = {"normal": ["fighting"], "fire": ["water", "ground", "rock"], "water": ["grass", "electric"], "grass": ["fire", "ice", "poison", "bug", "flying"], "electric": ["ground"], "ice": ["rock", "steel", "fire", "fighting"], "fighting": ["flying", "psychic"], "poison": ["ground", "psychic"], "ground": ["water", "grass", "ice"], "flying": ["ice", "electric", "rock"], "psychic": ["bug", "dark", "ghost"], "bug": ["rock", "fire", "flying"], "rock": ["fighting", "water", "grass", "steel", "ground"], "ghost": ["ghost", "dark"], "dragon": ["ice", "dragon"], "dark": ["fighting", "bug"], "steel": ["fighting", "fire", "ground"]}
 var weak = {"normal": [], "fire": ["fire", "grass", "ice", "bug", "steel"], "water": ["water", "fire", "ice", "steel"], "grass": ["grass", "water", "electric", "ground"], "electric": ["electric", "flying", "ground", "steel"], "ice": ["ice"], "fighting": ["bug", "rock", "dark"], "poison": ["poison", "grass", "fighting", "bug"], "ground": ["rock", "poison", "bug"], "flying": ["grass", "bug", "fighting"], "psychic": ["psychic", "fighting"], "bug": ["grass", "fighting", "ground"], "rock": ["normal", "fire", "poison", "flying"], "ghost": ["poison", "bug"], "dragon": ["fire", "water", "grass", "electric"], "dark": ["ghost", "dark"], "steel": ["rock", "normal", "flying", "steel", "grass", "ice", "psychic", "bug", "dragon"]}
 var immune = {"normal": ["ghost"], "ground": ["electric"], "flying": ["ground"], "ghost": ["normal", "fighting"], "dark": ["psychic"], "steel": ["poison"]}
-
+var switchedLastTurn = false;
 function move_mult(tmove, t) {
     mult = 1
     if (t != "none" && tmove != "none") {
@@ -163,6 +163,7 @@ async function enemyDead() {
     document.getElementById("enemyPokemonImage").style.animation = "";
     loadImage(2);
     intro = true;
+    switchedLastTurn = true;
 }
 
 async function playerDead() {
@@ -288,6 +289,11 @@ function getBestEnemyOption() {
     let pt2 = playerPokemon[0].t2;
     let ce = enemyPokemon[0];
     let pp = playerPokemon[0];
+
+    if (switchedLastTurn) {
+        switchedLastTurn = false;
+        return 0;
+    }
 
     if (ce.hp > 0 && ce.speed > pp.speed) {
         for (let i = 0; i < 4; i++) {
