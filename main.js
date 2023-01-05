@@ -8,6 +8,7 @@ var typing = true;
 var both = false;
 var both2 = false;
 var switching = false;
+var cry;
 var playerLives = 6;
 var enemyLives = 6;
 var background = "url(images/battleScene" + Math.floor(Math.random() * 9) + ".jpeg)";
@@ -336,6 +337,7 @@ sound2.addEventListener('ended', function() {
 }, false);
 
 document.getElementById("start").onclick = async function() {
+
     document.getElementById("flame").hidden = false;
     document.getElementById("vs").style.animation = "start 1s linear 1";
     document.getElementById("start").hidden = true;
