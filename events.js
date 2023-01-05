@@ -156,6 +156,10 @@ for (let i = 0; i < 6; i++) {
 }
 
 document.getElementById("playerBall").addEventListener("animationend", function() {
+    if (localStorage.mute == "unmuted") {
+        cry = new Audio("cries/" + playerPokemon[0].name.toLowerCase() + ".ogg");
+        cry.play();
+    }
     document.getElementById("playerBall").hidden = true;
     document.getElementById("playerExplosion").src = "images/pokeballs/pokeballOpen" + playerPokemon[0].t1 + ".gif";
     document.getElementById("playerExplosion").hidden = false;
@@ -164,6 +168,10 @@ document.getElementById("playerBall").addEventListener("animationend", function(
 });
 
 document.getElementById("enemyBall").addEventListener("animationend", function() {
+    if (localStorage.mute == "unmuted") {
+        cry = new Audio("cries/" + enemyPokemon[0].name.toLowerCase() + ".ogg");
+        cry.play();
+    }
     document.getElementById("enemyBall").hidden = true;
     document.getElementById("enemyExplosion").src = "images/pokeballs/pokeballOpen" + enemyPokemon[0].t1 + ".gif";
     document.getElementById("enemyExplosion").hidden = false;
