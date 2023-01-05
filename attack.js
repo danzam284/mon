@@ -135,6 +135,10 @@ async function attack(m) {
 async function enemyDead() {
     await sleep(400);
     await slowType("The enemy " + enemyPokemon[0].name + " has fainted.", 1);
+    if (localStorage.mute == "unmuted") {
+        cry = new Audio("cries/" + enemyPokemon[0].name.toLowerCase() + ".ogg");
+        cry.play();
+    }
     document.getElementById("enemyPokemonImage").style.animation = "dead 1s ease forwards";
     await sleep(400);
     pokeballs2 = document.getElementById("pokeballs2").childNodes;
@@ -165,6 +169,10 @@ async function playerDead() {
     await sleep(400);
     deadName = playerPokemon[0].name;
     await slowType(deadName + " has fainted.", 1);
+    if (localStorage.mute == "unmuted") {
+        cry = new Audio("cries/" + playerPokemon[0].name.toLowerCase() + ".ogg");
+        cry.play();
+    }
     document.getElementById("playerPokemonImage").style.animation = "dead 1s ease forwards";
     nullify();
     pokeballs = document.getElementById("pokeballs").childNodes;
