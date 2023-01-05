@@ -219,7 +219,7 @@ function getBestEnemyMove() {
     return maxMove;
 }
 async function enemyAttack(preMove) {
-    if (!preMove) {
+    if (preMove == null) {
         maxMove = getBestEnemyMove();
     } else {
         maxMove = preMove;
@@ -403,7 +403,7 @@ async function playerSwitch(i) {
             }
         } else {
             em = enemyPokemon[0].moves;
-            maxMove = getBestEnemyMove();
+            let maxMove = getBestEnemyMove();
 
             document.getElementById("playerBall").hidden = false;
             document.getElementById("playerPokemonImage").hidden = true;
@@ -413,7 +413,6 @@ async function playerSwitch(i) {
             populateMoves();
             loadImage(1);
             await sleep(2500);
-
             if (!await enemyAttack(maxMove)) {
                 await sleep(400);
                 await slowType("Pick a move...", 1);
