@@ -148,7 +148,7 @@ for (let i = 0; i < 6; i++) {
     }
 
     document.getElementById("mp" + (i + 1)).onclick = function() {
-        if (!typing && playerPokemon[i].hp > 0 && !switching) {
+        if (i != 0 && !typing && playerPokemon[i].hp > 0 && !switching) {
             this.style.background = "linear-gradient(45deg, white, black)";
             playerSwitch(i);
         }
