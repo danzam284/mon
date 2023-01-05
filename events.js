@@ -155,6 +155,19 @@ for (let i = 0; i < 6; i++) {
     }
 }
 
+document.getElementById("playerExplosion").onmouseenter = function() {
+    document.getElementById("playerPokemon").onmouseenter();
+}
+document.getElementById("enemyExplosion").onmouseenter = function() {
+    document.getElementById("enemyPokemon").onmouseenter();
+}
+document.getElementById("playerExplosion").onmouseleave = function() {
+    document.getElementById("playerPokemon").onmouseleave();
+}
+document.getElementById("enemyExplosion").onmouseleave = function() {
+    document.getElementById("enemyPokemon").onmouseleave();
+}
+
 document.getElementById("playerBall").addEventListener("animationend", function() {
     if (localStorage.mute == "unmuted") {
         cry = new Audio("cries/" + playerPokemon[0].name.toLowerCase() + ".ogg");
