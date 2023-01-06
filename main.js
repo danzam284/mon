@@ -9,7 +9,7 @@ var both = false;
 var both2 = false;
 var switching = false;
 var cry;
-var playerLives = 6;
+var playerLives = 1;
 var enemyLives = 6;
 var background = "url(images/battleScene" + Math.floor(Math.random() * 9) + ".jpeg)";
 document.getElementById("battleStage").style.backgroundImage = background;
@@ -325,6 +325,7 @@ function loadImage(ch) {
 
 var sound = new Audio("battle.mp3"); 
 var sound2 = new Audio("win.mp3");
+var sound3 = new Audio("lose.mp3");
 var attackSound = new Audio();
 var hitSound = new Audio("normal.mp3");
 var superSound = new Audio("superEffective.mp3");
@@ -340,6 +341,10 @@ sound2.addEventListener('ended', function() {
     this.currentTime = 0;
     this.play();
 }, false);
+sound3.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
 
 document.getElementById("start").onclick = async function() {
 
@@ -348,6 +353,7 @@ document.getElementById("start").onclick = async function() {
     document.getElementById("start").hidden = true;
     document.getElementById("build").hidden = true;
     sound2.currentTime = 0;
+    sound3.currentTime = 0;
     if (localStorage.mute == "unmuted") {
         sound.muted = false;
         sound.play();
@@ -408,7 +414,9 @@ async function win() {
     document.getElementById("battleStage").style.backgroundImage = "url(images/win.gif)";
     document.getElementById("menuImg").hidden = false;
     sound.pause();
-    sound2.play();
+    if (localStorage.mute == "unmuted") {
+        sound2.play();
+    }
 }
 
 async function lose() {
@@ -416,6 +424,9 @@ async function lose() {
     document.getElementById("battleStage").style.backgroundImage = "url(images/lose.gif)";
     document.getElementById("menuImg").hidden = false;
     sound.pause();
+    if (localStorage.mute == "unmuted") {
+        sound3.play();
+    }
 }
 
 function nullify() {
