@@ -82,6 +82,11 @@ async function playerAttack(p, m) {
         await sleep(400);
         await slowType("The attack missed!", 1);
     } else {
+        if (t1 * t2 == 0) {
+            await sleep(400);
+            await slowType("It has no effect.", 1);
+            return false;
+        }
         attackSound = new Audio("moves/" + m.move + ".mp3");
         if (localStorage.mute == "unmuted") {
             attackSound.play();
@@ -95,10 +100,6 @@ async function playerAttack(p, m) {
             superSound.play();
         } else if (t1 * t2 == 1 && localStorage.mute == "unmuted") {
             hitSound.play();
-        } else {
-            await sleep(400);
-            await slowType("It has no effect.", 1);
-            return false;
         }
         while (e.hp != temp - dmg && e.hp != 0) {
             e.hp--;
@@ -353,6 +354,11 @@ async function enemyAttack(preMove) {
         await sleep(400);
         await slowType("The attack missed!", 1);
     } else {
+        if (t1 * t2 == 0) {
+            await sleep(400);
+            await slowType("It has no effect.", 1);
+            return false;
+        }
         attackSound = new Audio("moves/" + m.move + ".mp3");
         if (localStorage.mute == "unmuted") {
             attackSound.play();
@@ -364,12 +370,8 @@ async function enemyAttack(preMove) {
             superSound.play();
         } else if (t1 * t2 == 1 && localStorage.mute == "unmuted") {
             hitSound.play();
-        } else {
-            await sleep(400);
-            await slowType("It has no effect.", 1);
-            return false;
         }
-        
+
         while (pl.hp != temp - dmg && pl.hp != 0) {
             pl.hp--;
             per = pl.hp / pl.maxhp * 100;
