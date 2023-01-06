@@ -9,7 +9,7 @@ var both = false;
 var both2 = false;
 var switching = false;
 var cry;
-var playerLives = 1;
+var playerLives = 6;
 var enemyLives = 6;
 var background = "url(images/battleScene" + Math.floor(Math.random() * 9) + ".jpeg)";
 document.getElementById("battleStage").style.backgroundImage = background;
