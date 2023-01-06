@@ -42,11 +42,29 @@ document.getElementById("playerPokemon").onmouseenter = function() {
     document.getElementById("hover").hidden = false;
     document.getElementById("hoverName").innerHTML = playerPokemon[0].name + "'s stats";
     document.getElementById("hoverHP").innerHTML = "HP: " + playerPokemon[0].hp;
-    document.getElementById("hoverAttack").innerHTML = "Attack: " + playerPokemon[0].attack;
+    if (playerPokemon[0].attackMul == 1) {
+        document.getElementById("hoverAttack").style.color = "black";
+        document.getElementById("hoverAttack").innerHTML = "Attack: " + playerPokemon[0].attack;
+    } else {
+        document.getElementById("hoverAttack").style.color = "green";
+        document.getElementById("hoverAttack").innerHTML = "Attack: " + (playerPokemon[0].attack * playerPokemon[0].attackMul);
+    }
     document.getElementById("hoverDefense").innerHTML = "Defense: " + playerPokemon[0].defense;
-    document.getElementById("hoverSpecialAttack").innerHTML = "Special Attack: " + playerPokemon[0].specialattack;
+    if (playerPokemon[0].specialattackMul == 1) {
+        document.getElementById("hoverSpecialAttack").style.color = "black";
+        document.getElementById("hoverSpecialAttack").innerHTML = "Special Attack: " + playerPokemon[0].specialattack;
+    } else {
+        document.getElementById("hoverSpecialAttack").style.color = "green";
+        document.getElementById("hoverSpecialAttack").innerHTML = "Special Attack: " + (playerPokemon[0].specialattack * playerPokemon[0].specialattackMul);
+    }
     document.getElementById("hoverSpecialDefense").innerHTML = "Special Defense: " + playerPokemon[0].specialdefense;
-    document.getElementById("hoverSpeed").innerHTML = "Speed: " + playerPokemon[0].speed;
+    if (playerPokemon[0].speedMul == 1) {
+        document.getElementById("hoverSpeed").style.color = "black";
+        document.getElementById("hoverSpeed").innerHTML = "Speed: " + playerPokemon[0].speed;
+    } else {
+        document.getElementById("hoverSpeed").style.color = "green";
+        document.getElementById("hoverSpeed").innerHTML = "Speed: " + (playerPokemon[0].speed * playerPokemon[0].speedMul);
+    }
     pFound = playerPokemon[0];
     if (pFound.t2 == "none") {
         document.getElementById("hoverName").style.backgroundImage = getColor(pFound.t1);
@@ -68,11 +86,29 @@ document.getElementById("enemyPokemon").onmouseenter = function() {
     document.getElementById("hover").hidden = false;
     document.getElementById("hoverName").innerHTML = enemyPokemon[0].name + "'s stats";
     document.getElementById("hoverHP").innerHTML = "HP: " + enemyPokemon[0].hp;
-    document.getElementById("hoverAttack").innerHTML = "Attack: " + enemyPokemon[0].attack;
+    if (enemyPokemon[0].attackMul == 1) {
+        document.getElementById("hoverAttack").style.color = "black";
+        document.getElementById("hoverAttack").innerHTML = "Attack: " + enemyPokemon[0].attack;
+    } else {
+        document.getElementById("hoverAttack").style.color = "green";
+        document.getElementById("hoverAttack").innerHTML = "Attack: " + (enemyPokemon[0].attack * enemyPokemon[0].attackMul);
+    }
     document.getElementById("hoverDefense").innerHTML = "Defense: " + enemyPokemon[0].defense;
-    document.getElementById("hoverSpecialAttack").innerHTML = "Special Attack: " + enemyPokemon[0].specialattack;
+    if (enemyPokemon[0].specialattackMul == 1) {
+        document.getElementById("hoverSpecialAttack").style.color = "black";
+        document.getElementById("hoverSpecialAttack").innerHTML = "Special Attack: " + enemyPokemon[0].specialattack;
+    } else {
+        document.getElementById("hoverSpecialAttack").style.color = "green";
+        document.getElementById("hoverSpecialAttack").innerHTML = "Special Attack: " + (enemyPokemon[0].specialattack * enemyPokemon[0].specialattackMul);
+    }
     document.getElementById("hoverSpecialDefense").innerHTML = "Special Defense: " + enemyPokemon[0].specialdefense;
-    document.getElementById("hoverSpeed").innerHTML = "Speed: " + enemyPokemon[0].speed;
+    if (enemyPokemon[0].speedMul == 1) {
+        document.getElementById("hoverSpeed").style.color = "black";
+        document.getElementById("hoverSpeed").innerHTML = "Speed: " + enemyPokemon[0].speed;
+    } else {
+        document.getElementById("hoverSpeed").style.color = "green";
+        document.getElementById("hoverSpeed").innerHTML = "Speed: " + (enemyPokemon[0].speed * enemyPokemon[0].speedMul);
+    }
     pFound = enemyPokemon[0];
     if (pFound.t2 == "none") {
         document.getElementById("hoverName").style.backgroundImage = getColor(pFound.t1);
@@ -121,11 +157,29 @@ for (let i = 0; i < 6; i++) {
         document.getElementById("hover").hidden = false;
         document.getElementById("hoverName").innerHTML = playerPokemon[i].name + "'s stats";
         document.getElementById("hoverHP").innerHTML = "HP: " + playerPokemon[i].hp;
-        document.getElementById("hoverAttack").innerHTML = "Attack: " + playerPokemon[i].attack;
+        if (playerPokemon[i].attackMul == 1) {
+            document.getElementById("hoverAttack").style.color = "black";
+            document.getElementById("hoverAttack").innerHTML = "Attack: " + playerPokemon[i].attack;
+        } else {
+            document.getElementById("hoverAttack").style.color = "green";
+            document.getElementById("hoverAttack").innerHTML = "Attack: " + (playerPokemon[i].attack * playerPokemon[i].attackMul);
+        }
         document.getElementById("hoverDefense").innerHTML = "Defense: " + playerPokemon[i].defense;
-        document.getElementById("hoverSpecialAttack").innerHTML = "Special Attack: " + playerPokemon[i].specialattack;
+        if (playerPokemon[i].specialattackMul == 1) {
+            document.getElementById("hoverSpecialAttack").style.color = "black";
+            document.getElementById("hoverSpecialAttack").innerHTML = "Special Attack: " + playerPokemon[i].specialattack;
+        } else {
+            document.getElementById("hoverSpecialAttack").style.color = "green";
+            document.getElementById("hoverSpecialAttack").innerHTML = "Special Attack: " + (playerPokemon[i].specialattack * playerPokemon[i].specialattackMul);
+        }
         document.getElementById("hoverSpecialDefense").innerHTML = "Special Defense: " + playerPokemon[i].specialdefense;
-        document.getElementById("hoverSpeed").innerHTML = "Speed: " + playerPokemon[i].speed;
+        if (playerPokemon[i].speedMul == 1) {
+            document.getElementById("hoverSpeed").style.color = "black";
+            document.getElementById("hoverSpeed").innerHTML = "Speed: " + playerPokemon[i].speed;
+        } else {
+            document.getElementById("hoverSpeed").style.color = "green";
+            document.getElementById("hoverSpeed").innerHTML = "Speed: " + (playerPokemon[i].speed * playerPokemon[i].speedMul);
+        }
         pFound = playerPokemon[i];
         if (pFound.t2 == "none") {
             document.getElementById("hoverName").style.backgroundImage = getColor(pFound.t1);
@@ -286,6 +340,11 @@ document.getElementById("mute").onclick = function() {
     } else {
         sound.muted = true;
         sound2.muted = true;
+        hitSound.muted = true;
+        superSound.muted = true;
+        notSound.muted = true;
+        attackSound.muted = true;
+        boostSound.muted = true;
         this.src = "images/mute.png";
         localStorage.setItem("mute", "muted");
     }
