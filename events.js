@@ -18,8 +18,6 @@ for (let i = 0; i < 4; i++) {
     }
 }
 
-var typing = false;
-
 async function slowType(s, i) {
     if (i <= s.length) {
         typing = true;
@@ -563,6 +561,8 @@ document.getElementById("menuImg").onclick = async function() {
     typing = true;
     both = false;
     both2 = false;
+    switching = false;
+    switchedLastTurn = false;
     document.getElementById("pokeballs").innerHTML = "<img class='pokeball' src='images/pokeball.png'><img class='pokeball' src='images/pokeball.png'><img class='pokeball' src='images/pokeball.png'><img class='pokeball' src='images/pokeball.png'><img class='pokeball' src='images/pokeball.png'><img class='pokeball' src='images/pokeball.png'>";
     document.getElementById("pokeballs2").innerHTML = "<img class='pokeball2' src='images/pokeball.png'><img class='pokeball2' src='images/pokeball.png'><img class='pokeball2' src='images/pokeball.png'><img class='pokeball2' src='images/pokeball.png'><img class='pokeball2' src='images/pokeball.png'><img class='pokeball2' src='images/pokeball.png'>";
     playerPokemon = [];
