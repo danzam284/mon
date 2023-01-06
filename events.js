@@ -335,9 +335,14 @@ document.getElementById("mute").onclick = function() {
             sound2.muted = false;
             sound2.play();
         }
+        if (!document.getElementById("battleStage").hidden && playerLives == 0) {
+            sound3.muted = false;
+            sound3.play();
+        }
     } else {
         sound.muted = true;
         sound2.muted = true;
+        sound3.muted = true;
         hitSound.muted = true;
         superSound.muted = true;
         notSound.muted = true;
@@ -571,6 +576,8 @@ document.getElementById("menuImg").onclick = async function() {
     sound.pause();
     sound2.currentTime = 0;
     sound2.pause();
+    sound3.currentTime = 0;
+    sound3.pause();
     document.getElementById("playerPokemonImage").style.animation = "";
     document.getElementById("enemyPokemonImage").style.animation = "";
     ogpp = [];
