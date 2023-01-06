@@ -39,6 +39,34 @@ function calculateDamage(power, mode, critical, PA, SA, PD, SD, STAB, type1, typ
 async function playerAttack(p, m) {
     e = enemyPokemon[0];
     stab = 1;
+    if (m.mode == "o") {
+        document.getElementById("playerPokemonImage").style.background = rainbowGradient;
+        document.getElementById("playerPokemonImage").style.padding = "30px";
+        if (localStorage.mute == "unmuted") {
+            boostSound.play();
+        }
+        await slowType(p.name + " used " + m.move + ".", 1);
+        await sleep(500);
+        document.getElementById("playerPokemonImage").style.background = "";
+        document.getElementById("playerPokemonImage").style.padding = "";
+        if (m.move == "swordsdance") {
+            p.attackMul += 1;
+            await slowType(p.name + "'s attack increased!", 1);
+        } else if (m.move == "nastyplot") {
+            p.specialattackMul += 1;
+            await slowType(p.name + "'s special attack increased!", 1);
+        }
+        else if (m.move == "dragondance") {
+            p.attackMul += 0.5;
+            p.speedMul += 0.5;
+            await slowType(p.name + "'s attack increased!", 1);
+            await sleep(500);
+            await slowType(p.name + "'s speed increased!", 1);
+        }
+        await sleep(500);
+        return false;
+    }
+
     if (m.type == p.t1 || m.type == p.t2) {
         stab = 1.5;
     }
@@ -54,9 +82,24 @@ async function playerAttack(p, m) {
         await sleep(400);
         await slowType("The attack missed!", 1);
     } else {
+        attackSound = new Audio("moves/" + m.move + ".mp3");
+        if (localStorage.mute == "unmuted") {
+            attackSound.play();
+        }
         await moveAnimations(true, m.type);
-        dmg = Math.floor(calculateDamage(m.damage, m.mode, crit, p.attack, p.specialattack, e.defense, e.specialdefense, stab, t1, t2, ran));
+        dmg = Math.floor(calculateDamage(m.damage, m.mode, crit, p.attack * p.attackMul, p.specialattack * p.specialattackMul, e.defense, e.specialdefense, stab, t1, t2, ran));
         temp = e.hp;
+        if (t1 * t2 < 1 && localStorage.mute == "unmuted") {
+            notSound.play();
+        } else if (t1 * t2 > 1 && localStorage.mute == "unmuted") {
+            superSound.play();
+        } else if (t1 * t2 == 1 && localStorage.mute == "unmuted") {
+            hitSound.play();
+        } else {
+            await sleep(400);
+            await slowType("It has no effect.", 1);
+            return false;
+        }
         while (e.hp != temp - dmg && e.hp != 0) {
             e.hp--;
             per = e.hp / e.maxhp * 100;
@@ -112,7 +155,7 @@ async function attack(m) {
             await slowType("Pick a move...", 1);
         }
     } else {
-        if (p.speed >= e.speed) {
+        if (p.speed * p.speedMul >= e.speed * e.speedMul) {
             if (!await playerAttack(p, m)) {
                 await sleep(500);
                 await enemyAttack();
@@ -155,6 +198,9 @@ async function enemyDead() {
     await sleep(500);
     //document.getElementById("enemyPokemonImage").style.opacity = 1;
     newPokemon = await getBestEnemyOption();
+    enemyPokemon[0].attackMul = 1;
+    enemyPokemon[0].speedMul = 1;
+    enemyPokemon[0].specialattackMul = 1;
     temp = enemyPokemon[0];
     enemyPokemon[0] = enemyPokemon[newPokemon];
     enemyPokemon[newPokemon] = temp;
@@ -183,17 +229,38 @@ async function playerDead() {
             break;
         }
     }
+
+    document.getElementById("mp1").style.filter = "grayscale(1)";
+    document.getElementById("mp1").style.webkitFilter = "greyscale(1)";
+    document.getElementById("mp1").style.backgroundImage = "linear-gradient(45deg, rgb(59, 59, 59), black)";
+
     if (--playerLives == 0) {
         lose();
         return;
     } 
 
-    document.getElementById("mp1").style.filter = "grayscale(1)";
-    document.getElementById("mp1").style.webkitFilter = "greyscale(1)";
-    document.getElementById("mp1").style.backgroundImage = "linear-gradient(45deg, rgb(59, 59, 59), black)";
     await sleep(500);
     await slowType("Pick a pokemon to switch into...", 1);
     pick = true;
+}
+
+function hasCompatible(skip, move, moves) {
+    let target;
+    if (move == "nastyplot") {
+        target = "s";
+    } else {
+        target = "p";
+    }
+
+    for (let i = 0; i < 4; i++) {
+        if (i == skip) {
+            continue;
+        }
+        if (moves[i].mode == target) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function getBestEnemyMove() {
@@ -201,13 +268,13 @@ function getBestEnemyMove() {
     let maxMove = 0;
     let maxDamage = 0;
     for (let i = 0; i < 4; i++) {
+        let m1 = move_mult(em[i].type, playerPokemon[0].t1);
+        let m2 = move_mult(em[i].type, playerPokemon[0].t2);
         let stab = 1;
         if (em[i].type == enemyPokemon[0].t1 || em[i].type == enemyPokemon[0].t2) {
             stab = 1.5;
         }
-        let m1 = move_mult(em[i].type, playerPokemon[0].t1);
-        let m2 = move_mult(em[i].type, playerPokemon[0].t2);
-        let dmg = calculateDamage(em[i].damage, em[i].mode, 1, enemyPokemon[0].attack, enemyPokemon[0].specialattack, playerPokemon[0].defense, playerPokemon[0].specialdefense, stab, m1, m2, (225/255));
+        let dmg = calculateDamage(em[i].damage, em[i].mode, 1, enemyPokemon[0].attack * enemyPokemon[0].attackMul, enemyPokemon[0].specialattack * enemyPokemon[0].specialattackMul, playerPokemon[0].defense, playerPokemon[0].specialdefense, stab, m1, m2, (225/255));
         if (dmg > playerPokemon[0].hp && em[i].accuracy == 100) {
             return i;
         }
@@ -215,9 +282,23 @@ function getBestEnemyMove() {
             maxDamage = dmg;
             maxMove = i;
         }
+        if (em[i].mode == "o") {
+            if (hasCompatible(i, em[i].move, em)) {
+                if (em[i].move == "nastyplot" || em[i].move == "swordsdance") {
+                    if ((enemyPokemon[0].speed > playerPokemon[0].speed * playerPokemon[0].speedMul || m1 * m2 >= 2) && enemyPokemon[0].specialattackMul == 1 && enemyPokemon[0].attackMul == 1 && m1 * m2 >= 1 && (enemyPokemon[0].hp / enemyPokemon[0].maxhp) >= 0.5) {
+                        return i;
+                    }
+                } else {
+                    if (enemyPokemon[0].speed * 1.5 > playerPokemon[0].speed * playerPokemon[0].speedMul && enemyPokemon[0].speedMul == 1 && enemyPokemon[0].attackMul == 1 && (enemyPokemon[0].hp / enemyPokemon[0].maxhp) >= 0.5) {
+                        return i;
+                    }
+                }
+            }
+        }
     }
     return maxMove;
 }
+
 async function enemyAttack(preMove) {
     if (preMove == null) {
         maxMove = getBestEnemyMove();
@@ -226,6 +307,33 @@ async function enemyAttack(preMove) {
     }
     e = enemyPokemon[0];
     m = e.moves[maxMove];
+    if (m.mode == "o") {
+        document.getElementById("enemyPokemonImage").style.background = rainbowGradient;
+        document.getElementById("enemyPokemonImage").style.padding = "30px";
+        if (localStorage.mute == "unmuted") {
+            boostSound.play();
+        }
+        await slowType("The opponent's " + e.name + " used " + m.move + ".", 1);
+        await sleep(500);
+        document.getElementById("enemyPokemonImage").style.background = "";
+        document.getElementById("enemyPokemonImage").style.padding = "";
+        if (m.move == "swordsdance") {
+            e.attackMul += 1;
+            await slowType("The opponent's " + e.name + "'s attack increased!", 1);
+        } else if (m.move == "nastyplot") {
+            e.specialattackMul += 1;
+            await slowType("The opponent's " + e.name + "'s special attack increased!", 1);
+        }
+        else if (m.move == "dragondance") {
+            e.attackMul += 0.5;
+            e.speedMul += 0.5;
+            await slowType("The opponent's " + e.name + "'s attack increased!", 1);
+            await sleep(500);
+            await slowType("The opponent's " + e.name + "'s speed increased!", 1);
+        }
+        await sleep(500);
+        return false;
+    }
     let pl = playerPokemon[0];
     stab = 1;
     if (m.type == enemyPokemon[0].t1 || m.type == enemyPokemon[0].t2) {
@@ -239,13 +347,29 @@ async function enemyAttack(preMove) {
     t2 = move_mult(m.type, pl.t2);
     ran = ((Math.random() * 30 + 225) / 255);
     await slowType("The opponent's " + e.name + " used " + m.move + ".", 1);
-    let dmg = Math.floor(calculateDamage(m.damage, m.mode, crit, e.attack, e.specialattack, pl.defense, pl.specialdefense, stab, t1, t2, ran));
+    let dmg = Math.floor(calculateDamage(m.damage, m.mode, crit, e.attack * e.attackMul, e.specialattack * e.specialattackMul, pl.defense, pl.specialdefense, stab, t1, t2, ran));
     let temp = pl.hp;
     if (Math.random() * 100 > m.accuracy) {
         await sleep(400);
         await slowType("The attack missed!", 1);
     } else {
+        attackSound = new Audio("moves/" + m.move + ".mp3");
+        if (localStorage.mute == "unmuted") {
+            attackSound.play();
+        }
         await moveAnimations(false, m.type);
+        if (t1 * t2 < 1 && localStorage.mute == "unmuted") {
+            notSound.play();
+        } else if (t1 * t2 > 1 && localStorage.mute == "unmuted") {
+            superSound.play();
+        } else if (t1 * t2 == 1 && localStorage.mute == "unmuted") {
+            hitSound.play();
+        } else {
+            await sleep(400);
+            await slowType("It has no effect.", 1);
+            return false;
+        }
+        
         while (pl.hp != temp - dmg && pl.hp != 0) {
             pl.hp--;
             per = pl.hp / pl.maxhp * 100;
@@ -295,7 +419,7 @@ function getBestEnemyOption() {
         return 0;
     }
 
-    if (ce.hp > 0 && ce.speed > pp.speed) {
+    if (ce.hp > 0 && ce.speed * ce.speedMul > pp.speed * pp.speedMul) {
         for (let i = 0; i < 4; i++) {
             let m = ce.moves[i];
             let stab = 1;
@@ -304,7 +428,7 @@ function getBestEnemyOption() {
             }
             let m1 = move_mult(m.type, pt1);
             let m2 = move_mult(m.type, pt2);
-            if (Math.floor(calculateDamage(m.damage, m.mode, 1, ce.attack, ce.specialattack, pp.defense, pp.specialdefense, stab, m1, m2, (225/255))) >= pp.hp) {
+            if (Math.floor(calculateDamage(m.damage, m.mode, 1, ce.attack * ce.attackMul, ce.specialattack * ce.specialattackMul, pp.defense, pp.specialdefense, stab, m1, m2, (225/255))) >= pp.hp) {
                 return 0;
             }
         }
@@ -321,7 +445,7 @@ function getBestEnemyOption() {
                     }
                     let m1 = move_mult(m.type, pt1);
                     let m2 = move_mult(m.type, pt2);
-                    if (Math.floor(calculateDamage(m.damage, m.mode, 1, ce.attack, ce.specialattack, pp.defense, pp.specialdefense, stab, m1, m2, (225/255))) >= pp.hp) {
+                    if (Math.floor(calculateDamage(m.damage, m.mode, 1, ce.attack * ce.attackMul, ce.specialattack * ce.specialattack, pp.defense, pp.specialdefense, stab, m1, m2, (225/255))) >= pp.hp) {
                         return i;
                     }
                 }
@@ -357,6 +481,9 @@ function getBestEnemyOption() {
 }
 
 async function enemySwitch(n) {
+    enemyPokemon[0].attackMul = 1;
+    enemyPokemon[0].speedMul = 1;
+    enemyPokemon[0].specialattackMul = 1;
     switching = true;
     temp = enemyPokemon[0];
     enemyPokemon[0] = enemyPokemon[n];
@@ -369,6 +496,9 @@ async function enemySwitch(n) {
 async function playerSwitch(i) {
     switching = true;
     document.getElementById("playerPokemonImage").style.animation = "";
+    playerPokemon[0].attackMul = 1;
+    playerPokemon[0].speedMul = 1;
+    playerPokemon[0].specialattackMul = 1;
     if (pick) {
         document.getElementById("playerBall").hidden = false;
         temp = playerPokemon[i];
@@ -382,7 +512,10 @@ async function playerSwitch(i) {
         bestOption = await getBestEnemyOption();
         if (bestOption != 0) {
             both = true;
-            if (p.speed > e.speed) {
+            enemyPokemon[0].attackMul = 1;
+            enemyPokemon[0].speedMul = 1;
+            enemyPokemon[0].specialattackMul = 1;
+            if (p.speed * p.speedMul > e.speed * e.speedMul) {
                 document.getElementById("playerBall").hidden = false;
                 document.getElementById("playerPokemonImage").hidden = true;
                 temp = playerPokemon[i];
