@@ -1,0 +1,149 @@
+@media only screen and (max-width: 600px) {
+    .snowflake {
+        display: none;
+    }
+    #vs {
+        position: fixed;
+        top: 105px;
+        left: calc(50vw - 118px);
+    }
+    @keyframes start {
+        0% {  top: 105px; transform:rotate(0deg); }
+        50% { top: calc(50vw + 70px); transform:rotate(360deg); }
+        100% { top: calc(50vw + 70px); transform:rotate(360deg); }
+    }
+    #playerText {
+        width: 100px;
+        left: 4vw;
+        top: 120px;
+    }
+    #enemyText {
+        width: 100px;
+        left: 73vw;
+        top: 120px;
+    }
+    #build {
+        display: none;
+    }
+    #playerCur {
+        font-size: 15px;
+        width: 100px;
+        height: 40px;
+        left: 4vw;
+        top: 200px;
+    }
+    #enemyCur {
+        font-size: 15px;
+        width: 100px;
+        height: 40px;
+        left: 73vw;
+        top: 200px;
+    }
+    #start {
+        left: calc(50vw - 95px);
+        top: 400px;
+    }
+    #textPortion {
+        width: 70vw;
+        height: 130px;
+        position: fixed;
+        top: 85vh;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 25px;
+        color: aliceblue;
+        box-shadow: 0 0 5px rgb(153 0 255), 0 0 25px rgb(153 0 255);
+    }
+    #playerSelect {
+        left: 4vw;
+        top: 240px;
+    }
+    #enemySelect {
+        left: 50vw;
+        top: 240px;
+    }
+    #flame {
+        width: 100vw;
+        height: 100vw;
+        position: absolute;
+        top: 50vw;
+        left: 0;
+    }
+    #pimg {
+        position: fixed;
+        left: 15vw;
+        top: 200px;
+        width: 80px;
+    }
+    #eimg {
+        position: fixed;
+        left: 68vw;
+        top: 200px;
+        width: 80px;
+    }
+    @keyframes imgFall {
+        0% {  top: 105px; transform:rotate(0deg); }
+        50% { top: calc(50vw + 150px); transform:rotate(360deg); }
+        100% { top: calc(50vw + 150px); transform:rotate(360deg); }
+    }
+    @keyframes eimgFall {
+        0% {  top: 105px; transform:rotate(0deg); }
+        50% { top: calc(50vw + 150px); transform:rotate(360deg); }
+        100% { top: calc(50vw + 150px); transform:rotate(360deg); }
+    }
+    #battleStage {
+        width: 100vw;
+    }
+    #playerPokemonInfo {
+        width: 150px;
+        font-size: 30px;
+    }
+    #enemyPokemonInfo {
+        width: 150px;
+        font-size: 30px;
+    }
+    #playerBar {
+        left: 25%;
+        width: 70%;
+    }
+    #enemyBar {
+        left: 25%;
+        width: 70%;
+    }
+    #playerPokemon {
+        left: 0;
+    }
+    #enemyPokemon {
+        right: 0;
+    }
+    #moves {
+        justify-content: normal;
+        width: 100%;
+    }
+    .move {
+        width: 100px;
+    }
+    #switch {
+        left: calc(100% - 170px);
+    }
+    #playerExplosion {
+        left: 0;
+    }
+    #enemyExplosion {
+        right: 0;
+    }
+    @keyframes move-right {
+        0%   {left: 0px}
+        100% {left: 80px}
+    }
+    
+    @keyframes move-left {
+        0% {right: 0px}
+        100% {right: 80px}
+    }
+
+    #menuImg {
+        z-index: 999;
+        left: calc(50% - 90px);
+    }
+}
