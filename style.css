@@ -227,6 +227,7 @@
         transform: rotate(360deg);
     }
 }
+
 #enemyBall {
     z-index: 1000;
     width: 20px;
@@ -1141,7 +1142,7 @@ body {
     display: none;
     justify-content: center;
     align-items: center;
-    right: calc(50% + 200px);
+    left: 21.3%;
     top: calc(25% + 32px);
     background-color: white;
     border: 1px solid black;
@@ -1162,7 +1163,7 @@ body {
     display: none;
     justify-content: center;
     align-items: center;
-    left: calc(50% + 200px);
+    right: 21.3%;
     top: calc(25% + 32px);
     background-color: white;
     border: 1px solid black;
@@ -1202,7 +1203,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    left: 318px;
+    left: 21.3%;
     top: 200px;
     background-color: white;
     border: 1px solid black;
@@ -1220,7 +1221,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    left: 920px;
+    right: 21.3%;
     top: 200px;
     background-color: white;
     border: 1px solid black;
@@ -1232,20 +1233,20 @@ body {
 #vs {
     position: fixed;
     top: 105px;
-    left: calc(50% - 118px);
+    left: calc(50vw - 118px);
 }
 
 #playerText {
     width: 300px;
     position: fixed;
-    left: 265px;
+    left: 18%;
     top: 100px;
 }
 
 #enemyText {
     width: 300px;
     position: fixed;
-    left: 870px;
+    right: 18%;
     top: 100px;
 }
 
