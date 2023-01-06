@@ -34,7 +34,7 @@ function customBattle(team1, team2) {
         for (let i = 0; i < 6; i++) {
             option = pokemon[Math.floor(Math.random() * (pokemon.length - 35))];
             hp = Math.floor(option[3] + Math.random() * 30 - 15);
-            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], defense: option[5], specialattack: option[6], specialdefense: option[7], speed: option[8], availablemoves: option[9], moves: []};
+            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], attackMul: 1, defense: option[5], specialattack: option[6], specialattackMul: 1, specialdefense: option[7], speed: option[8], speedMul: 1, availablemoves: option[9], moves: []};
             if (check(pk, playerPokemon)) {
                 i--;
             } else {
@@ -79,7 +79,7 @@ function customBattle(team1, team2) {
         for (let i = 0; i < 6; i++) {
             option = pokemon[team1[i * 5]];
             hp = Math.floor(option[3] + Math.random() * 30 - 15);
-            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], defense: option[5], specialattack: option[6], specialdefense: option[7], speed: option[8], availablemoves: option[9], moves: []};
+            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], attackMul: 1, defense: option[5], specialattack: option[6], specialattackMul: 1, specialdefense: option[7], speed: option[8], speedMul: 1, availablemoves: option[9], moves: []};
             playerPokemon.push(pk);
             document.getElementById("mp" + (i + 1)).src = "images/pokemon/" + pk.name + ".png"
             for (let j = 0; j < 4; j++) {
@@ -92,7 +92,7 @@ function customBattle(team1, team2) {
         for (let i = 0; i < 6; i++) {
             option = pokemon[Math.floor(Math.random() * (pokemon.length - 35))];
             hp = Math.floor(option[3] + Math.random() * 30 - 15);
-            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], defense: option[5], specialattack: option[6], specialdefense: option[7], speed: option[8], availablemoves: option[9], moves: []};
+            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], attackMul: 1, defense: option[5], specialattack: option[6], specialattackMul: 1, specialdefense: option[7], speed: option[8], speedMul: 1, availablemoves: option[9], moves: []};
             if (check(pk, enemyPokemon)) {
                 i--;
             } else {
@@ -136,7 +136,7 @@ function customBattle(team1, team2) {
         for (let i = 0; i < 6; i++) {
             option = pokemon[team2[i * 5]];
             hp = Math.floor(option[3] + Math.random() * 30 - 15);
-            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], defense: option[5], specialattack: option[6], specialdefense: option[7], speed: option[8], availablemoves: option[9], moves: []};
+            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], attackMul: 1, defense: option[5], specialattack: option[6], specialattackMul: 1, specialdefense: option[7], speed: option[8], speedMul: 1, availablemoves: option[9], moves: []};
             enemyPokemon.push(pk);
             for (let j = 0; j < 4; j++) {
                 enemyPokemon[i].moves.push(moveMap[team2[i * 5 + (j + 1)]]);
@@ -325,6 +325,11 @@ function loadImage(ch) {
 
 var sound = new Audio("battle.mp3"); 
 var sound2 = new Audio("win.mp3");
+var attackSound = new Audio();
+var hitSound = new Audio("normal.mp3");
+var superSound = new Audio("superEffective.mp3");
+var notSound = new Audio("notVeryEffective.mp3");
+var boostSound = new Audio("boost.mp3");
 
 sound.addEventListener('ended', function() {
     this.currentTime = 0;
