@@ -347,7 +347,6 @@ sound3.addEventListener('ended', function() {
 }, false);
 
 document.getElementById("start").onclick = async function() {
-
     document.getElementById("flame").hidden = false;
     document.getElementById("vs").style.animation = "start 1s linear 1";
     document.getElementById("start").hidden = true;
@@ -379,6 +378,8 @@ document.getElementById("start").onclick = async function() {
     if (eimg.endsWith("random.png")) {
         document.getElementById("eimg").style.filter = "invert(1)";
     }
+    document.getElementById("pimg").hidden = false;
+    document.getElementById("eimg").hidden = false;
     document.getElementById("pimg").src = pimg;
     document.getElementById("pimg").style.animation = "imgFall 1s linear 1";
     document.getElementById("eimg").src = eimg;
@@ -497,3 +498,10 @@ for (let j = 0; j < 6; j++) {
         }
     }
 }
+
+document.addEventListener('visibilitychange', e=> {
+    if (document.visibilityState != 'visible') {
+        typing = false;
+        switching = false;
+    }
+});
