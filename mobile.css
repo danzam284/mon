@@ -45,14 +45,11 @@
     }
     #textPortion {
         width: 70vw;
-        height: 130px;
-        position: fixed;
-        top: 85vh;
+        height: 15vh;
+        top: revert;
+        bottom: -7.5vh;
         left: 50%;
-        transform: translate(-50%, -50%);
         font-size: 25px;
-        color: aliceblue;
-        box-shadow: 0 0 5px rgb(153 0 255), 0 0 25px rgb(153 0 255);
     }
     #playerSelect {
         left: 4vw;
@@ -93,6 +90,7 @@
     }
     #battleStage {
         width: 100vw;
+        top: 300px;
     }
     #playerPokemonInfo {
         width: 150px;
@@ -118,13 +116,13 @@
     }
     #moves {
         justify-content: normal;
-        width: 100%;
     }
     .move {
         width: 100px;
     }
     #switch {
-        left: calc(100% - 170px);
+        left: 65%;
+        width: 35%;
     }
     #playerExplosion {
         left: 0;
@@ -141,9 +139,18 @@
         0% {right: 0px}
         100% {right: 80px}
     }
-
     #menuImg {
         z-index: 999;
         left: calc(50% - 90px);
+    }
+    .mpokemon {
+        max-width: 25px;
+        max-height: 25px;
+        min-width: 25px;
+        min-height: 25px;
+    }
+    #switchText {
+        left: 70%;
+        right: revert;
     }
 }
