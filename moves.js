@@ -2,6 +2,13 @@ var s = "s";
 var p = "p";
 
 var moves = [
+    ["swordsdance", 0, 100, "o", "normal"],
+    ["nastyplot", 0, 100, "o", "dark"],
+    ["dragondance", 0, 100, "o", "dragon"],
+    ["acrobatics", 110, 100, p, "flying"],
+    ["hurricane", 110, 70, s, "flying"],
+    ["overheat", 130, 90, s, "fire"],
+    ["facade", 70, 100, p, "normal"],
     ["scald", 80, 100, s, "water"],
     ["surf", 95, 100, s, "water"],
     ["waterfall", 90, 100, p, "water"],
