@@ -12,6 +12,7 @@ By Daniel Zamloot
 * ✨ Boasts a very challenging AI to compete against
 * 🎆 Made to priritize the user experience with a unique look and several visuals
 * 🐕 Extremely accurate to the real game
+* 📱 Made to be mobile friendly (somewhat)
 
 ## Try it out
 https://danzam284.github.io/mon/
