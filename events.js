@@ -1,7 +1,7 @@
 var rainbowGradient = "linear-gradient(45deg, rgb(255, 0, 0) 0%, rgb(255, 154, 0) 10%, rgb(208, 222, 33) 20%, rgb(79, 220, 74) 30%, rgb(63, 218, 216) 40%, rgb(47, 201, 226) 50%, rgb(28, 127, 238) 60%, rgb(95, 21, 242) 70%, rgb(186, 12, 248) 80%, rgb(251, 7, 217) 90%, rgb(255, 0, 0) 100%)";
 for (let i = 0; i < 4; i++) {
     document.getElementById("move" + (i + 1)).onmouseover = function() {
-        if (!typing && !pick && !switching) {
+        if (!typing && !pick && !switching && !isMobile()) {
             this.style.background = rainbowGradient;
         }
     }
@@ -34,42 +34,8 @@ function sleep(time) {
 }
 
 document.getElementById("playerPokemon").onmouseenter = function() {
-    if (playerPokemon.length == 0 || playerLives == 0 || enemyLives == 0) {
+    if (playerPokemon.length == 0 || playerLives == 0 || enemyLives == 0 || isMobile()) {
         return;
-    }
-    document.getElementById("hover").hidden = false;
-    document.getElementById("hoverName").innerHTML = playerPokemon[0].name + "'s stats";
-    document.getElementById("hoverHP").innerHTML = "HP: " + playerPokemon[0].hp;
-    if (playerPokemon[0].attackMul == 1) {
-        document.getElementById("hoverAttack").style.color = "black";
-        document.getElementById("hoverAttack").innerHTML = "Attack: " + playerPokemon[0].attack;
-    } else {
-        document.getElementById("hoverAttack").style.color = "green";
-        document.getElementById("hoverAttack").innerHTML = "Attack: " + (playerPokemon[0].attack * playerPokemon[0].attackMul);
-    }
-    document.getElementById("hoverDefense").innerHTML = "Defense: " + playerPokemon[0].defense;
-    if (playerPokemon[0].specialattackMul == 1) {
-        document.getElementById("hoverSpecialAttack").style.color = "black";
-        document.getElementById("hoverSpecialAttack").innerHTML = "Special Attack: " + playerPokemon[0].specialattack;
-    } else {
-        document.getElementById("hoverSpecialAttack").style.color = "green";
-        document.getElementById("hoverSpecialAttack").innerHTML = "Special Attack: " + (playerPokemon[0].specialattack * playerPokemon[0].specialattackMul);
-    }
-    document.getElementById("hoverSpecialDefense").innerHTML = "Special Defense: " + playerPokemon[0].specialdefense;
-    if (playerPokemon[0].speedMul == 1) {
-        document.getElementById("hoverSpeed").style.color = "black";
-        document.getElementById("hoverSpeed").innerHTML = "Speed: " + playerPokemon[0].speed;
-    } else {
-        document.getElementById("hoverSpeed").style.color = "green";
-        document.getElementById("hoverSpeed").innerHTML = "Speed: " + (playerPokemon[0].speed * playerPokemon[0].speedMul);
-    }
-    pFound = playerPokemon[0];
-    if (pFound.t2 == "none") {
-        document.getElementById("hoverName").style.backgroundImage = getColor(pFound.t1);
-    } else {
-        cd1 = getColorDepth(pFound.t1);
-        cd2 = getColorDepth(pFound.t2);
-        document.getElementById("hoverName").style.backgroundImage = "linear-gradient(to left, " + cd1[0] + ", 25%, " + cd1[1] + ", 50%, " + cd2[0] + ", " + cd2[0] + ", 50%, " + cd2[1] + ")";
     }
 }
 
@@ -78,7 +44,7 @@ document.getElementById("playerPokemon").onmouseleave = function() {
 }
 
 document.getElementById("enemyPokemon").onmouseenter = function() {
-    if (enemyPokemon.length == 0 || playerLives == 0 || enemyLives == 0) {
+    if (enemyPokemon.length == 0 || playerLives == 0 || enemyLives == 0 || isMobile()) {
         return;
     }
     document.getElementById("hover").hidden = false;
@@ -123,6 +89,9 @@ document.getElementById("enemyPokemon").onmouseleave = function() {
 
 for (let i = 0; i < 6; i++) {
     document.getElementById("mp" + (i + 1)).onmouseenter = function() {
+        if (isMobile()) {
+            return;
+        }
         if (document.getElementById("mp" + (i + 1)).src != "") {
             document.getElementById("info").style.display = "flex";
             document.getElementById("info").hidden = false;
@@ -189,6 +158,9 @@ for (let i = 0; i < 6; i++) {
     }
 
     document.getElementById("mp" + (i + 1)).onmouseleave = function() {
+        if (!isMobile()) {
+            return;
+        }
         if (playerPokemon[i].hp > 0) {
             this.style.background = "linear-gradient(45deg, white, black)";
         } else {
@@ -484,14 +456,14 @@ document.getElementById("eghost").addEventListener("animationend", async functio
 
 function checkHovered() {
     for (let i = 0; i < 4; i++) {
-        if (document.querySelector("#move" + (i + 1) + ":hover") != null && document.getElementById("move" + (i + 1)).style.background != "" && !pick) {
+        if (document.querySelector("#move" + (i + 1) + ":hover") != null && document.getElementById("move" + (i + 1)).style.background != "" && !pick && !isMobile()) {
             document.getElementById("move" + (i + 1)).style.background = rainbowGradient;
             break;
         }
     }
 
     for (let i = 0; i < 6; i++) {
-        if (document.querySelector("#mp" + (i + 1) + ":hover") != null) {
+        if (document.querySelector("#mp" + (i + 1) + ":hover") != null && !isMobile()) {
             plookup = playerPokemon[i];
             for (let i = 1; i < 6; i++) {
                 if (playerPokemon[i].name == plookup && playerPokemon[i].hp > 0) {
