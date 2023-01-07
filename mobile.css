@@ -45,11 +45,11 @@
     }
     #textPortion {
         width: 70vw;
-        height: 15vh;
+        height: 12vh;
         top: revert;
-        bottom: -7.5vh;
+        bottom: -6vh;
         left: 50%;
-        font-size: 25px;
+        font-size: 20px;
     }
     #playerSelect {
         left: 4vw;
