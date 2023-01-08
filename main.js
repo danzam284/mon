@@ -331,6 +331,7 @@ var hitSound = new Audio("normal.mp3");
 var superSound = new Audio("superEffective.mp3");
 var notSound = new Audio("notVeryEffective.mp3");
 var boostSound = new Audio("boost.mp3");
+var fallSound = new Audio("fall.mp3");
 
 sound.addEventListener('ended', function() {
     this.currentTime = 0;
