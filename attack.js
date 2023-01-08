@@ -88,11 +88,13 @@ async function playerAttack(p, m) {
             return false;
         }
         attackSound = new Audio("moves/" + m.move + ".mp3");
+        attackSound.autoplay = true;
+        attackSound.pause();
         if (localStorage.mute == "unmuted") {
             attackSound.play();
         }
         await moveAnimations(true, m.type);
-        dmg = Math.floor(calculateDamage(m.damage, m.mode, crit, p.attack * p.attackMul, p.specialattack * p.specialattackMul, e.defense, e.specialdefense, stab, t1, t2, ran));
+        let dmg = Math.floor(calculateDamage(m.damage, m.mode, crit, p.attack * p.attackMul, p.specialattack * p.specialattackMul, e.defense, e.specialdefense, stab, t1, t2, ran));
         temp = e.hp;
         if (t1 * t2 < 1 && localStorage.mute == "unmuted") {
             notSound.play();
@@ -131,6 +133,47 @@ async function playerAttack(p, m) {
             await slowType("A critical hit!", 1);
         }
 
+        if (recoil.includes(m.move)) {
+            let recoilDamage = Math.floor(dmg / 3);
+            let p = playerPokemon[0];
+            let temp = p.hp;
+            while (p.hp != temp - recoilDamage && p.hp != 1) {
+                p.hp--;
+                per = p.hp / p.maxhp * 100;
+                if (per > 50) {
+                    document.getElementById("playerBar").style.background = "linear-gradient(to right, rgb(17, 221, 7) " + per + "%, black " + per + "%)";
+                } else if (per > 15) {
+                    document.getElementById("playerBar").style.background = "linear-gradient(to right, orange " + per + "%, black " + per + "%)";
+                } else {
+                    document.getElementById("playerBar").style.background = "linear-gradient(to right, red " + per + "%, black " + per + "%)";
+                }
+                document.getElementById("playerRatio").innerHTML = p.hp + "/" + p.maxhp;
+                await sleep(10);
+            }
+            await slowType(p.name + " is hurt by recoil.", 1);
+        }
+
+        if (nerf.includes(m.move)) {
+            if (localStorage.mute == "unmuted") {
+                fallSound.play();
+            }
+            document.getElementById("playerPokemonImage").style.background = "linear-gradient(45deg, black, white)";
+            document.getElementById("playerPokemonImage").style.padding = "30px";
+            await sleep(500);
+            if (m.move == "closecombat") {
+                p.attackMul *= 0.75;
+                p.specialattackMul *= 0.75;
+                await slowType(p.name + "'s attack fell.", 1);
+                await sleep(500);
+                await slowType(p.name + "'s special attack fell.", 1);
+            } else {
+                p.specialattackMul *= 0.5;
+                await slowType(p.name + "'s special attack fell.", 1);
+            }
+            await sleep(500);
+            document.getElementById("playerPokemonImage").style.background = "";
+            document.getElementById("playerPokemonImage").style.padding = "";
+        }
         if (e.hp == 0) {
             await enemyDead();
             return true;
@@ -172,8 +215,10 @@ async function attack(m) {
             await slowType("Pick a move...", 1);
         }
     }
+    if (e.hp > 0 && p.hp > 0) {
+        checkHovered();
+    }
     typing = false;
-    checkHovered();
 }
 
 async function enemyDead() {
@@ -246,6 +291,9 @@ async function playerDead() {
 }
 
 function hasCompatible(skip, move, moves) {
+    if (enemyPokemon[0].specialattackMul != 1 || enemyPokemon[0].attackMul != 1) {
+        return false;
+    }
     let target;
     if (move == "nastyplot") {
         target = "s";
@@ -276,27 +324,31 @@ function getBestEnemyMove() {
             stab = 1.5;
         }
         let dmg = calculateDamage(em[i].damage, em[i].mode, 1, enemyPokemon[0].attack * enemyPokemon[0].attackMul, enemyPokemon[0].specialattack * enemyPokemon[0].specialattackMul, playerPokemon[0].defense, playerPokemon[0].specialdefense, stab, m1, m2, (225/255));
-        if (dmg > playerPokemon[0].hp && em[i].accuracy == 100) {
+        if (dmg > playerPokemon[0].hp && em[i].accuracy == 100 && !nerf.includes(em[i].name) && !recoil.includes(em[i].name)) {
             return i;
         }
         if (dmg > maxDamage) {
             maxDamage = dmg;
             maxMove = i;
         }
+    }
+
+    for (let i = 0; i < 4; i++) {
         if (em[i].mode == "o") {
             if (hasCompatible(i, em[i].move, em)) {
                 if (em[i].move == "nastyplot" || em[i].move == "swordsdance") {
-                    if ((enemyPokemon[0].speed > playerPokemon[0].speed * playerPokemon[0].speedMul || m1 * m2 >= 2) && enemyPokemon[0].specialattackMul == 1 && enemyPokemon[0].attackMul == 1 && m1 * m2 >= 1 && (enemyPokemon[0].hp / enemyPokemon[0].maxhp) >= 0.5) {
+                    if ((enemyPokemon[0].speed > playerPokemon[0].speed * playerPokemon[0].speedMul || m1 * m2 >= 2) && m1 * m2 >= 1 && (enemyPokemon[0].hp / enemyPokemon[0].maxhp) >= 0.5) {
                         return i;
                     }
                 } else {
-                    if (enemyPokemon[0].speed * 1.5 > playerPokemon[0].speed * playerPokemon[0].speedMul && enemyPokemon[0].speedMul == 1 && enemyPokemon[0].attackMul == 1 && (enemyPokemon[0].hp / enemyPokemon[0].maxhp) >= 0.5) {
+                    if (enemyPokemon[0].speed * 1.5 > playerPokemon[0].speed * playerPokemon[0].speedMul && (enemyPokemon[0].hp / enemyPokemon[0].maxhp) >= 0.5) {
                         return i;
                     }
                 }
             }
         }
     }
+
     return maxMove;
 }
 
@@ -360,6 +412,8 @@ async function enemyAttack(preMove) {
             return false;
         }
         attackSound = new Audio("moves/" + m.move + ".mp3");
+        attackSound.autoplay = true;
+        attackSound.pause();
         if (localStorage.mute == "unmuted") {
             attackSound.play();
         }
@@ -402,6 +456,48 @@ async function enemyAttack(preMove) {
             await slowType("A critical hit!", 1);
         }
 
+        if (recoil.includes(m.move)) {
+            let recoilDamage = Math.floor(dmg / 3);
+            let e = enemyPokemon[0];
+            let temp = e.hp;
+            while (e.hp != temp - recoilDamage && e.hp != 1) {
+                e.hp--;
+                per = e.hp / e.maxhp * 100;
+                if (per > 50) {
+                    document.getElementById("enemyBar").style.background = "linear-gradient(to right, rgb(17, 221, 7) " + per + "%, black " + per + "%)";
+                } else if (per > 15) {
+                    document.getElementById("enemyBar").style.background = "linear-gradient(to right, orange " + per + "%, black " + per + "%)";
+                } else {
+                    document.getElementById("enemyBar").style.background = "linear-gradient(to right, red " + per + "%, black " + per + "%)";
+                }
+                document.getElementById("enemyRatio").innerHTML = e.hp + "/" + e.maxhp;
+                await sleep(10);
+            }
+            await slowType(e.name + " is hurt by recoil.", 1);
+        }
+
+        if (nerf.includes(m.move)) {
+            if (localStorage.mute == "unmuted") {
+                fallSound.play();
+            }
+            document.getElementById("enemyPokemonImage").style.background = "linear-gradient(45deg, black, white)";
+            document.getElementById("enemyPokemonImage").style.padding = "30px";
+            await sleep(500);
+            if (m.move == "closecombat") {
+                e.attackMul *= 0.75;
+                e.specialattackMul *= 0.75;
+                await slowType(e.name + "'s attack fell.", 1);
+                await sleep(500);
+                await slowType(e.name + "'s special attack fell.", 1);
+            } else {
+                e.specialattackMul *= 0.5;
+                await slowType(e.name + "'s special attack fell.", 1);
+            }
+            await sleep(500);
+            document.getElementById("enemyPokemonImage").style.background = "";
+            document.getElementById("enemyPokemonImage").style.padding = "";
+        }
+
         if (pl.hp == 0) {
             await playerDead();
             return true;
@@ -433,6 +529,12 @@ function getBestEnemyOption() {
             if (Math.floor(calculateDamage(m.damage, m.mode, 1, ce.attack * ce.attackMul, ce.specialattack * ce.specialattackMul, pp.defense, pp.specialdefense, stab, m1, m2, (225/255))) >= pp.hp) {
                 return 0;
             }
+        }
+    }
+
+    if (ce.hp > 0 && (ce.attackMul > 1 || ce.speedMul > 1 || ce.specialattackMul > 1)) {
+        if (ce.speed * ce.speedMul > pp.speed * pp.speedMul || (move_mult(m.type, pt1) * move_mult(m.type, pt2) >= 1 && ce.hp >= (ce.maxhp / 2))) {
+            return 0;
         }
     }
 
