@@ -142,6 +142,8 @@ var moves = [
     ["wingattack", 60, 100, p, "flying"]
 ]
 
+var recoil = ["bravebird", "doubleedge", "flareblitz", "headsmash", "wildcharge", "woodhammer"];
+var nerf = ["overheat", "dracometeor", "leafstorm", "closecombat"];
 moveMap = {};
 for (let i = 0; i < moves.length; i++) {
     moveMap[moves[i][0]] = {move: moves[i][0], damage: moves[i][1], accuracy: moves[i][2], mode: moves[i][3], type: moves[i][4]};
