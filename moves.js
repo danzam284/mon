@@ -142,8 +142,14 @@ var moves = [
     ["wingattack", 60, 100, p, "flying"]
 ]
 
-var recoil = ["bravebird", "doubleedge", "flareblitz", "headsmash", "wildcharge", "woodhammer"];
+var recoil = ["bravebird", "doubleedge", "flareblitz", "headsmash", "wildcharge", "woodhammer", "steelbeam"];
 var nerf = ["overheat", "dracometeor", "leafstorm", "closecombat"];
+var burn = ["triattack", "fireblast", "firefang", "firepunch", "flamethrower", "flamewheel", "flareblitz", "heatwave", "scald"];
+var frozen = ["triattack", "blizzard", "icebeam", "icefang", "icepunch"];
+var poisoned = ["crosspoison", "sludgewave", "gunkshot", "poisonjab", "sludge", "sludgebomb", "poisonfang"];
+var paralyzed = ["triattack", "thunderbolt", "thunderfang", "thunderpunch", "bodyslam", "bounce", "discharge", "dragonbreath", "spark", "thunder"];
+var flinch = ["airslash", "astonish", "bite", "darkpulse", "dragonrush", "extrasensory", "firefang", "headbutt", "icefang", "ironhead", "needlearm", "rockslide", "thunderfang", "waterfall", "zenheadbutt"];
+var confused = ["confusion", "hurricane", "psybeam", "signalbeam", "waterpulse"];
 moveMap = {};
 for (let i = 0; i < moves.length; i++) {
     moveMap[moves[i][0]] = {move: moves[i][0], damage: moves[i][1], accuracy: moves[i][2], mode: moves[i][3], type: moves[i][4]};
