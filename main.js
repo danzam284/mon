@@ -8,12 +8,22 @@ var typing = true;
 var both = false;
 var both2 = false;
 var switching = false;
+var lastMove;
 var cry;
 var playerLives = 6;
 var enemyLives = 6;
 var background = "url(images/battleScene" + Math.floor(Math.random() * 9) + ".jpeg)";
 document.getElementById("battleStage").style.backgroundImage = background;
 
+if (!localStorage.pokemonWins) {
+    localStorage.pokemonWins = 0;
+}
+if (!localStorage.pokemonLosses) {
+    localStorage.pokemonLosses = 0;
+}
+
+document.getElementById("wins").innerHTML = "Wins Against AI: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" + localStorage.pokemonWins;
+document.getElementById("losses").innerHTML = "Losses Against AI: &nbsp&nbsp" + localStorage.pokemonLosses;
 if (!localStorage.mute) {
     localStorage.mute = "unmuted";
 } else if (localStorage.mute == "muted") {
@@ -34,7 +44,7 @@ function customBattle(team1, team2) {
         for (let i = 0; i < 6; i++) {
             option = pokemon[Math.floor(Math.random() * (pokemon.length - 35))];
             hp = Math.floor(option[3] + Math.random() * 30 - 15);
-            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], attackMul: 1, defense: option[5], specialattack: option[6], specialattackMul: 1, specialdefense: option[7], speed: option[8], speedMul: 1, availablemoves: option[9], moves: []};
+            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], attackMul: 1, defense: option[5], specialattack: option[6], specialattackMul: 1, specialdefense: option[7], speed: option[8], speedMul: 1, availablemoves: option[9], moves: [], status: 0, confused: 0};
             if (check(pk, playerPokemon)) {
                 i--;
             } else {
@@ -79,7 +89,7 @@ function customBattle(team1, team2) {
         for (let i = 0; i < 6; i++) {
             option = pokemon[team1[i * 5]];
             hp = Math.floor(option[3] + Math.random() * 30 - 15);
-            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], attackMul: 1, defense: option[5], specialattack: option[6], specialattackMul: 1, specialdefense: option[7], speed: option[8], speedMul: 1, availablemoves: option[9], moves: []};
+            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], attackMul: 1, defense: option[5], specialattack: option[6], specialattackMul: 1, specialdefense: option[7], speed: option[8], speedMul: 1, availablemoves: option[9], moves: [], status: 0, confused: 0};
             playerPokemon.push(pk);
             document.getElementById("mp" + (i + 1)).src = "images/pokemon/" + pk.name + ".png"
             for (let j = 0; j < 4; j++) {
@@ -92,7 +102,7 @@ function customBattle(team1, team2) {
         for (let i = 0; i < 6; i++) {
             option = pokemon[Math.floor(Math.random() * (pokemon.length - 35))];
             hp = Math.floor(option[3] + Math.random() * 30 - 15);
-            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], attackMul: 1, defense: option[5], specialattack: option[6], specialattackMul: 1, specialdefense: option[7], speed: option[8], speedMul: 1, availablemoves: option[9], moves: []};
+            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], attackMul: 1, defense: option[5], specialattack: option[6], specialattackMul: 1, specialdefense: option[7], speed: option[8], speedMul: 1, availablemoves: option[9], moves: [], status: 0, confused: 0};
             if (check(pk, enemyPokemon)) {
                 i--;
             } else {
@@ -136,7 +146,7 @@ function customBattle(team1, team2) {
         for (let i = 0; i < 6; i++) {
             option = pokemon[team2[i * 5]];
             hp = Math.floor(option[3] + Math.random() * 30 - 15);
-            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], attackMul: 1, defense: option[5], specialattack: option[6], specialattackMul: 1, specialdefense: option[7], speed: option[8], speedMul: 1, availablemoves: option[9], moves: []};
+            pk = {name: option[0], t1: option[1], t2: option[2], hp: hp, maxhp: hp, attack: option[4], attackMul: 1, defense: option[5], specialattack: option[6], specialattackMul: 1, specialdefense: option[7], speed: option[8], speedMul: 1, availablemoves: option[9], moves: [], status: 0, confused: 0};
             enemyPokemon.push(pk);
             for (let j = 0; j < 4; j++) {
                 enemyPokemon[i].moves.push(moveMap[team2[i * 5 + (j + 1)]]);
@@ -321,6 +331,62 @@ function loadImage(ch) {
         document.getElementById("playerBar").style.background = "linear-gradient(to right, red " + per + "%, black " + per + "%)";
     }
     updateMP();
+    let pNodes = document.getElementById("playerPokemonInfo");
+    if (pNodes.childNodes.length == 6) {
+        pNodes.removeChild(pNodes.childNodes[5]);
+    }
+    if (playerPokemon[0].status == 1) {
+        let img = document.createElement("img");
+        img.src = "images/status/burn.png";
+        img.className = "status";
+        document.getElementById("playerPokemonInfo").appendChild(img);
+    }
+    else if (playerPokemon[0].status == 2) {
+        let img = document.createElement("img");
+        img.src = "images/status/paralyzed.png";
+        img.className = "status";
+        document.getElementById("playerPokemonInfo").appendChild(img);
+    }
+    else if (playerPokemon[0].status == 3) {
+        let img = document.createElement("img");
+        img.src = "images/status/frozen.png";
+        img.className = "status";
+        document.getElementById("playerPokemonInfo").appendChild(img);
+    }
+    else if (playerPokemon[0].status == 4) {
+        let img = document.createElement("img");
+        img.src = "images/status/poison.png";
+        img.className = "status";
+        document.getElementById("playerPokemonInfo").appendChild(img);
+    }
+    let eNodes = document.getElementById("enemyPokemonInfo");
+    if (eNodes.childNodes.length == 6) {
+        eNodes.removeChild(eNodes.childNodes[5]);
+    }
+    if (enemyPokemon[0].status == 1) {
+        let img = document.createElement("img");
+        img.src = "images/status/burn.png";
+        img.className = "status";
+        eNodes.appendChild(img);
+    }
+    else if (enemyPokemon[0].status == 2) {
+        let img = document.createElement("img");
+        img.src = "images/status/paralyzed.png";
+        img.className = "status";
+        eNodes.appendChild(img);
+    }
+    else if (enemyPokemon[0].status == 3) {
+        let img = document.createElement("img");
+        img.src = "images/status/frozen.png";
+        img.className = "status";
+        eNodes.appendChild(img);
+    }
+    else if (enemyPokemon[0].status == 4) {
+        let img = document.createElement("img");
+        img.src = "images/status/poison.png";
+        img.className = "status";
+        eNodes.appendChild(img);
+    }
 }
 
 var sound = new Audio("battle.mp3"); 
@@ -332,6 +398,8 @@ var superSound = new Audio("superEffective.mp3");
 var notSound = new Audio("notVeryEffective.mp3");
 var boostSound = new Audio("boost.mp3");
 var fallSound = new Audio("fall.mp3");
+var cry = new Audio();
+var statusSound = new Audio();
 
 sound.addEventListener('ended', function() {
     this.currentTime = 0;
@@ -348,6 +416,7 @@ sound3.addEventListener('ended', function() {
 }, false);
 
 document.getElementById("start").onclick = async function() {
+    document.getElementById("winLoss").hidden = true;
     document.getElementById("flame").hidden = false;
     document.getElementById("vs").style.animation = "start 1s linear 1";
     document.getElementById("start").hidden = true;
@@ -411,6 +480,7 @@ document.getElementById("vs").onanimationend = async function() {
 
 
 async function win() {
+    localStorage.pokemonWins++;
     document.getElementById("pyro").hidden = false;
     await slowType("You win!!!     Press Menu to play again", 1);
     document.getElementById("battleStage").style.backgroundImage = "url(images/win.gif)";
@@ -422,6 +492,7 @@ async function win() {
 }
 
 async function lose() {
+    localStorage.pokemonLosses++;
     await slowType("You lose...      Press menu to play again", 1);
     document.getElementById("battleStage").style.backgroundImage = "url(images/lose.gif)";
     document.getElementById("menuImg").hidden = false;
