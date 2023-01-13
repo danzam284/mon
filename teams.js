@@ -98,6 +98,9 @@ teamMap["giovanni (gen 1)"] = giovanni1;
 var sabrina = [18, "psychic", "swift", "focusblast", "energyball", 96, "bodyslam", "shadowball", "thunder", "psychic", 164, "psybeam", "gust", "leechlife", "slash", 101, "dig", "psychic", "shadowball", "bite", 162, "psychic", "focusblast", "blizzard", "swift", 44, "stoneedge", "psychocut", "nightslash", "closecombat"];
 teamMap["sabrina"] = sabrina;
 
+var professorOak = [140, "doubleedge", "bodyslam", "slash", "dig", 78, "slash", "energyball", "psychic", "bodyslam", 134, "doubleedge", "flamethrower", "bite", "thunderfang", 21, "hydropump", "dragonclaw", "slash", "hyperbeam", 2, "seedbomb", "nastyplot", "sludgebomb", "solarbeam", 1, "fly", "slash", "flamethrower", "flareblitz"];
+teamMap["professor oak"] = professorOak;
+
 document.getElementById("playerCur").onclick = function() {
     if (document.getElementById("playerSelect").style.display == "flex") {
         document.getElementById("playerSelect").style.display = "none";
