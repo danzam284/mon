@@ -3,16 +3,68 @@ for (let i = 0; i < 4; i++) {
     document.getElementById("move" + (i + 1)).onmouseover = function() {
         if (!typing && !pick && !switching && !isMobile()) {
             this.style.background = rainbowGradient;
+            document.getElementById("moveHover").hidden = false;
+            let move = playerPokemon[0].moves[i];
+            document.getElementById("moveHoverName").innerHTML = move.move;
+            document.getElementById("moveHoverType").src = "images/types/" + move.type + ".png";
+            document.getElementById("moveHoverDamage").innerHTML = "Damage: " + move.damage;
+            if (move.mode == "p") {
+                document.getElementById("moveHoverMode").innerHTML = "physical";
+            } else if (move.mode == "s"){
+                document.getElementById("moveHoverMode").innerHTML = "special";
+            } else {
+                document.getElementById("moveHoverMode").innerHTML = "boost";
+            }
+            document.getElementById("moveHoverExtra").innerHTML = "";
+            if (recoil.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Does 33% in recoil</li>";
+            }
+            if (nerf.includes(move.move)) {
+                if (move.move == "closecombat") {
+                    document.getElementById("moveHoverExtra").innerHTML += "<li>Reduces Attack</li><li>Reduces Special Attack</li>";
+                } else {
+                    document.getElementById("moveHoverExtra").innerHTML += "<li>Reduces Special Attack</li>";
+                }
+            }
+            if (move.move == "swordsdance") {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Increases Attack</li>";
+            }
+            if (move.move == "nastyplot") {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Increases Special Attack</li>";
+            }
+            if (move.move == "dragondance") {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Increases Speed</li><li>Increases Attack</li>";
+            }
+            if (burn.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>15% chance to burn</li>";
+            }
+            if (frozen.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>10% chance to freeze</li>";
+            }
+            if (paralyzed.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>20% chance to paralyze</li>";
+            }
+            if (poisoned.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>15% chance to poison</li>";
+            }
+            if (flinch.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>20% chance to flinch</li>";
+            }
+            if (confused.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>15% chance to confuse</li>";
+            }
         }
     }
     document.getElementById("move" + (i + 1)).onmouseleave = function() {
         if (!pick && this.style.background == rainbowGradient) {
             this.style.background = getColor(playerPokemon[0].moves[i].type);
+            document.getElementById("moveHover").hidden = true;
         }
     }
     document.getElementById("move" + (i + 1)).onclick = function() {
         if (!typing && !pick && !switching) {
             this.style.background = getColor(playerPokemon[0].moves[i].type);
+            document.getElementById("moveHover").hidden = true;
             attack(playerPokemon[0].moves[i]);
         }
     }
@@ -169,6 +221,33 @@ for (let i = 0; i < 6; i++) {
                 document.getElementById("infoMove" + (j + 1)).innerHTML = pFound.moves[j].move;
                 document.getElementById("infoMove" + (j + 1)).style.background = getColor(pFound.moves[j].type);
             }
+            if (document.getElementById("info").childNodes.length == 16) {
+                document.getElementById("info").removeChild(document.getElementById("info").childNodes[15]);
+            }
+            if (pFound.status == 1) {
+                let img = document.createElement("img");
+                img.src = "images/status/burn.png";
+                img.className = "status";
+                document.getElementById("info").appendChild(img);
+            }
+            if (pFound.status == 2) {
+                let img = document.createElement("img");
+                img.src = "images/status/paralyzed.png";
+                img.className = "status";
+                document.getElementById("info").appendChild(img);
+            }
+            if (pFound.status == 3) {
+                let img = document.createElement("img");
+                img.src = "images/status/frozen.png";
+                img.className = "status";
+                document.getElementById("info").appendChild(img);
+            }
+            if (pFound.status == 4) {
+                let img = document.createElement("img");
+                img.src = "images/status/poison.png";
+                img.className = "status";
+                document.getElementById("info").appendChild(img);
+            }
         }
         if (i != 0 && playerPokemon[i].hp > 0 && !typing && !switching) {
             this.style.background = rainbowGradient;
@@ -282,8 +361,29 @@ document.getElementById("playerExplosion").addEventListener("animationend", asyn
     }
     else if (pick) {
         await slowType("You sent out " + playerPokemon[0].name + "!", 1);
+        await sleep(100);
+        let e = enemyPokemon[0];
+        if (e.status == 1) {
+            statusSound = new Audio("burned.mp3");
+            if (localStorage.mute == "unmuted") {
+                statusSound.play();
+            }
+            if (!await statusDamage(e, "enemy", "burn")) {
+                return;
+            }
+        }
+        if (e.status == 4) {
+            statusSound = new Audio("poisoned.mp3");
+            if (localStorage.mute == "unmuted") {
+                statusSound.play();
+            }
+            if (!await statusDamage(e, "enemy", "poison")) {
+                return;
+            }
+        }
         await sleep(500);
-        await slowType("Pick a move...", 1);
+        decConfusion();
+        await slowType("What will " + playerPokemon[0].name + " do?", 1);
         pick = false;
         typing = false;
         switching = false;
@@ -303,7 +403,8 @@ document.getElementById("playerExplosion").addEventListener("animationend", asyn
         both2 = false;
         await slowType("You switched to " + playerPokemon[0].name + "!", 1);
         await sleep(500);
-        await slowType("Pick a move...", 1);
+        decConfusion();
+        await slowType("What will " + playerPokemon[0].name + " do?", 1);
         typing = false;
         switching = false;
         checkHovered();
@@ -320,7 +421,27 @@ document.getElementById("enemyExplosion").addEventListener("animationend", async
     if (intro) {
         await slowType("The enemy sent out " + enemyPokemon[0].name, 1);
         await sleep(500);
-        await slowType("Pick a move...", 1);
+        let p = playerPokemon[0];
+        if (p.status == 1) {
+            statusSound = new Audio("burned.mp3");
+            if (localStorage.mute == "unmuted") {
+                statusSound.play();
+            }
+            if (!await statusDamage(p, "player", "burn")) {
+                return;
+            }
+        }
+        if (p.status == 4) {
+            statusSound = new Audio("poisoned.mp3");
+            if (localStorage.mute == "unmuted") {
+                statusSound.play();
+            }
+            if (!await statusDamage(p, "player", "poison")) {
+                return;
+            }
+        }
+        decConfusion();
+        await slowType("What will " + playerPokemon[0].name + " do?", 1);
         typing = false;
         switching = false;
         intro = false;
@@ -341,7 +462,8 @@ document.getElementById("enemyExplosion").addEventListener("animationend", async
         both2 = false;
         await slowType("The enemy switched to " + enemyPokemon[0].name + "!", 1);
         await sleep(500);
-        await slowType("Pick a move...", 1);
+        decConfusion();
+        await slowType("What will " + playerPokemon[0].name + " do?", 1);
         typing = false;
         switching = false;
         checkHovered();
@@ -377,141 +499,15 @@ document.getElementById("mute").onclick = function() {
         superSound.muted = true;
         notSound.muted = true;
         attackSound.muted = true;
+        statusSound.muted = true;
         boostSound.muted = true;
         fallSound.muted = true;
+        cry.muted = true;
         this.src = "images/mute.png";
         localStorage.setItem("mute", "muted");
     }
 }
 
-document.getElementById("rock").addEventListener("animationend", async function() {
-    await sleep(490);
-    document.getElementById("rock").hidden = true;
-});
-document.getElementById("n1").addEventListener("animationend", async function() {
-    document.getElementById("n1").hidden = true;
-    document.getElementById("n2").hidden = true;
-    document.getElementById("n3").hidden = true;
-});
-document.getElementById("en1").addEventListener("animationend", async function() {
-    document.getElementById("en1").hidden = true;
-    document.getElementById("en2").hidden = true;
-    document.getElementById("en3").hidden = true;
-});
-document.getElementById("steel").addEventListener("animationend", async function() {
-    document.getElementById("steel").hidden = true;
-});
-document.getElementById("esteel").addEventListener("animationend", async function() {
-    document.getElementById("esteel").hidden = true;
-});
-document.getElementById("fighting").addEventListener("animationend", async function() {
-    document.getElementById("fighting").hidden = true;
-});
-document.getElementById("efighting").addEventListener("animationend", async function() {
-    document.getElementById("efighting").hidden = true;
-});
-document.getElementById("grass").addEventListener("animationend", async function() {
-    document.getElementById("grass").hidden = true;
-});
-document.getElementById("egrass").addEventListener("animationend", async function() {
-    document.getElementById("egrass").hidden = true;
-});
-document.getElementById("dragon1").addEventListener("animationend", async function() {
-    document.getElementById("dragon1").hidden = true;
-});
-document.getElementById("dragon2").addEventListener("animationend", async function() {
-    document.getElementById("dragon2").hidden = true;
-});
-document.getElementById("dragon3").addEventListener("animationend", async function() {
-    document.getElementById("dragon3").hidden = true;
-});
-document.getElementById("edragon1").addEventListener("animationend", async function() {
-    document.getElementById("edragon1").hidden = true;
-});
-document.getElementById("edragon2").addEventListener("animationend", async function() {
-    document.getElementById("edragon2").hidden = true;
-});
-document.getElementById("edragon3").addEventListener("animationend", async function() {
-    document.getElementById("edragon3").hidden = true;
-});
-document.getElementById("dark").addEventListener("animationend", async function() {
-    document.getElementById("dark").hidden = true;
-});
-document.getElementById("edark").addEventListener("animationend", async function() {
-    document.getElementById("edark").hidden = true;
-});
-document.getElementById("psychic").addEventListener("animationend", async function() {
-    document.getElementById("psychic").hidden = true;
-});
-document.getElementById("epsychic").addEventListener("animationend", async function() {
-    document.getElementById("epsychic").hidden = true;
-});
-document.getElementById("ground").addEventListener("animationend", async function() {
-    document.getElementById("ground").hidden = true;
-});
-document.getElementById("eground").addEventListener("animationend", async function() {
-    document.getElementById("eground").hidden = true;
-});
-document.getElementById("fire1").addEventListener("animationend", async function() {
-    document.getElementById("fire1").hidden = true;
-    document.getElementById("fire2").hidden = true;
-    document.getElementById("fire3").hidden = true;
-    document.getElementById("fire4").hidden = true;
-});
-document.getElementById("efire1").addEventListener("animationend", async function() {
-    document.getElementById("efire1").hidden = true;
-    document.getElementById("efire2").hidden = true;
-    document.getElementById("efire3").hidden = true;
-    document.getElementById("efire4").hidden = true;
-});
-document.getElementById("flying").addEventListener("animationend", async function() {
-    document.getElementById("flying").hidden = true;
-});
-document.getElementById("eflying").addEventListener("animationend", async function() {
-    document.getElementById("eflying").hidden = true;
-});
-document.getElementById("water").addEventListener("animationend", async function() {
-    await sleep(700);
-    document.getElementById("water").hidden = true;
-});
-document.getElementById("ewater").addEventListener("animationend", async function() {
-    await sleep(700);
-    document.getElementById("ewater").hidden = true;
-});
-document.getElementById("electric").addEventListener("animationend", async function() {
-    document.getElementById("electric").hidden = true;
-    document.getElementById("flash").hidden = true;
-});
-document.getElementById("eelectric").addEventListener("animationend", async function() {
-    document.getElementById("eelectric").hidden = true;
-    document.getElementById("flash").hidden = true;
-});
-document.getElementById("epoison1").addEventListener("animationend", async function() {
-    document.getElementById("epoison1").hidden = true;
-    document.getElementById("epoison2").hidden = true;
-});
-document.getElementById("poison1").addEventListener("animationend", async function() {
-    document.getElementById("poison1").hidden = true;
-    document.getElementById("poison2").hidden = true;
-});
-document.getElementById("ice").addEventListener("animationend", async function() {
-    document.getElementById("ice").hidden = true;
-});
-document.getElementById("eice").addEventListener("animationend", async function() {
-    document.getElementById("eice").hidden = true;
-});
-document.getElementById("bug").addEventListener("animationend", async function() {
-    document.getElementById("bug").hidden = true;
-});
-document.getElementById("ebug").addEventListener("animationend", async function() {
-    document.getElementById("ebug").hidden = true;
-});
-document.getElementById("ghost").addEventListener("animationend", async function() {
-    document.getElementById("ghost").hidden = true;
-});
-document.getElementById("eghost").addEventListener("animationend", async function() {
-    document.getElementById("eghost").hidden = true;
-});
 
 function checkHovered() {
     for (let i = 0; i < 4; i++) {
@@ -581,6 +577,9 @@ function formulateSquadrine() {
 
 document.getElementById("menuImg").onclick = async function() {
     this.hidden = true;
+    document.getElementById("wins").innerHTML = "Wins Against AI: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" + localStorage.pokemonWins;
+    document.getElementById("losses").innerHTML = "Losses Against AI: &nbsp&nbsp" + localStorage.pokemonLosses;
+    document.getElementById("winLoss").hidden = false;
     document.getElementById("pyro").hidden = true;
     document.getElementById("battleStage").hidden = true;
     document.getElementById("playerCur").style.display = "flex";
@@ -636,3 +635,19 @@ document.getElementById("menuImg").onclick = async function() {
     document.getElementById("mp6").style.filter = "";
     start();
 }
+
+document.getElementById("playerStatus").onanimationend = function() {
+    this.src = "";
+    this.hidden = true;
+}
+document.getElementById("enemyStatus").onanimationend = function() {
+    this.src = "";
+    this.hidden = true;
+}
+document.getElementById("playerConfused").onanimationend = function() {
+    this.hidden = true;
+}
+document.getElementById("enemyConfused").onanimationend = function() {
+    this.hidden = true;
+}
+
