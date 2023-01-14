@@ -658,6 +658,8 @@ function getBestEnemyMove() {
     }
 
     for (let i = 0; i < 4; i++) {
+        let m1 = move_mult(em[i].type, playerPokemon[0].t1);
+        let m2 = move_mult(em[i].type, playerPokemon[0].t2);
         if (em[i].mode == "o") {
             if (hasCompatible(i, em[i].move, em)) {
                 if (em[i].move == "nastyplot" || em[i].move == "swordsdance") {
