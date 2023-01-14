@@ -6,8 +6,8 @@
 }
 @keyframes start {
     0% { width: 236px; top: 105px; left: calc(50% - 118px); transform:rotate(0deg); }
-    50% { top: 150px; width: 400px; left: 522px; transform:rotate(360deg); }
-    100% { top: 150px; width: 400px; left: 522px; transform:rotate(360deg); }
+    50% { top: 150px; width: 400px; left: calc(50% - 200px); transform:rotate(360deg); }
+    100% { top: 150px; width: 400px; left: calc(50% - 200px); transform:rotate(360deg); }
 }
 
 @keyframes imgFall {
