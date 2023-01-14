@@ -21,6 +21,12 @@ if (!localStorage.pokemonWins) {
 if (!localStorage.pokemonLosses) {
     localStorage.pokemonLosses = 0;
 }
+if (!localStorage.pokemonTotal) {
+    localStorage.pokemonTotal = parseInt(localStorage.pokemonWins) + parseInt(localStorage.pokemonLosses);
+}
+if (localStorage.pokemonTotal != localStorage.pokemonWins + localStorage.pokemonLosses) {
+    localStorage.pokemonLosses = parseInt(localStorage.pokemonTotal) - parseInt(localStorage.pokemonWins);
+}
 
 document.getElementById("wins").innerHTML = "Wins Against AI: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" + localStorage.pokemonWins;
 document.getElementById("losses").innerHTML = "Losses Against AI: &nbsp&nbsp" + localStorage.pokemonLosses;
@@ -416,6 +422,7 @@ sound3.addEventListener('ended', function() {
 }, false);
 
 document.getElementById("start").onclick = async function() {
+    localStorage.pokemonTotal++;
     document.getElementById("winLoss").hidden = true;
     document.getElementById("flame").hidden = false;
     document.getElementById("vs").style.animation = "start 1s linear 1";
