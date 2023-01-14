@@ -224,7 +224,6 @@ async function playerAttack(p, m) {
             let p = playerPokemon[0];
             temp = p.hp;
             if (localStorage.mute == "unmuted") {
-                console.log(1);
                 hitSound.play();
             }
             while (p.hp != temp - recoilDamage && p.hp != 0) {
@@ -265,7 +264,7 @@ async function playerAttack(p, m) {
             document.getElementById("playerPokemonImage").style.padding = "";
         }
 
-        if (burn.includes(m.move) && e.hp > 0 && Math.random() < 0.15 && !e.status) {
+        if (burn.includes(m.move) && e.hp > 0 && Math.random() < 0.15 && !e.status && e.t1 != "fire" && e.t2 != "fire") {
             document.getElementById("enemyStatus").src = "images/burned.gif";
             document.getElementById("enemyStatus").hidden = false;
             statusSound = new Audio("burned.mp3");
@@ -279,7 +278,7 @@ async function playerAttack(p, m) {
             document.getElementById("enemyPokemonInfo").appendChild(img);
             await slowType(e.name + " was burned.", 1);
         }
-        if (paralyzed.includes(m.move) && e.hp > 0 && Math.random() < 0.2 && !e.status) {
+        if (paralyzed.includes(m.move) && e.hp > 0 && Math.random() < 0.2 && !e.status && e.t1 != "electric" && e.t2 != "electric") {
             document.getElementById("enemyStatus").src = "images/paralyzed.gif";
             document.getElementById("enemyStatus").hidden = false;
             statusSound = new Audio("paralyzed.mp3");
@@ -294,7 +293,7 @@ async function playerAttack(p, m) {
             document.getElementById("enemyPokemonInfo").appendChild(img);
             await slowType(e.name + " was paralyzed.", 1);
         }
-        if (frozen.includes(m.move) && e.hp > 0 && Math.random() < 0.1 && !e.status) {
+        if (frozen.includes(m.move) && e.hp > 0 && Math.random() < 0.1 && !e.status && e.t1 != "ice" && e.t2 != "ice") {
             document.getElementById("enemyStatus").src = "images/frozen.gif";
             document.getElementById("enemyStatus").hidden = false;
             statusSound = new Audio("frozen.mp3");
@@ -308,7 +307,7 @@ async function playerAttack(p, m) {
             document.getElementById("enemyPokemonInfo").appendChild(img);
             await slowType(e.name + " was frozen.", 1);
         }
-        if (poisoned.includes(m.move) && e.hp > 0 && Math.random() < 0.15 && !e.status) {
+        if (poisoned.includes(m.move) && e.hp > 0 && Math.random() < 0.15 && !e.status && e.t1 != "poison" && e.t2 != "poison") {
             document.getElementById("enemyStatus").src = "images/poisoned.gif";
             document.getElementById("enemyStatus").hidden = false;
             statusSound = new Audio("poisoned.mp3");
@@ -611,6 +610,7 @@ async function playerDead() {
 
     await sleep(500);
     await slowType("Pick a pokemon to switch into...", 1);
+    typing = false;
     pick = true;
 }
 
@@ -908,7 +908,7 @@ async function enemyAttack(preMove) {
             document.getElementById("enemyPokemonImage").style.padding = "";
         }
         let p = playerPokemon[0];
-        if (burn.includes(m.move) && p.hp > 0 && Math.random() < 0.15 && !p.status) {
+        if (burn.includes(m.move) && p.hp > 0 && Math.random() < 0.15 && !p.status && p.t1 != "fire" && p.t2 != "fire") {
             document.getElementById("playerStatus").src = "images/burned.gif";
             document.getElementById("playerStatus").hidden = false;
             statusSound = new Audio("burned.mp3");
@@ -922,7 +922,7 @@ async function enemyAttack(preMove) {
             document.getElementById("playerPokemonInfo").appendChild(img);
             await slowType(p.name + " was burned.", 1);
         }
-        if (paralyzed.includes(m.move) && p.hp > 0 && Math.random() < 0.2 && !p.status) {
+        if (paralyzed.includes(m.move) && p.hp > 0 && Math.random() < 0.2 && !p.status && p.t1 != "electric" && p.t2 != "electric") {
             document.getElementById("playerStatus").src = "images/paralyzed.gif";
             document.getElementById("playerStatus").hidden = false;
             statusSound = new Audio("paralyzed.mp3");
@@ -937,7 +937,7 @@ async function enemyAttack(preMove) {
             document.getElementById("playerPokemonInfo").appendChild(img);
             await slowType(p.name + " was paralyzed.", 1);
         }
-        if (frozen.includes(m.move) && p.hp > 0 && Math.random() < 0.1 && !p.status) {
+        if (frozen.includes(m.move) && p.hp > 0 && Math.random() < 0.1 && !p.status && p.t1 != "ice" && p.t2 != "ice") {
             document.getElementById("playerStatus").src = "images/frozen.gif";
             document.getElementById("playerStatus").hidden = false;
             statusSound = new Audio("frozen.mp3");
@@ -951,7 +951,7 @@ async function enemyAttack(preMove) {
             document.getElementById("playerPokemonInfo").appendChild(img);
             await slowType(p.name + " was frozen.", 1);
         }
-        if (poisoned.includes(m.move) && p.hp > 0 && Math.random() < 0.15 && !p.status) {
+        if (poisoned.includes(m.move) && p.hp > 0 && Math.random() < 0.15 && !p.status && p.t1 != "poison" && p.t2 != "poison") {
             document.getElementById("playerStatus").src = "images/poisoned.gif";
             document.getElementById("playerStatus").hidden = false;
             statusSound = new Audio("poisoned.mp3");
