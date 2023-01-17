@@ -8,6 +8,7 @@ for (let i = 0; i < 4; i++) {
             document.getElementById("moveHoverName").innerHTML = move.move;
             document.getElementById("moveHoverType").src = "images/types/" + move.type + ".png";
             document.getElementById("moveHoverDamage").innerHTML = "Damage: " + move.damage;
+            document.getElementById("moveHoverAccuracy").innerHTML = move.accuracy + "% Accuracy";
             if (move.mode == "p") {
                 document.getElementById("moveHoverMode").innerHTML = "physical";
             } else if (move.mode == "s"){
@@ -52,6 +53,27 @@ for (let i = 0; i < 4; i++) {
             }
             if (confused.includes(move.move)) {
                 document.getElementById("moveHoverExtra").innerHTML += "<li>15% chance to confuse</li>";
+            }
+            if (critical.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>25% chance of critical hit</li>";
+            }
+            if (speedDrop.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Lowers opponents speed</li>";
+            }
+            if (restore.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Restores 50% of damage</li>";
+            }
+            if (canHitDig.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Hits underground pokemon</li>";
+            }
+            if (twoTurn.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Takes 2 turns</li>";
+            }
+            if (move.move == "facade") {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Double power if statused</li>";
+            }
+            if (move.move == "brine") {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Double power if enemy HP below half</li>";
             }
         }
     }
@@ -383,6 +405,10 @@ document.getElementById("playerExplosion").addEventListener("animationend", asyn
         }
         await sleep(500);
         decConfusion();
+        if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce) {
+            await attack();
+            return;
+        }
         await slowType("What will " + playerPokemon[0].name + " do?", 1);
         pick = false;
         typing = false;
@@ -404,6 +430,10 @@ document.getElementById("playerExplosion").addEventListener("animationend", asyn
         await slowType("You switched to " + playerPokemon[0].name + "!", 1);
         await sleep(500);
         decConfusion();
+        if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce) {
+            await attack();
+            return;
+        }
         await slowType("What will " + playerPokemon[0].name + " do?", 1);
         typing = false;
         switching = false;
@@ -441,6 +471,10 @@ document.getElementById("enemyExplosion").addEventListener("animationend", async
             }
         }
         decConfusion();
+        if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce) {
+            await attack();
+            return;
+        }
         await slowType("What will " + playerPokemon[0].name + " do?", 1);
         typing = false;
         switching = false;
@@ -463,6 +497,10 @@ document.getElementById("enemyExplosion").addEventListener("animationend", async
         await slowType("The enemy switched to " + enemyPokemon[0].name + "!", 1);
         await sleep(500);
         decConfusion();
+        if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce) {
+            await attack();
+            return;
+        }
         await slowType("What will " + playerPokemon[0].name + " do?", 1);
         typing = false;
         switching = false;
@@ -513,6 +551,81 @@ function checkHovered() {
     for (let i = 0; i < 4; i++) {
         if (document.querySelector("#move" + (i + 1) + ":hover") != null && document.getElementById("move" + (i + 1)).style.background != "" && !pick && !isMobile()) {
             document.getElementById("move" + (i + 1)).style.background = rainbowGradient;
+            document.getElementById("moveHover").hidden = false;
+            let move = playerPokemon[0].moves[i];
+            document.getElementById("moveHoverName").innerHTML = move.move;
+            document.getElementById("moveHoverType").src = "images/types/" + move.type + ".png";
+            document.getElementById("moveHoverDamage").innerHTML = "Damage: " + move.damage;
+            document.getElementById("moveHoverAccuracy").innerHTML = move.accuracy + "% Accuracy";
+            if (move.mode == "p") {
+                document.getElementById("moveHoverMode").innerHTML = "physical";
+            } else if (move.mode == "s"){
+                document.getElementById("moveHoverMode").innerHTML = "special";
+            } else {
+                document.getElementById("moveHoverMode").innerHTML = "boost";
+            }
+            document.getElementById("moveHoverExtra").innerHTML = "";
+            if (recoil.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Does 33% in recoil</li>";
+            }
+            if (nerf.includes(move.move)) {
+                if (move.move == "closecombat") {
+                    document.getElementById("moveHoverExtra").innerHTML += "<li>Reduces Attack</li><li>Reduces Special Attack</li>";
+                } else {
+                    document.getElementById("moveHoverExtra").innerHTML += "<li>Reduces Special Attack</li>";
+                }
+            }
+            if (move.move == "swordsdance") {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Increases Attack</li>";
+            }
+            if (move.move == "nastyplot") {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Increases Special Attack</li>";
+            }
+            if (move.move == "dragondance") {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Increases Speed</li><li>Increases Attack</li>";
+            }
+            if (burn.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>15% chance to burn</li>";
+            }
+            if (frozen.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>10% chance to freeze</li>";
+            }
+            if (paralyzed.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>20% chance to paralyze</li>";
+            }
+            if (poisoned.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>15% chance to poison</li>";
+            }
+            if (flinch.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>20% chance to flinch</li>";
+            }
+            if (confused.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>15% chance to confuse</li>";
+            }
+            if (critical.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>25% chance of critical hit</li>";
+            }
+            if (speedDrop.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Lowers opponents speed</li>";
+            }
+            if (restore.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Restores 50% of damage</li>";
+            }
+            if (canHitFly.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Hits airborn pokemon</li>";
+            }
+            if (canHitDig.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Hits underground pokemon</li>";
+            }
+            if (twoTurn.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Takes 2 turns</li>";
+            }
+            if (move.move == "facade") {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Double power if statused</li>";
+            }
+            if (move.move == "brine") {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Double power if enemy HP below half</li>";
+            }
             break;
         }
     }
