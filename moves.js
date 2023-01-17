@@ -142,15 +142,22 @@ var moves = [
     ["wingattack", 60, 100, p, "flying"]
 ]
 
-var recoil = ["bravebird", "doubleedge", "flareblitz", "headsmash", "wildcharge", "woodhammer", "steelbeam"];
-var nerf = ["overheat", "dracometeor", "leafstorm", "closecombat"];
-var burn = ["triattack", "fireblast", "firefang", "firepunch", "flamethrower", "flamewheel", "flareblitz", "heatwave", "scald"];
-var frozen = ["triattack", "blizzard", "icebeam", "icefang", "icepunch"];
-var poisoned = ["crosspoison", "sludgewave", "gunkshot", "poisonjab", "sludge", "sludgebomb", "poisonfang"];
-var paralyzed = ["triattack", "thunderbolt", "thunderfang", "thunderpunch", "bodyslam", "bounce", "discharge", "dragonbreath", "spark", "thunder"];
-var flinch = ["airslash", "astonish", "bite", "darkpulse", "dragonrush", "extrasensory", "firefang", "headbutt", "icefang", "ironhead", "needlearm", "rockslide", "thunderfang", "waterfall", "zenheadbutt"];
-var confused = ["confusion", "hurricane", "psybeam", "signalbeam", "waterpulse"];
+var recoil = ["bravebird", "doubleedge", "flareblitz", "headsmash", "wildcharge", "woodhammer", "steelbeam", -1];
+var nerf = ["overheat", "dracometeor", "leafstorm", "closecombat", -1];
+var burn = ["triattack", "fireblast", "firefang", "firepunch", "flamethrower", "flamewheel", "flareblitz", "heatwave", "scald", 1];
+var frozen = ["triattack", "blizzard", "icebeam", "icefang", "icepunch", 1];
+var poisoned = ["crosspoison", "sludgewave", "gunkshot", "poisonjab", "sludge", "sludgebomb", "poisonfang", 1];
+var paralyzed = ["triattack", "thunderbolt", "thunderfang", "thunderpunch", "bodyslam", "bounce", "discharge", "dragonbreath", "spark", "thunder", 1];
+var flinch = ["airslash", "astonish", "bite", "darkpulse", "dragonrush", "extrasensory", "firefang", "headbutt", "icefang", "ironhead", "needlearm", "rockslide", "thunderfang", "waterfall", "zenheadbutt", 2];
+var confused = ["confusion", "hurricane", "psybeam", "signalbeam", "waterpulse", 2];
+var critical = ["aircutter", "attackorder", "crosspoison", "karatechop", "leafblade", "nightslash", "psychocut", "shadowclaw", "slash", "stoneedge", 1];
+var speedDrop = ["bulldoze", "icywind", "mudshot", "rocktomb", 3];
+var restore = ["gigadrain", "drainpunch", "leechlife", 4];
+var twoTurn = ["dig", "solarbeam", "fly", "bounce"];
+var canHitFly = ["gust", "thunder", "hurricane", "stoneedge"];
+var canHitDig = ["earthquake", "bulldoze"];
 moveMap = {};
 for (let i = 0; i < moves.length; i++) {
     moveMap[moves[i][0]] = {move: moves[i][0], damage: moves[i][1], accuracy: moves[i][2], mode: moves[i][3], type: moves[i][4]};
 }
+var benefits = [recoil, nerf, burn, frozen, poisoned, paralyzed, flinch, confused, critical, speedDrop, restore];
