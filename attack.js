@@ -797,7 +797,7 @@ function getBestEnemyMove() {
             tracker[i] = 0;
             for (let j = 0; j < benefits.length; j++) {
                 if (benefits[j].includes(em[i].move)) {
-                    tracker[i] += benefits[j][-1];
+                    tracker[i] += benefits[j][benefits[j].length - 1];
                 }
             }
         }
@@ -806,9 +806,8 @@ function getBestEnemyMove() {
             maxMove = i;
         }
     }
-
     if (!tracker.every(item => item == -999)) {
-        let mm = 0;
+        let mm = -999;
         let mb = -1;
         for (let i = 0; i < 4; i++) {
             if (tracker[i] > mb) {
