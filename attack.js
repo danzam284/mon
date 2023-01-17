@@ -1265,6 +1265,10 @@ function getBestEnemyOption() {
     let ce = enemyPokemon[0];
     let pp = playerPokemon[0];
 
+    if (ce.fly || ce.dig || ce.bounce || ce.solar) {
+        return 0;
+    }
+
     if (switchedLastTurn) {
         switchedLastTurn = false;
         return 0;
