@@ -156,8 +156,9 @@ var restore = ["gigadrain", "drainpunch", "leechlife", 4];
 var twoTurn = ["dig", "solarbeam", "fly", "bounce"];
 var canHitFly = ["gust", "thunder", "hurricane", "stoneedge"];
 var canHitDig = ["earthquake", "bulldoze"];
+var recharge = ["blastburn", "frenzyplant", "gigaimpact", "hydrocannon", "hyperbeam", "rockwrecker", -2];
 moveMap = {};
 for (let i = 0; i < moves.length; i++) {
     moveMap[moves[i][0]] = {move: moves[i][0], damage: moves[i][1], accuracy: moves[i][2], mode: moves[i][3], type: moves[i][4]};
 }
-var benefits = [recoil, nerf, burn, frozen, poisoned, paralyzed, flinch, confused, critical, speedDrop, restore];
+var benefits = [recoil, nerf, burn, frozen, poisoned, paralyzed, flinch, confused, critical, speedDrop, restore, recharge];
