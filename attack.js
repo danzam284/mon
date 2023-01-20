@@ -40,6 +40,12 @@ function calculateDamage(power, mode, critical, PA, SA, PD, SD, STAB, type1, typ
 }
 
 async function playerAttack(p, m) {
+    if (p.recharge) {
+        p.recharge = false;
+        await slowType(p.name + " must recharge.", 1);
+        return false;
+    }
+
     if (p.status == 2) {
         if (Math.random() < 0.5) {
             statusSound = new Audio("paralyzed.mp3");
@@ -128,6 +134,12 @@ async function playerAttack(p, m) {
     }
     if (p.solar) {
         m = moveMap["solarbeam"];
+    }
+    if (p.outrage) {
+        m = moveMap["outrage"];
+    }
+    if (p.petal) {
+        m = moveMap["petaldance"];
     }
     if (twoTurn.includes(m.move) && !p.fly && !p.bounce && !p.dig && !p.solar) {
         if (m.move == "fly") {
@@ -241,10 +253,19 @@ async function playerAttack(p, m) {
             m.damage *= 2;
             double = true;
         }
+        let erup = false;
+        if (m.move == "eruption") {
+            m.damage *= (p.hp / p.maxhp);
+            erup = true;
+        }
         let dmg = Math.floor(calculateDamage(m.damage, m.mode, crit, p.attack * p.attackMul, p.specialattack * p.specialattackMul, e.defense, e.specialdefense, stab, t1, t2, ran, (p.status == 1 && m.move != "facade")));
         if (double) {
             double = false;
             m.damage /= 2;
+        }
+        if (erup) {
+            erup = false;
+            m.damage = 150;
         }
         let temp = e.hp;
         if (t1 * t2 < 1 && localStorage.mute == "unmuted") {
@@ -432,6 +453,37 @@ async function playerAttack(p, m) {
             await slowType(e.name + " became confused.", 1);
             await sleep(500);
         }
+        if (recharge.includes(m.move) && p.hp > 0 && e.hp > 0) {
+            playerPokemon[0].recharge = true;
+        }
+
+        if (m.move == "outrage" && p.hp > 0) {
+            if (p.outrage == 0) {
+                p.outrage = Math.floor(Math.random() * 2) + 2;
+            } else {
+                p.outrage--;
+            }
+        }
+        if (m.move == "petaldance" && p.hp > 0) {
+            if (p.petal == 0) {
+                p.petal = Math.floor(Math.random() * 2) + 2;
+            } else {
+                p.petal--;
+            }
+        }
+
+        if ((p.outrage == 1 || p.petal == 1) && !p.confused) {
+            p.outrage = 0;
+            p.petal = 0;
+            statusSound = new Audio("confused.mp3");
+            if (localStorage.mute == "unmuted") {
+                statusSound.play();
+            }
+            document.getElementById("playerConfused").hidden = false;
+            p.confused = Math.floor((Math.random() * 4)) + 3;
+            await slowType(p.name + " became confused due to fatigue.", 1);
+            await sleep(500);
+        }
 
         if (e.hp == 0 && p.hp == 0) {
             await enemyDead();
@@ -540,7 +592,7 @@ async function attack(m) {
                 }
             }
             decConfusion();
-            if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce) {
+            if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce || playerPokemon[0].recharge || playerPokemon[0].outrage || playerPokemon[0].petal) {
                 await attack();
                 return;
             }
@@ -562,7 +614,7 @@ async function attack(m) {
                     await slowType(enemyPokemon[0].name + " flinched.", 1);
                     await sleep(400);
                     decConfusion();
-                    if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce) {
+                    if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce || playerPokemon[0].recharge) {
                         await attack();
                         return;
                     }
@@ -639,7 +691,7 @@ async function attack(m) {
                 }
             }
             decConfusion();
-            if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce) {
+            if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce || playerPokemon[0].recharge || playerPokemon[0].outrage || playerPokemon[0].petal) {
                 await attack();
                 return;
             }
@@ -662,6 +714,7 @@ function decConfusion() {
 }
 
 async function enemyDead() {
+    enemyPokemon[0].recharge = false;
     await sleep(400);
     await slowType("The enemy " + enemyPokemon[0].name + " has fainted.", 1);
     if (localStorage.mute == "unmuted") {
@@ -705,6 +758,7 @@ async function enemyDead() {
 }
 
 async function playerDead() {
+    p.recharge = false;
     await sleep(400);
     deadName = playerPokemon[0].name;
     await slowType(deadName + " has fainted.", 1);
@@ -788,10 +842,19 @@ function getBestEnemyMove() {
             em[i].damage *= 2;
             double = true;
         }
+        let erup = false;
+        if (em[i].move == "eruption") {
+            em[i].damage *= (enemyPokemon[0].hp / enemyPokemon[0].maxhp);
+            erup = true;
+        }
         let dmg = calculateDamage(em[i].damage, em[i].mode, 1, enemyPokemon[0].attack * enemyPokemon[0].attackMul, enemyPokemon[0].specialattack * enemyPokemon[0].specialattackMul, playerPokemon[0].defense, playerPokemon[0].specialdefense, stab, m1, m2, (225/255), (enemyPokemon[0].status == 1 && em[i].move != "facade"));
         if (double) {
             double = false;
             em[i].damage /= 2;
+        }
+        if (erup) {
+            erup = false;
+            em[i].damage = 150;
         }
         if (dmg > playerPokemon[0].hp && em[i].accuracy == 100) {
             tracker[i] = 0;
@@ -845,6 +908,11 @@ async function enemyAttack(preMove) {
         maxMove = preMove;
     }
     e = enemyPokemon[0];
+    if (e.recharge) {
+        e.recharge = false;
+        await slowType(e.name + " must recharge.", 1);
+        return false;
+    }
     m = e.moves[maxMove];
     if (e.status == 2) {
         if (Math.random() < 0.5) {
@@ -933,6 +1001,12 @@ async function enemyAttack(preMove) {
     }
     if (e.solar) {
         m = moveMap["solarbeam"];
+    }
+    if (e.outrage) {
+        m = moveMap["outrage"];
+    }
+    if (e.petal) {
+        m = moveMap["petaldance"];
     }
     if (twoTurn.includes(m.move) && !e.fly && !e.bounce && !e.dig && !e.solar) {
         if (m.move == "fly") {
@@ -1030,11 +1104,21 @@ async function enemyAttack(preMove) {
         m.damage *= 2;
         double = true;
     }
+    let erup = false;
+    if (m.move == "eruption") {
+        m.damage *= (enemyPokemon[0].hp / enemyPokemon[0].maxhp);
+        erup = true;
+    }
     let dmg = Math.floor(calculateDamage(m.damage, m.mode, crit, e.attack * e.attackMul, e.specialattack * e.specialattackMul, pl.defense, pl.specialdefense, stab, t1, t2, ran, (e.status == 1 && m.move != "facade")));
     if (double) {
         double = false;
         m.damage /= 2;
     }
+    if (erup) {
+        erup = false;
+        m.damage = 150;
+    }
+
     let temp = pl.hp;
     if (Math.random() * 100 > m.accuracy || (playerPokemon[0].fly && !canHitFly.includes(m.move)) || (playerPokemon[0].bounce && !canHitFly.includes(m.move)) || (playerPokemon[0].dig && !canHitDig.includes(m.move))) {
         lastMove = "";
@@ -1239,7 +1323,37 @@ async function enemyAttack(preMove) {
             await slowType(p.name + " became confused.", 1);
             await sleep(500);
         }
+        if (recharge.includes(m.move) && p.hp > 0 && e.hp > 0) {
+            enemyPokemon[0].recharge = true;
+        }
         e = enemyPokemon[0];
+        if (m.move == "outrage" && e.hp > 0) {
+            if (e.outrage == 0) {
+                e.outrage = Math.floor(Math.random() * 2) + 2;
+            } else {
+                e.outrage--;
+            }
+        }
+        if (m.move == "petaldance" && e.hp > 0) {
+            if (e.petal == 0) {
+                e.petal = Math.floor(Math.random() * 2) + 2;
+            } else {
+                e.petal--;
+            }
+        }
+
+        if ((e.outrage == 1 || e.petal == 1) && !e.confused) {
+            e.outrage = 0;
+            e.petal = 0;
+            statusSound = new Audio("confused.mp3");
+            if (localStorage.mute == "unmuted") {
+                statusSound.play();
+            }
+            document.getElementById("enemyConfused").hidden = false;
+            e.confused = Math.floor((Math.random() * 4)) + 3;
+            await slowType(e.name + " became confused due to fatigue.", 1);
+            await sleep(500);
+        }
         if (e.hp == 0 && pl.hp == 0) {
             await enemyDead();
             await sleep(1000);
@@ -1291,16 +1405,29 @@ function getBestEnemyOption() {
                 m.damage *= 2;
                 double = true;
             }
+            let erup = false;
+            if (m.move == "eruption") {
+                m.damage *= (ce.hp / ce.maxhp);
+                erup = true;
+            }
             if (Math.floor(calculateDamage(m.damage, m.mode, 1, ce.attack * ce.attackMul, ce.specialattack * ce.specialattackMul, pp.defense, pp.specialdefense, stab, m1, m2, (225/255), (ce.status == 1 && m.move != "facade"))) >= pp.hp) {
                 if (double) {
                     double = false;
                     m.damage /= 2;
+                }
+                if (erup) {
+                    erup = false;
+                    m.damage = 150;
                 }
                 return 0;
             }
             if (double) {
                 double = false;
                 m.damage /= 2;
+            }
+            if (erup) {
+                erup = false;
+                m.damage = 150;
             }
         }
     }
@@ -1331,16 +1458,29 @@ function getBestEnemyOption() {
                         m.damage *= 2;
                         double = true;
                     }
+                    let erup = false;
+                    if (m.move == "eruption") {
+                        m.damage *= (enemyPokemon[0].hp / enemyPokemon[0].maxhp);
+                        erup = true;
+                    }
                     if (Math.floor(calculateDamage(m.damage, m.mode, 1, ce.attack * ce.attackMul, ce.specialattack * ce.specialattack, pp.defense, pp.specialdefense, stab, m1, m2, (225/255), (ce.status == 1 && m.move != "facade"))) >= pp.hp) {
                         if (double) {
                             double = false;
                             m.damage /= 2;
+                        }
+                        if (erup) {
+                            erup = false;
+                            m.damage = 150;
                         }
                         return i;
                     }
                     if (double) {
                         double = false;
                         m.damage /= 2;
+                    }
+                    if (erup) {
+                        erup = false;
+                        m.damage = 150;
                     }
                 }
             }
@@ -1486,7 +1626,7 @@ async function playerSwitch(i) {
                     }
                 }
                 decConfusion();
-                if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce) {
+                if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce || playerPokemon[0].recharge || playerPokemon[0].outrage || playerPokemon[0].petal) {
                     await attack();
                     return;
                 }
