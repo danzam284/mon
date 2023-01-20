@@ -69,11 +69,17 @@ for (let i = 0; i < 4; i++) {
             if (twoTurn.includes(move.move)) {
                 document.getElementById("moveHoverExtra").innerHTML += "<li>Takes 2 turns</li>";
             }
+            if (recharge.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Must recharge if no KO</li>";
+            }
             if (move.move == "facade") {
                 document.getElementById("moveHoverExtra").innerHTML += "<li>Double power if statused</li>";
             }
             if (move.move == "brine") {
                 document.getElementById("moveHoverExtra").innerHTML += "<li>Double power if enemy HP below half</li>";
+            }
+            if (move.move == "outrage" || move.move == "petaldance") {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Move goes for 2-3 turns</li><li>Causes confusion after done</li>";
             }
         }
     }
@@ -620,11 +626,17 @@ function checkHovered() {
             if (twoTurn.includes(move.move)) {
                 document.getElementById("moveHoverExtra").innerHTML += "<li>Takes 2 turns</li>";
             }
+            if (recharge.includes(move.move)) {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Must recharge if no KO</li>";
+            }
             if (move.move == "facade") {
                 document.getElementById("moveHoverExtra").innerHTML += "<li>Double power if statused</li>";
             }
             if (move.move == "brine") {
                 document.getElementById("moveHoverExtra").innerHTML += "<li>Double power if enemy HP below half</li>";
+            }
+            if (move.move == "outrage" || move.move == "petaldance") {
+                document.getElementById("moveHoverExtra").innerHTML += "<li>Move goes for 2-3 turns</li><li>Causes confusion after done</li>";
             }
             break;
         }
