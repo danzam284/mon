@@ -755,6 +755,7 @@ async function enemyDead() {
     loadImage(2);
     intro = true;
     switchedLastTurn = true;
+    switching = true;
 }
 
 async function playerDead() {
