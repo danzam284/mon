@@ -411,7 +411,7 @@ document.getElementById("playerExplosion").addEventListener("animationend", asyn
         }
         await sleep(500);
         decConfusion();
-        if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce) {
+        if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce || playerPokemon[0].outrage || playerPokemon[0].petal) {
             await attack();
             return;
         }
@@ -436,7 +436,7 @@ document.getElementById("playerExplosion").addEventListener("animationend", asyn
         await slowType("You switched to " + playerPokemon[0].name + "!", 1);
         await sleep(500);
         decConfusion();
-        if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce) {
+        if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce || playerPokemon[0].outrage || playerPokemon[0].petal) {
             await attack();
             return;
         }
@@ -477,7 +477,7 @@ document.getElementById("enemyExplosion").addEventListener("animationend", async
             }
         }
         decConfusion();
-        if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce) {
+        if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce || playerPokemon[0].outrage || playerPokemon[0].petal) {
             await attack();
             return;
         }
@@ -503,7 +503,7 @@ document.getElementById("enemyExplosion").addEventListener("animationend", async
         await slowType("The enemy switched to " + enemyPokemon[0].name + "!", 1);
         await sleep(500);
         decConfusion();
-        if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce) {
+        if (playerPokemon[0].fly || playerPokemon[0].dig || playerPokemon[0].solar || playerPokemon[0].bounce || playerPokemon[0].outrage || playerPokemon[0].petal) {
             await attack();
             return;
         }
