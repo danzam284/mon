@@ -1009,38 +1009,43 @@ async function enemyAttack(preMove) {
     if (e.petal) {
         m = moveMap["petaldance"];
     }
-    if (twoTurn.includes(m.move) && !e.fly && !e.bounce && !e.dig && !e.solar) {
-        if (m.move == "fly") {
-            e.fly = true;
-            await slowType(e.name + " flew up into the air.", 1);
-            document.getElementById("enemyPokemonImage").style.opacity = 0.5;
-            document.getElementById("enemyPokemonImage").style.bottom = "50%";
-            await sleep(500);
-            return false;
+    try {
+        
+        if (twoTurn.includes(m.move) && !e.fly && !e.bounce && !e.dig && !e.solar) {
+            if (m.move == "fly") {
+                e.fly = true;
+                await slowType(e.name + " flew up into the air.", 1);
+                document.getElementById("enemyPokemonImage").style.opacity = 0.5;
+                document.getElementById("enemyPokemonImage").style.bottom = "50%";
+                await sleep(500);
+                return false;
+            }
+            if (m.move == "bounce") {
+                e.bounce = true;
+                await slowType(e.name + " sprang up into the air.", 1);
+                document.getElementById("enemyPokemonImage").style.opacity = 0.5;
+                document.getElementById("enemyPokemonImage").style.bottom = "50%";
+                await sleep(500);
+                return false;
+            }
+            if (m.move == "dig") {
+                e.dig = true;
+                await slowType(e.name + " burrowed underground.", 1);
+                document.getElementById("enemyPokemonImage").style.opacity = 0.5;
+                document.getElementById("enemyPokemonImage").style.bottom = "-50%";
+                await sleep(500);
+                return false;
+            }
+            if (m.move == "solarbeam") {
+                e.solar = true;
+                await slowType(e.name + " charged up energy.", 1);
+                document.getElementById("enemyPokemonImage").style.opacity = 0.5;
+                await sleep(500);
+                return false;
+            }
         }
-        if (m.move == "bounce") {
-            e.bounce = true;
-            await slowType(e.name + " sprang up into the air.", 1);
-            document.getElementById("enemyPokemonImage").style.opacity = 0.5;
-            document.getElementById("enemyPokemonImage").style.bottom = "50%";
-            await sleep(500);
-            return false;
-        }
-        if (m.move == "dig") {
-            e.dig = true;
-            await slowType(e.name + " burrowed underground.", 1);
-            document.getElementById("enemyPokemonImage").style.opacity = 0.5;
-            document.getElementById("enemyPokemonImage").style.bottom = "-50%";
-            await sleep(500);
-            return false;
-        }
-        if (m.move == "solarbeam") {
-            e.solar = true;
-            await slowType(e.name + " charged up energy.", 1);
-            document.getElementById("enemyPokemonImage").style.opacity = 0.5;
-            await sleep(500);
-            return false;
-        }
+    } catch(e) {
+        
     }
     e.fly = false;
     e.bounce = false;
