@@ -818,6 +818,9 @@ function hasCompatible(skip, move, moves) {
 
 function getBestEnemyMove() {
     let em = enemyPokemon[0].moves;
+    if (!em || em.length === 0) {
+        return 0; // Default to first move
+    }
     let maxMove = 0;
     let maxDamage = 0;
     let tracker = [-999, -999, -999, -999];
@@ -899,7 +902,7 @@ function getBestEnemyMove() {
             }
         }
     }
-    return maxMove;
+    return Math.max(0, Math.min(3, maxMove));
 }
 
 async function enemyAttack(preMove) {
