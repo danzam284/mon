@@ -909,6 +909,11 @@ async function enemyAttack(preMove) {
         maxMove = preMove;
     }
     e = enemyPokemon[0];
+
+    if (maxMove < 0 || maxMove >= e.moves.length) {
+        maxMove = 0;
+    }
+    
     if (e.recharge) {
         e.recharge = false;
         await slowType(e.name + " must recharge.", 1);
